@@ -279,7 +279,11 @@
                 </tr>
                 <tr>
                     <td><b>Date of Birth</b></td>
-                    <td>{{$user->staffdetails->dob->format('Y-m-d')}}</td>
+                    <td>
+                      @if($user->staffdetails->dob)
+                      {{$user->staffdetails->dob->format('Y-m-d')}}
+                      @endif
+                    </td>
                 </tr>
                 <tr>
                     <td><b>CNIC</b></td>

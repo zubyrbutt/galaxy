@@ -86,7 +86,7 @@ class SalarysheetController extends Controller
         //Get Deparments begins
         $departments = Department::where('status', 1)->orderBy('deptname', 'ASC')->get();
         //Get Deparments ends
-
+        return $salarydata;
         return view('staffpayroll.salarysheets',compact('salarydata','departments','deparment_id','srchmonth','status'));
         
     }

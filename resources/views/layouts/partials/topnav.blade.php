@@ -6,9 +6,9 @@ $user = Auth::user();
 <!-- Logo -->
 <a href="{!! url('/home'); !!}" class="logo">
   <!-- mini logo for sidebar mini 50x50 pixels -->
-  <span class="logo-mini"><b>NSOL</b></span>
+  <span class="logo-mini"><b>BKSOL</b></span>
   <!-- logo for regular state and mobile devices -->
-  <span class="logo-lg"><b>NSOL CRM</b></span>
+  <span class="logo-lg"><b>BKSOL ERP</b></span>
 </a>
 
 

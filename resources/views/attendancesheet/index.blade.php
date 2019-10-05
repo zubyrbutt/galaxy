@@ -26,7 +26,7 @@
               <h3 class="box-title">Attendance Sheet for the Month of {{date('M-Y' , strtotime($srchmonth."-01"))}}</h3>
               <span class="pull-right">
                   <button class="btn btn-primary addatt">Mark Attendance</button>
-                  @can('locksalarysheet')<a href="{{ route('locksalarysheet')}}?dated={{$srchmonth."-01"}}" class="btn btn-danger"><li class="fa fa-lock"></li> Lock Salary Sheet </a>@endcan
+                  <!-- @can('locksalarysheet')<a href="{{ route('locksalarysheet')}}?dated={{$srchmonth."-01"}}" class="btn btn-danger"><li class="fa fa-lock"></li> Lock Salary Sheet </a>@endcan -->
                   <input class="custom-input" type="month" name="srchmonth" id="srchmonth" autocomplete="off"  min="2019-01" max="{{date('Y-m')}}"  value="{{$srchmonth}}" />
                   <select class="select2-multiple2" id="srcdepartment_id" name="srcdepartment_id[]" multiple="multiple">
                     <option value="">Show All Deparments</option>    
@@ -78,6 +78,7 @@
                   <th>Total Deduction</th>
                   <th>Additions</th>
                   <th>Per Day</th>
+                  <th>Worked Hours</th>
                   <th>Salary Type</th>
                   <th>Currency</th>
   
@@ -248,7 +249,8 @@
                       <td>{{($emp->additions_count) ? $emp->additions_count: '0'}}</td>
                       <td>{{number_format($perdaysalary,2)}}</td>
                       <td>{{ ucfirst($salary_type) }}</td>
-                      <td>{{ ucfirst($currency_type) }}</td>
+                      <td>{{ ucfirst($salary_type) }}</td>
+                      <td>{{ $workedhours }}</td>
                       <td>
                         @if($salary_type == 'hourly')
                         @php ($salary = number_format($netsalary,2) * $workedhours)
@@ -287,6 +289,7 @@
                     <th>{{number_format($sumsalarydeducteddays,2)}}</th>
                     <th>{{number_format($sumsalarydeduction,2)}}</th>
                     <th>{{number_format($totaladditions,2)}}</th>
+                    <th>-</th>
                     <th>-</th>
                     <th>-</th>
                     <th>-</th>
