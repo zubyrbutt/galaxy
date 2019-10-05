@@ -248,9 +248,10 @@
                       <td>{{number_format($deductiontotal,2)}}</td>
                       <td>{{($emp->additions_count) ? $emp->additions_count: '0'}}</td>
                       <td>{{number_format($perdaysalary,2)}}</td>
-                      <td>{{ ucfirst($salary_type) }}</td>
-                      <td>{{ ucfirst($salary_type) }}</td>
                       <td>{{ $workedhours }}</td>
+                      <td>{{ ucfirst($salary_type) }}</td>
+                      <td>{{ ucfirst($currency_type) }}</td>
+                      
                       <td>
                         @if($salary_type == 'hourly')
                         @php ($salary = number_format($netsalary,2) * $workedhours)
@@ -336,64 +337,111 @@
           <form role="form" action="{{route('attendancesheet.update')}}" method="POST" id="frmEdit">
             @csrf
              <div class="box-body">
-                <div class="form-group">
-                    <label for="dated">Select Employee</label>
-                    <select class="form-control" name="user_id" id="user_id">
-                        <option value="">Select Employee</option>
-                        
-                        @foreach($employees_list as $list)
-                          @foreach($list as $emp)
-                              <option value="{{$emp->id}}">{{$emp->fname}} {{$emp->lname}}</option>
-                          @endforeach
-                        @endforeach
-                    </select>
-                </div>
-              <div class="form-group">
-                <label for="dated">Date</label>
-                <input type="date" class="form-control" id="dated" name="dated"  autocomplete="off">
-              </div>
-              <div class="form-group">
-                <label for="checkin">Check In</label>
-                <input type="text" class="form-control" id="checkin" name="checkin" autocomplete="off" required>
-              </div>
-              <div class="form-group">
-                <label for="checkout">Check Out</label>
-                <input type="text" class="form-control" id="checkout" name="checkout" autocomplete="off" required>
-              </div>
-              <div class="form-group">
-                <label for="checkoutfound">Check Out Marked</label>
-                <select class="form-control" id="checkoutfound" name="checkoutfound">
-                  <option value="Yes" selected>Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="shortleaves">Short Leave</label>
-                <input type="number" class="form-control" id="shortleaves" name="shortleaves" autocomplete="off" required>
-              </div>
-              <div class="form-group">
-                <label for="tardies">Tardy</label>
-                <input type="number" class="form-control" id="tardies" name="tardies" autocomplete="off" required>
-              </div>
-              <div class="form-group">
-                <label for="workedhours">Worked Hours</label>
-                <input type="number" class="form-control" id="workedhours" name="workedhours" autocomplete="off" required>
-              </div>
-              <div class="form-group">
-                <label for="remarks">Remarks</label>
-                <input type="text" class="form-control" id="remarks" name="remarks" autocomplete="off" required>
-              </div>
-              <div class="form-group">
-                <label for="status">Select Status</label>
-                <select class="form-control" id="status" name="status">
-                  <option value="P" selected>Present</option>
-                  <option value="SL">Sick Leave</option>
-                  <option value="CL">Causal Leave</option>
-                  <option value="UL">Unpaid Leave</option>
-                  <option value="X">Absent</option>
-                  <option value="-">Not Applicable</option>
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="dated">Select Employee</label>
+                        <select class="form-control" name="user_id" id="user_id">
+                            <option value="">Select Employee</option>
+                            
+                            @foreach($employees_list as $list)
+                              @foreach($list as $emp)
+                                  <option value="{{$emp->id}}">{{$emp->fname}} {{$emp->lname}}</option>
+                              @endforeach
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                  </div>
+
+                  <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="dated">Date</label>
+                          <input type="date" class="form-control" id="dated" name="dated"  autocomplete="off">
+                        </div>
+                    </div>
+                
                   
-                </select>
+                </div>
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="checkin">Check In</label>
+                    <input type="text" class="form-control" id="checkin" name="checkin" autocomplete="off" required>
+                  </div>
+                 
+                </div>
+                <div class="col-md-6">
+                   <div class="form-group">
+                    <label for="checkout">Check Out</label>
+                    <input type="text" class="form-control" id="checkout" name="checkout" autocomplete="off" required>
+                  </div>
+                </div>
+                
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="checkoutfound">Check Out Marked</label>
+                    <select class="form-control" id="checkoutfound" name="checkoutfound">
+                      <option value="Yes" selected>Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+              
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="shortleaves">Short Leave</label>
+                    <input type="number" class="form-control" id="shortleaves" name="shortleaves" autocomplete="off" required>
+                  </div>
+                </div>
+                
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="tardies">Tardy</label>
+                      <input type="number" class="form-control" id="tardies" name="tardies" autocomplete="off" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="workedhours">Worked Hours</label>
+                    <input type="number" class="form-control" id="workedhours" name="workedhours" autocomplete="off" required>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="remarks">Remarks</label>
+                    <input type="text" class="form-control" id="remarks" name="remarks" autocomplete="off" required>
+                  </div>
+              
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="status">Select Status</label>
+                    <select class="form-control" id="status" name="status">
+                      <option value="P" selected>Present</option>
+                      <option value="SL">Sick Leave</option>
+                      <option value="CL">Causal Leave</option>
+                      <option value="UL">Unpaid Leave</option>
+                      <option value="X">Absent</option>
+                      <option value="-">Not Applicable</option>
+                      
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- /.box-body -->
