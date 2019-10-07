@@ -110,6 +110,7 @@ class LeadController extends Controller
     public function store(Request $request)
     {
 
+ 
         $this->validate(request(), [
             'fname' => 'required',
             'lname' => 'required',
@@ -122,8 +123,9 @@ class LeadController extends Controller
         ]);
 
         $attributes = array();
-        foreach ($request->attributes as $index => $attribute) {
-           $attributes[] = ['name' => $attribute, 'value' => $request->attributes[$index]];
+
+        foreach ($request->get('attributes') as $index => $attribute) {
+           $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
         }
 
 		//Customer Creation 
@@ -170,7 +172,7 @@ class LeadController extends Controller
         $format = date_format($date,"Y-m-d");
         $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
-        $user->attributes = serialize($attributes);
+        $lead->attributes = serialize($attributes);
         $lead->save();
         $id = $lead->id;
         $url=url('/leads/'.$id);

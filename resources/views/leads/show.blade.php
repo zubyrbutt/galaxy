@@ -99,48 +99,22 @@ function makeLinks($str) {
 					</div>
 					<div class="col-md-12">
 						<table class="table table-striped">
-						<tr>
-							<td width="25%"><b>Business Name</b></td>
-							<td width="75%">{{$lead_detail->businessName}}</td>
-						</tr>
-						<tr>
-							<td width="25%"><b>Business Address</b></td>
-							<td width="75%">{{$lead_detail->businessAddress}}</td>
-						</tr>
-						<tr>
-							<td><b>Business Nature</b></td>
-							<td>{{$lead_detail->businessNature}}</td>
-						</tr>
-						<tr>
-							<td><b>Description</b></td>
-							<td>{!! html_entity_decode(nl2br(e(makeLinks($lead_detail->description)))) !!}</td>
-						</tr>
-						<!-- checkboxes -->
-						<tr>
-							<td><b>Shared Details</b></td>
-							<td><b>Company Profile:</b> {{$lead_detail->company_pro=== 1 ? "Yes" : "No"}} | <b>Testimonials:</b> {{$lead_detail->testimonials=== 1 ? "Yes" : "No"}} | <b>Solutions & Services:</b> {{$lead_detail->solser=== 1 ? "Yes" : "No"}}</td>
-						</tr>
-						<!-- social links -->
-						<tr>
-							<td><b>Facebook</b></td>
-							<td><a href="{{$lead_detail->fblink}}" target="_blank">{{$lead_detail->fblink}}</a> (<b>Likes:</b> {{$lead_detail->fblike}})</td>
-						</tr>
-						<tr>
-							<td><b>Twitter</b></td>
-							<td><a href="{{$lead_detail->twlink}}" target="_blank">{{$lead_detail->twlink}} </a> (<b>Followers:</b> {{$lead_detail->twfollwer}})</td>
-						</tr>				
-						<tr>
-							<td><b>Instagram</b></td>
-							<td><a href="{{$lead_detail->inlink}}" target="_blank">{{$lead_detail->inlink}} </a> (<b>Followers:</b> {{$lead_detail->incfollower}})</td>
-						</tr>
-						<tr>
-							<td><b>LinkedIn</b></td>
-							<td><a href="{{$lead_detail->lilink}}" target="_blank">{{$lead_detail->lilink}}</a> <b>(Followers:</b> {{$lead_detail->livisitor}})</td>
-						</tr>
-						<tr>
-							<td><b>Web</b></td>
-							<td><a href="{{$lead_detail->weblink}}" target="_blank">{{$lead_detail->weblink}}</a></td>
-						</tr>
+						
+						
+						
+						@if($lead_detail->attributes)
+						@php 
+						  $attributes = unserialize($lead_detail->attributes) 
+						@endphp
+
+						@foreach($attributes as $attribute)
+								<tr>
+									<td><b>{{ $attribute['name'] }}</b></td>
+									<td>{{ $attribute['value'] }}</td>
+								</tr>
+						@endforeach
+						@endif
+						
 						<tr>
 							<td><b>Assigned To</b></td>
 							<td>{{isset($lead_detail->assignedTo) ? $lead_detail->assignedTo->fname.' '.$lead_detail->assignedTo->lname : "NA" }}</td>
