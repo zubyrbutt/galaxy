@@ -81,122 +81,36 @@
               <h3 class="box-title">Lead Information</h3>
             </div> 
             <div class="col-md-12">
-			<div class="form-group">
-                  <label for="businessName" class="col-sm-3 control-label">Business Name</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="businessName" name="businessName" placeholder="Business Name" autocomplete="off" value="{{old('businessName')}}" require >
-                    @if ($errors->has('businessName'))
-                          <span class="text-red">
-                              <strong>{{ $errors->first('businessName') }}</strong>
-                          </span>
-                      @endif
-                  </div>
-            </div>
+
+		  	  				
+			     <div id="attributes">
+            <div class="form-group attributes" id="attribute_1">
+                    <label for="description" class="col-sm-3 control-label">Attribute</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="attribute[]" placeholder="Attribute Name" autocomplete="off" />
+                    </div>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="attribute_value[]" placeholder="Attribute Value" autocomplete="off" />
+                    </div>
+                    <div class="col-sm-1">
+                      <span class="btn btn-danger attribute_add_btn" style="width: 100%" onclick="removeRow('1')">x</span>
+                    </div>
+             </div>   
+           </div>
 
             <div class="form-group">
-                  <label for="businessName" class="col-sm-3 control-label">Business Address</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="businessAddress" name="businessAddress" placeholder="Business Address" autocomplete="off" value="{{old('businessAddress')}}" require >
-                    @if ($errors->has('businessAddress'))
-                          <span class="text-red">
-                              <strong>{{ $errors->first('businessAddress') }}</strong>
-                          </span>
-                      @endif
+                  <label class="col-sm-3 control-label"></label>
+                  <div class="col-sm-8">
+                    
                   </div>
+                  <div class="col-sm-1">
+                    <span class="btn btn-primary" style="width: 100%" id="attribute_add_btn" >+</span>
+                  </div>
+                  
             </div>
-
-
-			<div class="form-group">
-                  <label for="businessNature" class="col-sm-3 control-label">Business Nature</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="businessNature" name="businessNature" placeholder="Business Nature" autocomplete="off" value="{{old('businessNature')}}" require >
-                    @if ($errors->has('businessNature'))
-                          <span class="text-red">
-                              <strong>{{ $errors->first('businessNature') }}</strong>
-                          </span>
-                    @endif
-                  </div>
-            </div>
-
-			<div class="form-group">
-                  <label for="description" class="col-sm-3 control-label">Description</label>
-                  <div class="col-sm-9">
-                    <textarea rows="10" class="form-control" id="description" name="description" placeholder="Description" autocomplete="off" require >{{old('description')}}</textarea>
-                    @if ($errors->has('description'))
-                          <span class="text-red">
-                              <strong>{{ $errors->first('description') }}</strong>
-                          </span>
-                      @endif
-                  </div>
-            </div>
-			
-			<!-- checkboxes -->
-            <div class="form-group">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-9">
-                    <span class="button-checkbox">
-                    <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;Shared Company Profile</button>
-                    <input type="checkbox" class="hidden"  name="company_pro" value="1">
-                    </span>
-
-                    <span class="button-checkbox">
-                    <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;Shared Tesimonials</button>
-                    <input type="checkbox" class="hidden"  name="testimonials" value="1">
-                    </span>
-
-                    <span class="button-checkbox">
-                    <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;Shared Solutions & Services</button>
-                    <input type="checkbox" class="hidden"  name="solser" value="1">
-                    </span>
-
-                </div>
-            </div>
-
-			<!-- Social links -->						
-			<div class="form-group">
-                  <label for="description" class="col-sm-3 control-label">Facebook Link:</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="fblink" name="fblink" placeholder="Facebook link" autocomplete="off" />
-                  </div>
-                  <div class="col-sm-3">
-                    <input type="number" class="form-control" id="fblike" name="fblike" placeholder="Facebook Likes" autocomplete="off" />
-                  </div>
-            </div>
-			<div class="form-group">
-                  <label for="description" class="col-sm-3 control-label">Twitter</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="twlink" name="twlink" placeholder="Twitter Link" autocomplete="off"  />
-                  </div>
-                  <div class="col-sm-3">
-                    <input type="number" class="form-control" id="twfollwer" name="twfollwer" placeholder="Twitter Follower" autocomplete="off"  />
-                  </div>
-            </div>
-			<div class="form-group">
-                  <label for="description" class="col-sm-3 control-label">Instagram</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="inlink" name="inlink" placeholder="Instagram Link" autocomplete="off"   />
-                  </div>
-                  <div class="col-sm-3">
-                    <input type="number" class="form-control" id="incfollower" name="incfollower" placeholder="Instagram Follower" autocomplete="off"  />
-                  </div>
-            </div>
-			<div class="form-group">
-                  <label for="description" class="col-sm-3 control-label">LinkedIn</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="lilink" name="lilink" placeholder="LinkedIn Link" autocomplete="off" />
-                  </div>
-                  <div class="col-sm-3">
-                    <input type="number" class="form-control" id="livisitor" name="livisitor" placeholder="LinkedIn Visitor" autocomplete="off" />
-                  </div>
-            </div>
-			<div class="form-group">
-                  <label for="description" class="col-sm-3 control-label">Web</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="weblink" name="weblink" placeholder="Website Address if any" autocomplete="off" value="" />
-                  </div>
-            </div>
-
-            <div class="form-group">
+		
+	
+             <div class="form-group">
                     <label for="description" class="col-sm-3 control-label">Assigned To</label>
                     <div class="col-sm-9">
                         <select name="agentid" class="form-control select2" data-placeholder="Select Satff" width="100%">
@@ -206,6 +120,7 @@
                         </select>
                     </div>
               </div>
+
               <div class="form-group">
                 <label for="source" class="col-sm-3 control-label">Lead Source</label>
                 <div class="col-sm-9">
@@ -237,7 +152,38 @@ $(document).ready(function() {
         multiple: false,
     }); 
 });
+
+
+function removeRow(row_no){
+  $('#attribute_'+row_no).remove();
+}
+
+
 $(function () {
+
+
+    var row_number = 2;
+
+    $('#attribute_add_btn').click(function(){
+      
+      var attribute_new = `<div class="form-group attributes" id="attribute_${row_number}">
+                  <label for="description" class="col-sm-3 control-label">Attribute</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="attribute[]" placeholder="Attribute Name" autocomplete="off" />
+                  </div>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="attribute_value[]" placeholder="Attribute Value" autocomplete="off" />
+                  </div>
+                  <div class="col-sm-1">
+                    <span class="btn btn-danger" style="width: 100%" onclick="removeRow(${row_number})">x</span>
+                  </div>
+           </div>`;
+
+      row_number = row_number + 1;
+      $('#attributes').append(attribute_new);     
+    });
+  
+
     $('.button-checkbox').each(function () {
 
         // Settings
@@ -301,6 +247,7 @@ $(function () {
         }
         init();
     });
+
 });
 </script>
 @endpush

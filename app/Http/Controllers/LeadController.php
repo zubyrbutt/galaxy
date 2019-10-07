@@ -109,16 +109,23 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate(request(), [
             'fname' => 'required',
             'lname' => 'required',
             'email' => 'required|email|unique:users',
             'phonenumber' => 'required',
-            'businessName' => 'required',
-            'businessAddress' => 'required',
-			'businessNature' => 'required',
-			'description' => 'required' 
+            // 'businessName' => 'required',
+            // 'businessAddress' => 'required',
+			// 'businessNature' => 'required',
+			// 'description' => 'required' 
         ]);
+
+        $attributes = array();
+        foreach ($request->attributes as $index => $attribute) {
+           $attributes[] = ['name' => $attribute, 'value' => $request->attributes[$index]];
+        }
+
 		//Customer Creation 
         $user= new \App\User;
         $user->fname=$request->get('fname');
@@ -132,6 +139,7 @@ class LeadController extends Controller
         $user->created_at = strtotime($format);
         $user->updated_at = strtotime($format);
 		$user->iscustomer = 1;
+        
 		$user->save();
 		//Getting last inserted user id to be used in LEADS
 		$last_user_id = $user->id;
@@ -162,6 +170,7 @@ class LeadController extends Controller
         $format = date_format($date,"Y-m-d");
         $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
+        $user->attributes = serialize($attributes);
         $lead->save();
         $id = $lead->id;
         $url=url('/leads/'.$id);
