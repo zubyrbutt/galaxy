@@ -126,8 +126,8 @@
                   <th>Customer Name</th>
                   <!--<th>Email</th>
                   <th>Phone Number</th>-->
-                  <th>Business Name</th>
-                  <th>Business Nature</th>
+                  <!-- <th>Business Name</th>
+                  <th>Business Nature</th> -->
                   <th>Status</th>
 				          <th>Action</th>
                 </tr>
@@ -148,8 +148,8 @@
                     <td>{{$lead->user->fname }} {{ $lead->user->lname }}</td>
                     <!--<td>{  {$lead->user->email}  }</td>
                     <td>{  {$lead->user->phonenumber}  }</td>-->
-                    <td>{{$lead['businessName']}}</td>
-                    <td>{{$lead['businessNature']}}</td>
+                    <!-- <td>{{$lead['businessName']}}</td> -->
+                    <!-- <td>{{$lead['businessNature']}}</td> -->
                     <td>
                       @if ($lead['status'] === 1)
                       <span class="btn btn-success">Active</span>
@@ -195,8 +195,8 @@
                     <th>Customer Name</th>
                     <!--<th>Email</th>
                     <th>Phone Number</th>-->
-                    <th>Business Name</th>
-                    <th>Business Nature</th>
+                    <!-- <th>Business Name</th> -->
+                    <!-- <th>Business Nature</th> -->
                     <th>Status</th>
                     <th>Action</th>
                 </tr>

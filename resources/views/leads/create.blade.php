@@ -87,7 +87,7 @@
             <div class="form-group attributes" id="attribute_1">
                     <label for="description" class="col-sm-3 control-label">Attribute</label>
                     <div class="col-sm-4">
-                      <input type="text" class="form-control" name="attributes[]" placeholder="Attribute Name" autocomplete="off" />
+                    <input type="text" class="form-control" name="attributes[]" placeholder="Attribute Name" autocomplete="off" />
                     </div>
                     <div class="col-sm-4">
                       <input type="text" class="form-control" name="attribute_value[]" placeholder="Attribute Value" autocomplete="off" />

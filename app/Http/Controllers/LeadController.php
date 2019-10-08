@@ -204,6 +204,7 @@ class LeadController extends Controller
         $proposals = \App\Proposal::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         //Conversation
         $conversations = \App\Conversation::where('lead_id',$id)->orderBy('id', 'DESC')->get();
+
         if($lead_detail){
             return view('leads.show', compact('recordings','appointments','docs','proposals','conversations','lead_detail'));
         }else{
@@ -228,6 +229,7 @@ class LeadController extends Controller
             $agents=\App\User::where('iscustomer',0)->where('status',1)->where('id', auth()->user()->id)->get();
         }
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$id)->first();
+
 		return view('leads.edit', compact('lead','agents'));
     }
 
@@ -242,13 +244,19 @@ class LeadController extends Controller
     {
         $lead= \App\Lead::find($id);
         $this->authorize('edit-lead', $lead);
-
+        
         $this->validate(request(), [
-            'businessName' => 'required',
-            'businessAddress' => 'required',
-			'businessNature' => 'required',
-			'description' => 'required' 
+   //          'businessName' => 'required',
+   //          'businessAddress' => 'required',
+			// 'businessNature' => 'required',
+			// 'description' => 'required' 
         ]);
+
+       
+        $attributes = array();
+        foreach ($request->get('attributes') as $index => $attribute) {
+           $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
+        }
         
         $lead->businessName=$request->get('businessName');
         $lead->businessAddress=$request->get('businessAddress');
@@ -271,6 +279,7 @@ class LeadController extends Controller
         $format = date_format($date,"Y-m-d");
         $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
+        $lead->attributes = serialize($attributes);
 		$lead->save();
         return redirect('leads/'.$id)->with('success', 'Lead has been updated successfully.');
         

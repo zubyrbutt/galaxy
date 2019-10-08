@@ -271,7 +271,13 @@ function makeLinks($str) {
 								<span class="btn bg-blue btn-xs"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
 							@endforeach
 						</td>
-						<td>{{$appointment->createdby->fname}} {{$appointment->createdby->lname}}</td>
+						<td>
+							@if($appointment->createdby)
+							{{$appointment->createdby->fname}} {{$appointment->createdby->lname}}
+							@endif
+							
+
+						</td>
 						<td>
 						<a href="{!! url('leads/create_appnote/'.$lead_detail['id'].'/'.$appointment['id'].'' ); !!}" class="btn btn-primary" title="Create Note"><li class="fa fa-sticky-note"></li> </a>
 						</td>
