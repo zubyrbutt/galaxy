@@ -49,25 +49,26 @@ function makeLinks($str) {
     <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">Lead Details of {{$lead_detail->businessName}}</h3>
-							<span class="pull-right">
-							@can('edit-lead')<a href="{!! url('/leads/'.$lead_detail['id'].'/edit' ); !!}" class="btn btn-info"><li class="fa fa-pencil"></li> Edit</a>@endcan
-							@if($lead_detail->approvestatus==0 or $lead_detail->approvestatus==2)
-								@can('approve-reject-lead')<a href="{!! url('/leads/approve/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-check"></li> Approve</a>@endcan
-							@endif
-							@if($lead_detail->approvestatus==0 or $lead_detail->approvestatus==1)
-								@can('approve-reject-lead')<a href="{!! url('/leads/reject/'.$lead_detail['id'].'' ); !!}" class="btn btn-danger"><li class="fa fa-ban"></li> Reject</a>@endcan
-							@endif
-							@if($lead_detail->istraininglead==0)
-								@can('for-training-lead')<a href="{!! url('/leads/fortraining/'.$lead_detail['id'].'' ); !!}" class="btn btn-primary"><li class="fa fa-book"></li> For Training</a>@endcan
-							@else
-								@can('for-training-lead')<a href="{!! url('/leads/removefromtraining/'.$lead_detail['id'].'' ); !!}" class="btn btn-primary"><li class="fa fa-book"></li> Remove From Training</a>@endcan
-							@endif
-							@can('create-recording')<a href="{!! url('leads/createrecording/'.$lead_detail['id'].'' ); !!}" class="btn btn-warning"><li class="fa fa-plus"></li> Recording</a>@endcan
-							@can('create-appointment')<a href="{!! url('leads/createappointments/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Appintment</a>@endcan
-							@can('create-doc')<a href="{!! url('leads/createdocs/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Document</a>@endcan
-							@can('create-proposal')<a href="{!! url('leads/createproposal/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Proposal</a>@endcan
-							@can('create-project')<a href="{!! url('projects/create/'.$lead_detail->user_id.'/'.$lead_detail->id.''); !!}" class="btn btn-danger"><li class="fa fa-plus"></li> Project</a>@endcan
-							</span>
+				<span class="pull-right">
+				@can('edit-lead')<a href="{!! url('/leads/'.$lead_detail['id'].'/edit' ); !!}" class="btn btn-info"><li class="fa fa-pencil"></li> Edit</a>@endcan
+				@if($lead_detail->approvestatus==0 or $lead_detail->approvestatus==2)
+					@can('approve-reject-lead')<a href="{!! url('/leads/approve/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-check"></li> Approve</a>@endcan
+				@endif
+				@if($lead_detail->approvestatus==0 or $lead_detail->approvestatus==1)
+					@can('approve-reject-lead')<a href="{!! url('/leads/reject/'.$lead_detail['id'].'' ); !!}" class="btn btn-danger"><li class="fa fa-ban"></li> Reject</a>@endcan
+				@endif
+				@if($lead_detail->istraininglead==0)
+					@can('for-training-lead')<a href="{!! url('/leads/fortraining/'.$lead_detail['id'].'' ); !!}" class="btn btn-primary"><li class="fa fa-book"></li> For Training</a>@endcan
+				@else
+					@can('for-training-lead')<a href="{!! url('/leads/removefromtraining/'.$lead_detail['id'].'' ); !!}" class="btn btn-primary"><li class="fa fa-book"></li> Remove From Training</a>@endcan
+				@endif
+				@can('create-recording')<a href="{!! url('leads/createrecording/'.$lead_detail['id'].'' ); !!}" class="btn btn-warning"><li class="fa fa-plus"></li> Recording</a>@endcan
+				@can('create-appointment')<a href="{!! url('leads/createappointments/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Appintment</a>@endcan
+				@can('create-doc')<a href="{!! url('leads/createdocs/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Document</a>@endcan
+				@can('create-proposal')<a href="{!! url('leads/createproposal/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Proposal</a>@endcan
+				@can('create-project')<a href="{!! url('projects/create/'.$lead_detail->user_id.'/'.$lead_detail->id.''); !!}" class="btn btn-danger"><li class="fa fa-plus"></li> Project</a>@endcan
+				@can('create-project')<a href="{!! url('leads/close/'.$lead_detail->user_id.'/'.$lead_detail->id.''); !!}" class="btn btn-danger"> Close this Lead</a>@endcan
+				</span>
             </div>
             <!-- /.box-header -->
 				<div class="box-body" >

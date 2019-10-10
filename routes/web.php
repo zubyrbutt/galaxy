@@ -169,8 +169,6 @@ Route::group(['prefix'=> 'hrleads'],function(){
    Route::post('/fetchinterviewees', 'HrleadController@fetchinterviewees')->middleware('can:index-interviewees','ipcheck')->name('interviewees.fetch');
    Route::get('interviews', 'HrleadController@interviews')->middleware('can:index-interviews','ipcheck')->name('interviews');
    Route::post('/fetchinterviews', 'HrleadController@fetchinterviews')->middleware('can:index-interviews','ipcheck')->name('interviews.fetch');
-   
-   
 });
 
 //YCC Ref
@@ -239,6 +237,8 @@ Route::group(['prefix'=> 'yccref'],function(){
     Route::get('reject/{id}', 'LeadController@reject')->middleware('can:approve-reject-lead','ipcheck');
     Route::get('fortraining/{id}', 'LeadController@fortraining')->middleware('can:for-training-lead','ipcheck');
     Route::get('removefromtraining/{id}', 'LeadController@removefromtraining')->middleware('can:for-training-lead','ipcheck');
+    Route::get('close/{id}/{lead_id}', 'LeadController@close_lead')->middleware('can:show-lead','ipcheck')->name('leads.close');
+    Route::post('close', 'LeadController@close_lead_store')->middleware('can:show-lead','ipcheck')->name('leads.close.store');
     
     
     //Recordings

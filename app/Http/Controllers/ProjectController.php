@@ -79,8 +79,45 @@ class ProjectController extends Controller
             'user_id' => 'required|numeric',
             'projectName' => 'required',
             'projectDescription' => 'required',
+            'projectType' => 'required',
+            'amount' => 'required',
             'startDate' => 'required|date',
         ]);
+
+        // Recording
+        $this->validate(request(), [
+            'title' => 'required',
+            'lead_id' => 'required',
+            //'recording_file' => ['mimes:mpga,wav']
+        ]);
+        if($request->hasfile('recording_file'))
+         {
+            $file = $request->file('recording_file');
+            $recordingfile=time().$file->getClientOriginalName();
+            //$file->move(public_path().'/leads_assets/recordings/', $recordingfile);
+            Storage::disk('local')->put('/public/leads_assets/recordings/'.$recordingfile, File::get($file));
+         }else{
+            $recordingfile="";
+         }
+        //Recording Uploading
+        $recording= new \App\Recording;
+        $recording->title=$request->get('title');
+        $recording->link=$request->get('link');
+        $recording->note=$request->get('note');
+        $recording->recording_file=$recordingfile;
+        $recording->lead_id=$request->get('lead_id');
+        $recording->created_by=auth()->user()->id;
+        $date=date_create($request->get('date'));
+        $format = date_format($date,"Y-m-d");
+        $recording->created_at = strtotime($format);
+        $recording->updated_at = strtotime($format);
+        $recording->save();
+        $id = $request->get('lead_id');
+        $url=url('/leads/'.$id);
+        $creator=auth()->user()->fname.' '.auth()->user()->lname;
+        //Nofication
+        $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->get();
+        // Recording
 
         $staff_id =  $request->get('staff_id');
         //$staffId = implode(",",$staff_id);
@@ -95,6 +132,7 @@ class ProjectController extends Controller
         $project->projectType=$request->get('projectType');
         $project->startDate=$request->get('startDate');
         $project->endDate=$request->get('endDate');
+        $project->amount=$request->get('amount');
         $project->isSMM=($request->get('isSMM'))? 1: 0;
         $project->isiOS=($request->get('isiOS'))? 1: 0;
         $project->isAndroid=($request->get('isAndroid'))? 1: 0;
@@ -183,6 +221,8 @@ class ProjectController extends Controller
             'user_id' => 'required|numeric',
             'projectName' => 'required',
             'projectDescription' => 'required',
+            'projectType' => 'required',
+            'amount' => 'required',
             'startDate' => 'required|date',
         ]);
 		$staff_id =  $request->get('staff_id');
@@ -197,6 +237,7 @@ class ProjectController extends Controller
         $project->projectDescription=$request->get('projectDescription');
 		$project->projectType=$request->get('projectType');
         $project->startDate=$request->get('startDate');
+        $project->amount=$request->get('amount');
         $project->endDate=$request->get('endDate');
         $project->isSMM=($request->get('isSMM'))? 1: 0;
         $project->isiOS=($request->get('isiOS'))? 1: 0;

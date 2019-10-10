@@ -1,28 +1,73 @@
 @extends('layouts.mainlayout')
 @section('content')
 @if(session('success'))
-    <script>
-      $( document ).ready(function() {
-        swal("Success", "{{session('success')}}", "success");
-      });
-      
-    </script>
+<script>
+$( document ).ready(function() {
+swal("Success", "{{session('success')}}", "success");
+});
+
+</script>
 @endif
+<div class="box box-info" >
+  <div class="box-header with-border">
+    <h3 class="box-title">Lead Close : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  {{-- <form class="form-horizontal" action="{!! url('leads/storerecording'); !!}" method="post" enctype="multipart/form-data"> --}}
+    @csrf
+    <div class="box-body" >
+      
+      <div class="row">
+        <!--lead_id against which recording will be stored -->
+        <input name='lead_id' type='hidden' value='<?php echo $lead_id; ?>' />
+        <div class="col-md-12">
+
+          <div class="form-group">
+            <label for="title" class="col-sm-3 control-label">Lead Close By</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="lead_close_by" name="lead_close_by" required="">
+                <option value="" selected="" disabled="">Lead Close By</option>    
+                <option value="class">Class</option>    
+                <option value="project">Project</option>        
+              </select>
+              @if ($errors->has('lead_close_by'))
+              <span class="text-red">
+                <strong>{{ $errors->first('lead_close_by') }}</strong>
+              </span>
+              @endif
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+     {{--  <a href="{!! url('/leads/'); !!}/{{$lead_id}}" class="btn btn-default">Cancel</a>
+      <button type="submit" class="btn btn-info pull-right">Upload</button> --}}
+    </div>
+    <!-- /.box-footer -->
+  {{-- </form> --}}
+</div>
 
 
-
-    <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Create New Project</h3>
+<div class="box box-info" id="lead-project" style="@if( !session('lead_close_form')) display: none; @endif">
+            <div class="box-header with-border" >
+              <h3 class="box-title">Project</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="{!! url('/projects'); !!}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" action="{!! url('/leads/close'); !!}" method="post" enctype="multipart/form-data">
             @csrf
+            
+            
+            <input type="hidden"  name="customer_id"  value="{{ Request::segment(3) }}">
+            <input type="hidden" name="lead_id" value="{{ Request::segment(4) }}">
           <div class="box-body" >
-			
-            <div class="row">			
-			<!-- Customer Info -->	
+      
+            <div class="row">     
+      <!-- Customer Info -->  
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="user_id" class="col-sm-3 control-label">Select Customer</label>
@@ -79,7 +124,7 @@
                   </div>
                 </div>
 
-			<div class="form-group">
+          <div class="form-group">
                   <label for="projectDescription" class="col-sm-3 control-label">Project Description</label>
                   <div class="col-sm-9">
                     <textarea rows="10" class="form-control" id="projectDescription" name="projectDescription" placeholder="Description" require ></textarea>
@@ -90,8 +135,8 @@
                       @endif
                   </div>
             </div>
-			
-			<!-- checkboxes -->
+      
+      <!-- checkboxes -->
             <div class="form-group">
                 <label for="startDate" class="col-sm-3 control-label">Project Type:</label>
                 <div class="col-sm-9">
@@ -120,15 +165,15 @@
                   </div>
                 </div>      
 
-			<!-- Social links -->						
-			      <div class="form-group">
+      <!-- Social links -->           
+            <div class="form-group">
                   <label for="startDate" class="col-sm-3 control-label">Start Date:</label>
                   <div class="col-sm-9">
                     <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date" autocomplete="off" />
             </div>
                   
             </div>
-			      <div class="form-group">
+            <div class="form-group">
                   <label for="endDate" class="col-sm-3 control-label">End Date</label>
                   <div class="col-sm-9" >
                     <input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date" autocomplete="off"  />
@@ -195,6 +240,83 @@
               </div>
 
           </div>
+              
+                  <div class="box box-info" >
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Upload Recording for Lead : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <!-- form start -->
+                  {{-- <form class="form-horizontal" action="{!! url('leads/storerecording'); !!}" method="post" enctype="multipart/form-data"> --}}
+          {{--           @csrf --}}
+                    <div class="box-body" >
+                      
+                      <div class="row">
+                        <!--lead_id against which recording will be stored -->
+                        <input name='lead_id' type='hidden' value='<?php echo $lead_id; ?>' />
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="title" class="col-sm-3 control-label">Title</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" id="title" name="title" placeholder="Title" autocomplete="off" value="" require >
+                              @if ($errors->has('title'))
+                              <span class="text-red">
+                                <strong>{{ $errors->first('title') }}</strong>
+                              </span>
+                              @endif
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="link" class="col-sm-3 control-label">Link</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" id="link" name="link" placeholder="Link" value="" autocomplete="off" require>
+                              @if ($errors->has('link'))
+                              <span class="text-red">
+                                <strong>{{ $errors->first('link') }}</strong>
+                              </span>
+                              @endif
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label for="note" class="col-sm-3 control-label">Note</label>
+                            <div class="col-sm-9">
+                              <textarea type="text" class="form-control" id="note" name="note" placeholder="Any note, please put here.">{{old('note')}}</textarea>
+                              @if ($errors->has('note'))
+                              <span class="text-red">
+                                <strong>{{ $errors->first('note') }}</strong>
+                              </span>
+                              @endif
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label for="recording_file" class="col-sm-3 control-label">Select file</label>
+                            <div class="col-sm-9">
+                              <input class='form-control' type="file" name="recording_file" id="recording_file">
+                              <span class="text-red">Only MP3 files are allowed</span>
+                              @if ($errors->has('recording_file'))
+                              <span class="text-red">
+                                <strong>{{ $errors->first('recording_file') }}</strong>
+                              </span>
+                              @endif
+                            </div>
+                          </div>
+                      
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+                {{-- <div class="box-footer">
+                  <a href="{!! url('/leads/'); !!}/{{$lead_id}}" class="btn btn-default">Cancel</a>
+                  <button type="submit" class="btn btn-info pull-right">Upload</button>
+                </div> --}}
+                <!-- /.box-footer -->
+              {{-- </form> --}}
+            </div>
+
+
               <!-- /.box-body -->
               <div class="box-footer">
                 <a href="{{ URL::previous() }}" class="btn btn-default">Cancel</a>
@@ -202,10 +324,13 @@
               </div>
               <!-- /.box-footer -->
             </form>
-</div>
+    </div>
+
+
+
+
 <link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
 <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
-
 
 
 <script>
@@ -280,4 +405,21 @@ $(function () {
     });
 });
 </script>
+
+
+<script>
+
+  jQuery('#lead_close_by').change(function(){
+    if(jQuery(this).val() == 'class'){
+      jQuery('#lead-project').slideUp();
+      jQuery('#lead-recording').slideUp();
+    }else if(jQuery(this).val() == 'project'){
+      jQuery('#lead-project').slideDown();
+      jQuery('#lead-recording').slideDown();
+    }
+  });
+
+</script>
+
 @endsection
+

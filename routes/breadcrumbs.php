@@ -257,3 +257,10 @@ Breadcrumbs::for('activitylogs', function ($trail) {
     $trail->parent('dashboard');
     $trail->push('Activity Log', route('activitylogs'));
 });
+
+
+// Breadcrumbs::for('leads.close', function ($trail) {
+//     $trail->parent('dashboard');
+//     $trail->push('Close Lead', route('leads.close'));
+// });
+

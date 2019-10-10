@@ -64,7 +64,7 @@
                   <label for="fname" class="col-sm-3 control-label">First Name</label>
 
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" autocomplete="off" value="{{ old('fname') }}" require >
+                    <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" autocomplete="off" value="{{ old('fname') }}" required >
                     @if ($errors->has('fname'))
                           <span class="text-red">
                               <strong>{{ $errors->first('fname') }}</strong>
@@ -76,7 +76,7 @@
                   <label for="lname" class="col-sm-3 control-label">Last Name</label>
 
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" value="{{ old('lname') }}" autocomplete="off" require>
+                    <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" value="{{ old('lname') }}" autocomplete="off" required>
                     @if ($errors->has('lname'))
                           <span class="text-red">
                               <strong>{{ $errors->first('lname') }}</strong>

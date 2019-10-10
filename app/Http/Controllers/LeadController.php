@@ -2,22 +2,23 @@
 namespace App\Http\Controllers;
 
 use App\Lead;
-use DB;
+use App\Notifications\AppointmentNotification;
+use App\Notifications\LeadNotification;
+use App\Notifications\ProjectNotification;
+use App\Notifications\ProposalLeadNotification;
+use App\Notifications\RecordingNotification;
+use App\Proposal;
+use App\User;
 use Auth;
-use Validator;
+use DB;
+use Datatable;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Notifications\LeadNotification;
-use App\Notifications\AppointmentNotification;
-use App\Notifications\RecordingNotification;
-use App\Notifications\ProposalLeadNotification;
-use Notification;
-use App\User;
-use App\Proposal;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Datatable;
+use Notification;
+use Validator;
 use Yajra\Datatables\Datatables;
 
 
@@ -642,4 +643,117 @@ class LeadController extends Controller
 	/************************** CONVERSATION 	-	END************************/
 
    
+   public function close_lead($customerid,$lead_id){
+
+        if($customerid){
+            $customers=\App\User::where('iscustomer',1)->where('id',$customerid)->get();
+            $leads=\App\Lead::with('user')->with('createdby')->where('user_id',$customerid)->get();
+        }else{
+            $customers=\App\User::where('iscustomer',1)->get();
+        }
+        if($lead_id){
+            $leads=\App\Lead::with('user')->with('createdby')->where('id',$lead_id)->get();
+        }
+
+        $data['user'] = User::where('iscustomer',0)->where('status',1)->get();
+
+        $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
+        return view('leads.lead-close',compact('lead','lead_id','customers','leads','customerid','data'));
+
+   }
+
+   public function close_lead_store(Request $request){
+
+        $request->session()->flash('lead_close_form', true);
+        $this->validate(request(), [
+            'user_id' => 'required|numeric',
+            'projectName' => 'required',
+            'projectDescription' => 'required',
+            'projectType' => 'required',
+            'amount' => 'required',
+            'startDate' => 'required|date',
+
+            'title' => 'required',
+            'lead_id' => 'required',
+            //'recording_file' => ['mimes:mpga,wav']
+        ]);
+
+        $staff_id =  $request->get('staff_id');
+        //$staffId = implode(",",$staff_id);
+
+        $project= new \App\Project;
+        $project->user_id=$request->get('user_id');
+        $project->lead_id=$request->get('lead_id');
+        //$project->staff_id=$staffId;
+        $project->created_by=auth()->user()->id;
+        $project->projectName=$request->get('projectName');
+        $project->projectDescription=$request->get('projectDescription');
+        $project->projectType=$request->get('projectType');
+        $project->startDate=$request->get('startDate');
+        $project->endDate=$request->get('endDate');
+        $project->amount=$request->get('amount');
+        $project->isSMM=($request->get('isSMM'))? 1: 0;
+        $project->isiOS=($request->get('isiOS'))? 1: 0;
+        $project->isAndroid=($request->get('isAndroid'))? 1: 0;
+        $project->isWeb=($request->get('isWeb'))? 1: 0;
+        $project->isCustom=($request->get('isCustom'))? 1: 0;
+        $date=date_create($request->get('date'));
+        $format = date_format($date,"Y-m-d");
+        $project->created_at = strtotime($format);
+        $project->updated_at = strtotime($format);
+        $project->save();
+        //Project Creation 
+        
+
+        //$role = Role::find(1);  
+ 
+       if($project){
+
+        $project->users()->attach($staff_id);
+
+        }
+
+        //Getting last inserted user id to be used in LEADS
+        $projectid = $project->id;
+        $id = $projectid;
+        $url=url('/projects/'.$id);
+        $creator=auth()->user()->fname.' '.auth()->user()->lname;
+        //Send Notification
+        $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->whereIn('id', $staff_id)->get();
+        $letter = collect(['title' => 'New Project','body'=>'A new project has been created by '.$creator.', please review it.','redirectURL'=>$url]);
+        Notification::send($users, new ProjectNotification($letter));
+
+
+        if($request->hasfile('recording_file'))
+         {
+            $file = $request->file('recording_file');
+            $recordingfile=time().$file->getClientOriginalName();
+            //$file->move(public_path().'/leads_assets/recordings/', $recordingfile);
+            Storage::disk('local')->put('/public/leads_assets/recordings/'.$recordingfile, File::get($file));
+         }else{
+            $recordingfile="";
+         }
+        //Recording Uploading
+        $recording= new \App\Recording;
+        $recording->title=$request->get('title');
+        $recording->link=$request->get('link');
+        $recording->note=$request->get('note');
+        $recording->recording_file=$recordingfile;
+        $recording->lead_id=$request->get('lead_id');
+        $recording->created_by=auth()->user()->id;
+        $date=date_create($request->get('date'));
+        $format = date_format($date,"Y-m-d");
+        $recording->created_at = strtotime($format);
+        $recording->updated_at = strtotime($format);
+        $recording->save();
+        $id = $request->get('lead_id');
+        $url=url('/leads/'.$id);
+        $creator=auth()->user()->fname.' '.auth()->user()->lname;
+        //Nofication
+        $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->get();
+        $message = collect(['title' => 'New recording has been uploaded','body'=>'A new recording has been uploaded by '.$creator.' on lead no.'.$id.', please review it.','redirectURL'=>$url]);
+
+        return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
+ 
+   }
 }

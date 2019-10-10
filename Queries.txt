@@ -1,1 +1,1 @@
-ALTER TABLE `staffdetails` ADD `currency_type` VARCHAR(191) NULL AFTER `salary_type`;
+ALTER TABLE `projects` ADD `amount` BIGINT UNSIGNED NULL AFTER `isCustom`;
