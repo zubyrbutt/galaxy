@@ -67,7 +67,13 @@ function makeLinks($str) {
 				@can('create-doc')<a href="{!! url('leads/createdocs/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Document</a>@endcan
 				@can('create-proposal')<a href="{!! url('leads/createproposal/'.$lead_detail['id'].'' ); !!}" class="btn btn-success"><li class="fa fa-plus"></li> Proposal</a>@endcan
 				@can('create-project')<a href="{!! url('projects/create/'.$lead_detail->user_id.'/'.$lead_detail->id.''); !!}" class="btn btn-danger"><li class="fa fa-plus"></li> Project</a>@endcan
-				@can('create-project')<a href="{!! url('leads/close/'.$lead_detail->user_id.'/'.$lead_detail->id.''); !!}" class="btn btn-danger"> Close this Lead</a>@endcan
+				@can('close-this-lead')
+				    @if(!$lead_detail->closed)
+						<a href="{!! url('leads/close/'.$lead_detail->user_id.'/'.$lead_detail->id.''); !!}" class="btn btn-danger"> Close this Lead</a>
+						@else
+						<span class="btn btn-danger">Closed</span>
+					@endif
+				@endcan
 				</span>
             </div>
             <!-- /.box-header -->

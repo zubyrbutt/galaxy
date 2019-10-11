@@ -750,6 +750,9 @@ class LeadController extends Controller
         $url=url('/leads/'.$id);
         $creator=auth()->user()->fname.' '.auth()->user()->lname;
         //Nofication
+        $lead = Lead::where('id',$request->get('lead_id'))->first();
+        $lead->closed = 1;
+        $lead->save();
         $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->get();
         $message = collect(['title' => 'New recording has been uploaded','body'=>'A new recording has been uploaded by '.$creator.' on lead no.'.$id.', please review it.','redirectURL'=>$url]);
 

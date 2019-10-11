@@ -69,6 +69,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->yccsupportPolicies();
         $this->logs();
         $this->ccms();
+        $this->leads();
         Passport::routes();
 
     }
@@ -1196,6 +1197,15 @@ public function JournalVoucher(){
         Gate::define('create-project', function($user){
             return $user->hasAccess(['create-project']);
         });
+    }
+
+    //Project
+    public function leads(){
+       
+        Gate::define('close-this-lead', function($user){
+            return $user->hasAccess(['close-this-lead']);
+        });
+
     }
 
     //Sub Admins
