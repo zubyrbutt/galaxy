@@ -709,7 +709,10 @@ class LeadController extends Controller
  
        if($project){
 
-        $project->users()->attach($staff_id);
+        if(count($staff_id) > 0){
+            $project->users()->attach($staff_id);
+        }
+        
 
         }
 
@@ -719,9 +722,13 @@ class LeadController extends Controller
         $url=url('/projects/'.$id);
         $creator=auth()->user()->fname.' '.auth()->user()->lname;
         //Send Notification
-        $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->whereIn('id', $staff_id)->get();
-        $letter = collect(['title' => 'New Project','body'=>'A new project has been created by '.$creator.', please review it.','redirectURL'=>$url]);
-        Notification::send($users, new ProjectNotification($letter));
+
+        if(count($users) > 0){
+            $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->whereIn('id', $staff_id)->get();
+            $letter = collect(['title' => 'New Project','body'=>'A new project has been created by '.$creator.', please review it.','redirectURL'=>$url]);
+            Notification::send($users, new ProjectNotification($letter));
+        }
+        
 
 
         if($request->hasfile('recording_file'))
