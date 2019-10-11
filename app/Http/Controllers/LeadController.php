@@ -663,7 +663,7 @@ class LeadController extends Controller
    }
 
    public function close_lead_store(Request $request){
-         dd($request);
+        
         $request->session()->flash('lead_close_form', true);
         $this->validate(request(), [
             'user_id' => 'required|numeric',
