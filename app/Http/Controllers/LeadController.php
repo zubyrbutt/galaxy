@@ -663,7 +663,7 @@ class LeadController extends Controller
    }
 
    public function close_lead_store(Request $request){
-
+         dd($request);
         $request->session()->flash('lead_close_form', true);
         $this->validate(request(), [
             'user_id' => 'required|numeric',
@@ -709,7 +709,7 @@ class LeadController extends Controller
  
        if($project){
 
-        if(count($staff_id) > 0){
+        if($staff_id && count($staff_id) > 0){
             $project->users()->attach($staff_id);
         }
         
@@ -723,7 +723,7 @@ class LeadController extends Controller
         $creator=auth()->user()->fname.' '.auth()->user()->lname;
         //Send Notification
 
-        if(count($users) > 0){
+        if($staff_id && count($staff_id) > 0){
             $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->whereIn('id', $staff_id)->get();
             $letter = collect(['title' => 'New Project','body'=>'A new project has been created by '.$creator.', please review it.','redirectURL'=>$url]);
             Notification::send($users, new ProjectNotification($letter));
