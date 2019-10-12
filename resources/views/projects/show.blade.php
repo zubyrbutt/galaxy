@@ -124,7 +124,7 @@ $lead_detail=$projectDetail->lead
 	<div class="box-body" style="">
 
 		<table class="table table-striped">
-			<tr>
+			{{-- <tr>
 				<td width="25%"><b>Business Name</b></td>
 				<td width="75%">{{$lead_detail->businessName}}</td>
 			</tr>
@@ -135,8 +135,8 @@ $lead_detail=$projectDetail->lead
 			<tr>
 				<td><b>Business Nature</b></td>
 				<td>{{$lead_detail->businessNature}}</td>
-			</tr>
-			<tr>
+			</tr> --}}
+		{{-- 	<tr>
 				<td><b>Description</b></td>
 				<td>{!! html_entity_decode(nl2br(e(makeLinks($lead_detail->description)))) !!}</td>
 			</tr>
@@ -165,7 +165,21 @@ $lead_detail=$projectDetail->lead
 			<tr>
 				<td><b>Web</b></td>
 				<td><a href="{{$lead_detail->weblink}}" target="_blank">{{$lead_detail->weblink}}</a></td>
-			</tr>
+			</tr> --}}
+			
+			@if($lead_detail->attributes)
+				@php 
+				  $attributes = unserialize($lead_detail->attributes) 
+				@endphp
+
+				@foreach($attributes as $attribute)
+						<tr>
+							<td><b>{{ $attribute['name'] }}</b></td>
+							<td>{{ $attribute['value'] }}</td>
+						</tr>
+				@endforeach
+			@endif
+
 			<tr>
 				<td><b>Assigned To</b></td>
 				<td>{{isset($lead_detail->assignedTo) ? $lead_detail->assignedTo->fname.' '.$lead_detail->assignedTo->lname : "NA" }}</td>
