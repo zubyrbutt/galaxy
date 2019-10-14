@@ -184,7 +184,7 @@ Breadcrumbs::for('leads.index', function ($trail) {
 //Create Lead
 Breadcrumbs::for('leads.create', function ($trail) {
     $trail->parent('leads.index');
-    $trail->push('Add New Leave', route('leads.create'));
+    $trail->push('Add New Lead', route('leads.create'));
 });
 
 //Edit Lead

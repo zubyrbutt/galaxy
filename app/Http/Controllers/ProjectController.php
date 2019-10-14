@@ -225,6 +225,7 @@ class ProjectController extends Controller
             'amount' => 'required',
             'startDate' => 'required|date',
         ]);
+        
 		$staff_id =  $request->get('staff_id');
         //$staffId = implode(",",$staff_id);
         //Customer Creation 
