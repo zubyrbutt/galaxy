@@ -161,9 +161,12 @@ public function fetch(Request $request)
 				$_teacherId = $teacherID->teacher_id;
 				//Loop, It is used to make available array on startTime/endTime
 				foreach($time as $index => $timess ){
+					
 					if ($startTime > $endTime) {
+
 						if ($startTime> $index && $endTime< $index && $index >0  ) {
 							$available[$timess] = 0;
+
 						} else if ($index > 0) {
 							
 							if($timess=='22:30' || $timess=='23:00' || $timess=='23:30')
@@ -185,10 +188,12 @@ public function fetch(Request $request)
 							if ($_sql<1) {
 								$available[$timess]=1;
 							} else {
-								$available[$timess]=0;
+								// $available[$timess]=0;
+								// if Group then it should be 1
+								$available[$timess]=1;
 							}
 							
-							
+			
 						}
 					} else {
 						if ($startTime<= $index && $endTime> $index && $index >0  ) {
@@ -197,12 +202,16 @@ public function fetch(Request $request)
 							 ->whereRaw($_classType)
 							 ->where('teacherID','=',$_teacherId)
 							 ->count();
+
 							if ($_sql<1) {
 								$available[$timess]=1;
 							} else {
-								$available[$timess]=0;
+								// $available[$timess]=0;
+								// if Group then it should be 1
+								$available[$timess]=1;
 							}
 						} else if ($index >0) {
+							// $available[$timess]=0;
 							$available[$timess]=0;
 						}
 						
@@ -210,6 +219,7 @@ public function fetch(Request $request)
 				}				
 				//print_r($available);
 				//exit;
+			
 				$available[$time[$pakTime[0]]];
 				//Checking, which time was selected from dropdown and was that 1 in available array
 				if ($available[$time[$pakTime[0]]]) {
