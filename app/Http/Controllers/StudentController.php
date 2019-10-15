@@ -27,11 +27,11 @@ class StudentController extends Controller
 		$parents = \App\User::where('iscustomer',2)->get();
 		
 		$roles = Role::where('status', 1)->get();
-		//$extensions_list_available = \App\Extension::with('showusername')->where('status',2)->get();
-		//$extensions_list_all = \App\Extension::with('showusername')->get();
+		// $extensions_list_available = Extension::with('showusername')->where('status',2)->get();
+		// $extensions_list_all = Extension::with('showusername')->get();
 
-		
-		return view('student.index',compact('student_details','roles','extensions_list_available','extensions_list_all','parents'));
+		// 'extensions_list_available','extensions_list_all'
+		return view('student.index',compact('student_details','roles','parents'));
     }
 
 	public function fetch(Request $request)
