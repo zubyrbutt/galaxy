@@ -137,6 +137,7 @@ public function fetch(Request $request)
 			$slotDuration = $_POST['slotDuration'];
 			$course = $_POST['course'];
 			$pakTime = $_POST['pakTime'];
+			$type = $_POST['type'];
 			//Helper functions
 			$_classType = getClassTypeSchedule($classType);
 			$_condition = getCondition($classType);
@@ -190,7 +191,12 @@ public function fetch(Request $request)
 							} else {
 								// $available[$timess]=0;
 								// if Group then it should be 1
-								$available[$timess]=1;
+								if($type == 'group'){
+									$available[$timess]=1;
+								}else{
+									$available[$timess]=0;
+								}
+								
 							}
 							
 			
@@ -208,7 +214,11 @@ public function fetch(Request $request)
 							} else {
 								// $available[$timess]=0;
 								// if Group then it should be 1
-								$available[$timess]=1;
+								if($type == 'group'){
+									$available[$timess]=1;
+								}else{
+									$available[$timess]=0;
+								}
 							}
 						} else if ($index >0) {
 							// $available[$timess]=0;
@@ -220,7 +230,7 @@ public function fetch(Request $request)
 				//print_r($available);
 				//exit;
 			
-				$available[$time[$pakTime[0]]];
+				// $available[$time[$pakTime[0]]];
 				//Checking, which time was selected from dropdown and was that 1 in available array
 				if ($available[$time[$pakTime[0]]]) {
 					$user_sql = \App\User::where('id',$_teacherId)->where('role_id',30)->where('status',1)->get();			

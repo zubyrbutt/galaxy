@@ -83,6 +83,17 @@
 						<input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date" autocomplete="off" />
 					  </div>      
 				</div>
+
+				<div class="form-group">
+                    <label for="gendar" class="col-sm-3 control-label">Type</label>
+            
+                    <div class="col-sm-9">
+                        <input class="group_type" type="radio" id="type_individual" name="type" value="individual" checked="">
+                        <label for="type_individual">Individual</label>
+                        <input class="group_type" type="radio" id="type_group" name="type" value="group"> 
+                        <label for="type_group">Group</label>
+                    </div>
+                </div>
 				
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Select</label>
@@ -259,6 +270,11 @@ $(function () {
 </script>
 
 <script type="text/javascript">
+  
+  jQuery('.group_type[name="type"]').change(function(){
+  	jQuery('#classType option:first-child').prop('selected',true);
+  });
+
   $("select[name='classType']").change(function(){
 	
 	if ($("select[name='classType']")[0].selectedIndex <= 0) {
@@ -270,6 +286,7 @@ $(function () {
 
 	var course=document.getElementById('courseID').value;
 	var classType=document.getElementById('classType').value;
+	var group_type=jQuery('.group_type[name="type"]:checked').val();
 	var pakTimelist=document.getElementById('pakTime');
 	var pakTime = pakTimelist.options[pakTimelist.selectedIndex].text;
 	var zoneID=0; 
@@ -285,7 +302,7 @@ $(function () {
           url: "<?php echo route('/schedule/availableTeacher') ?>",
 		  dataType : 'json',
           method: 'POST',
-          data: {classType:classType,slotDuration:slotDuration,course:course,pakTime:pakTime,_token:token},
+          data: {classType:classType,slotDuration:slotDuration,course:course,pakTime:pakTime,_token:token,type:group_type},
           success: function(data) {
 			  console.log(token);
 			  console.log(data);
