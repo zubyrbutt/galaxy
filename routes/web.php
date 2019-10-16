@@ -240,6 +240,8 @@ Route::group(['prefix'=> 'yccref'],function(){
     Route::get('close/{id}/{lead_id}', 'LeadController@close_lead')->middleware('can:close-this-lead','ipcheck')->name('leads.close');
     Route::post('close', 'LeadController@close_lead_store')->middleware('can:close-this-lead','ipcheck')->name('leads.close.store');
     
+    Route::post('postleadstatus', 'LeadController@postleadstatus')->middleware('can:status-lead','ipcheck')->name('leads.postleadstatus');
+    
     
     //Recordings
     Route::get('createrecording/{id}', 'LeadController@createrecording')->middleware('can:create-recording','ipcheck')->name('createrecording');

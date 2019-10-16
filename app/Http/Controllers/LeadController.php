@@ -206,8 +206,11 @@ class LeadController extends Controller
         //Conversation
         $conversations = \App\Conversation::where('lead_id',$id)->orderBy('id', 'DESC')->get();
 
+        $notes = \App\Leadstatus::with('createdby')->where('lead_id',$id)->orderBy('id', 'DESC')->get();
+
+        // return $lead_detail;
         if($lead_detail){
-            return view('leads.show', compact('recordings','appointments','docs','proposals','conversations','lead_detail'));
+            return view('leads.show', compact('recordings','appointments','docs','proposals','conversations','lead_detail','notes'));
         }else{
             return view('404');
         }
@@ -766,4 +769,50 @@ class LeadController extends Controller
         return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
  
    }
+
+
+   // Nisar Work =================================
+   // Lead Status
+   public function postleadstatus(Request $request){
+
+        //dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'leadid' => 'required',
+            'status' => 'required',
+            'notes' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $response_data=[
+                'success' => 0,
+                'message' => 'Validation error.',
+                'data' => $validator->errors()
+            ];
+            return ['errors'=>'validation error.'];
+        }
+        //Lead Insertion
+        $lead= new \App\Leadstatus;
+        $lead->lead_id=$request->get('leadid');
+        $lead->status=$request->get('status');
+        $lead->note=$request->get('notes');
+        $lead->user_id=auth()->user()->id;
+        $date=date_create($request->get('date'));
+        $format = date_format($date, "Y-m-d H:i:s");
+        $lead->created_at = strtotime($format);
+        $lead->updated_at = strtotime($format);
+        $lead->save();
+
+        //Update status of Main lead
+        $lead= \App\Lead::find($request->get('leadid'));
+        $lead->status=$request->get('status');
+        $lead->save();
+        if (isset($request->show_page) && $request->show_page !='') {
+        return redirect()->back()->with('success', 'Lead has been updated successfully.');
+        }
+        else
+        {
+        return ['success'=>'Status updated.'];
+         }
+    }
+    // Lead Status
+   // Nisar Work =================================
 }
