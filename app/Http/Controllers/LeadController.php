@@ -658,14 +658,20 @@ class LeadController extends Controller
             $leads=\App\Lead::with('user')->with('createdby')->where('id',$lead_id)->get();
         }
 
+        $course_list = \App\Courses::all();
+        //$plan array from constants.php        
+        $plan = config('constants.plan');
+        $students_list = \App\User::where('iscustomer',3)->get();
+        $agents_list = \App\User::where('role_id',31)->get();
+
         $data['user'] = User::where('iscustomer',0)->where('status',1)->get();
 
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
-        return view('leads.lead-close',compact('lead','lead_id','customers','leads','customerid','data'));
+        return view('leads.lead-close',compact('lead','lead_id','customers','leads','customerid','data','course_list','plan','students_list','agents_list'));
 
    }
 
-   public function close_lead_store(Request $request){
+   public function close_lead_project_store(Request $request){
         
         $request->session()->flash('lead_close_form', true);
         $this->validate(request(), [
@@ -765,6 +771,116 @@ class LeadController extends Controller
         $lead->save();
         $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->get();
         $message = collect(['title' => 'New recording has been uploaded','body'=>'A new recording has been uploaded by '.$creator.' on lead no.'.$id.', please review it.','redirectURL'=>$url]);
+
+        return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
+ 
+   }
+
+   public function close_by_class(Request $request){
+        
+        $systemdate = systemDate();
+        //Calling constant arrays from constants.php
+        $time = config('constants.time');
+        $courseDuration=config('constants.courseDuration');
+        
+        $this->validate(request(), [
+            'studentID' => 'required',
+            'pakTime' => 'required',
+            'startDate' => 'required',
+            'slotDuration' => 'required',
+            'courseID' => 'required',
+            'classType' => 'required',
+            'teacherID' => 'required',
+            'agentId' => 'required',
+
+            'title' => 'required',
+            'lead_id' => 'required',
+            //'recording_file' => ['mimes:mpga,wav']
+        ]);
+
+        if($request->hasfile('recording_file'))
+         {
+            $file = $request->file('recording_file');
+            $recordingfile=time().$file->getClientOriginalName();
+            //$file->move(public_path().'/leads_assets/recordings/', $recordingfile);
+            Storage::disk('local')->put('/public/leads_assets/recordings/'.$recordingfile, File::get($file));
+         }else{
+            $recordingfile="";
+         }
+        //Recording Uploading
+        $recording= new \App\Recording;
+        $recording->title=$request->get('title');
+        $recording->link=$request->get('link');
+        $recording->note=$request->get('note');
+        $recording->recording_file=$recordingfile;
+        $recording->lead_id=$request->get('lead_id');
+        $recording->created_by=auth()->user()->id;
+        $date=date_create($request->get('date'));
+        $format = date_format($date,"Y-m-d");
+        $recording->created_at = strtotime($format);
+        $recording->updated_at = strtotime($format);
+        $recording->save();
+        $id = $request->get('lead_id');
+        $url=url('/leads/'.$id);
+        $creator=auth()->user()->fname.' '.auth()->user()->lname;
+        //Nofication
+        $lead = Lead::where('id',$request->get('lead_id'))->first();
+        $lead->closed = 1;
+        $lead->save();
+
+        $Schedule= new \App\Schedule;
+        //Making values
+        $studentID = $request->get('studentID');        
+        $paktime = $time[$request->get('pakTime')];     
+        $startDate = $request->get('startDate');
+        $slotDuration = $request->get('slotDuration');
+        $courseID = $request->get('courseID');
+        $classType = $request->get('classType');
+        $teacherID = $request->get('teacherID');
+        $agentId = $request->get('agentId');
+        
+        $endTime = makeTime($paktime,$slotDuration);
+        $endDate = date('Y-m-d',strtotime($courseDuration[$courseID]." months"));
+        
+        //Following is to check that same student, same time and same class type MUST NOT be rescheduled
+        //with same OR diff teacher
+        $check_student = \App\Schedule::where("studentID",$studentID)
+        ->where("startTime",'<=',$paktime)
+        ->where("endTime",'>',$paktime)
+        ->whereRaw("std_status!=3 and std_status!=4")
+        ->whereRaw(getClassTypeSchedule($classType))
+        ->count()
+        ;
+        //and status_dead!=1
+        if($check_student>0){
+            return redirect('schedule/')->with('failed', 'Same student with same startTime and with same classtype cannot be rescheduled to any teacher');
+        }
+        
+        //Inserting values
+        $Schedule->startTime=$paktime;
+        $Schedule->endTime=$endTime;
+        $systemdate;
+        $startDate = date_create($request->get('startDate'));
+        $startDate = date_format($startDate,"Y-m-d");
+        $Schedule->startDate = strtotime($startDate);
+        $Schedule->endDate = $endDate;
+        $Schedule->teacherID = $teacherID;
+        $Schedule->studentID = $studentID;
+        $Schedule->courseID = $courseID;
+        $Schedule->agentId = $agentId;
+        $Schedule->dateBooked = $systemdate;
+        $Schedule->classType = $classType;
+        $Schedule->status = 0;
+        $Schedule->std_status = 1;
+        $Schedule->created_by = auth()->user()->id;
+        $Schedule->modified_by = auth()->user()->id;
+
+        $date=date_create($request->get('date'));
+        $format = date_format($date,"Y-m-d");
+        $Schedule->created_at = strtotime($format);
+        $Schedule->updated_at = strtotime($format);
+        $Schedule->comments = $request->get('comments');        
+        $Schedule->save();
 
         return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
  
