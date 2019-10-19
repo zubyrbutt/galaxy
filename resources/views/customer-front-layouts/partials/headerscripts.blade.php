@@ -58,7 +58,7 @@ console.log("{{Route::currentRouteName()}}");
   <link href="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
 @endif
 <!-- For Select2 -->
-@if (Route::currentRouteName()=='leads.index' or Route::currentRouteName()=='leads.search' or Route::currentRouteName()=='createappointments' or Route::currentRouteName()=='leads.edit' ) 
+@if (Route::currentRouteName()=='leads.index' or Route::currentRouteName()=='leads.search' or Route::currentRouteName()=='createappointments' or Route::currentRouteName()=='leads.edit'  ) 
 <link href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}" rel="stylesheet">
   <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
   <script src="{{ asset('plugins/input-mask/jquery.inputmask.js') }}"></script>

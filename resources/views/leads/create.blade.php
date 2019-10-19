@@ -22,11 +22,57 @@
                 <div class="col-md-12">
                     <h3 class="box-title">Customer Information</h3>
                 </div>
-			<!-- Customer Info -->	
-              <div class="col-md-12">
+			<!-- Customer Info -->
+
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="description" class="col-sm-3 control-label">Assigned To</label>
+                        <div class="col-sm-9">
+                            <select name="agentid" class="form-control select2" data-placeholder="Select Satff" width="100%">
+                            @foreach($agents as $agent)
+                                <option value="{{$agent->id}}">{{$agent->fname}} {{$agent->lname}}</option>
+                            @endforeach                
+                            </select>
+                        </div>
+                  </div>
+              
+                  <div class="form-group" >
+                      <label class="col-sm-3 control-label">Select Customer</label>
+                       <div class="col-sm-9">
+                          <input class="customer_select" type="radio" id="addnew" name="customer_select" value="add_new" checked="">
+                          <label for="add_new">Add New</label>
+                          <span style="margin-left: 15px">
+                            <input class="customer_select" type="radio" id="existing" name="customer_select" value="existing"> 
+                            <label for="type_group">Existing Customer</label>
+                          </span>
+                      </div>
+                  </div>
+                </div>
+
+              <input type="hidden" id="customer_id" name="customer_id" value="0">
+
+              <div class="col-md-12" id="select_customer" style="display: none;">
+                <div class="form-group" >
+                  <label for="" class="col-sm-3"></label>
+                  <div class="col-sm-6">
+                  <select class="form-control m-bot15" id="customer" >
+                    <option value="0" disabled="" selected="">Select Customer</option>
+                    @foreach($users as $customer)
+                      <option value="{{ $customer->id }}">{{ $customer->fname }} {{ $customer->lname }}</option>
+                    @endforeach
+                  </select>
+                    @if ($errors->has('customer_id'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('customer_id') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12" id="addnew_customer" >
                 <div class="form-group">
                   <label for="fname" class="col-sm-3 control-label">First Name</label>
-
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" autocomplete="off" value="{{ old('fname') }}" require >
                     @if ($errors->has('fname'))
@@ -74,7 +120,31 @@
                       @endif
                   </div>
                 </div>
-			</div>
+			     </div>
+           {{-- Lead Close By ========================================================= --}}
+       
+            <!--lead_id against which recording will be stored -->
+           
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="title" class="col-sm-3 control-label">Lead Close By</label>
+                <div class="col-sm-9">
+                  <select class="form-control" id="lead_close_by" name="lead_close_by" required="">
+                    <option value="" selected="" disabled="">Lead Close By</option>
+                    <option value="class">Class</option>
+                    <option value="project">Project</option>
+                  </select>
+                  @if ($errors->has('lead_close_by'))
+                  <span class="text-red">
+                    <strong>{{ $errors->first('lead_close_by') }}</strong>
+                  </span>
+                  @endif
+                </div>
+              </div>
+              
+            </div>
+      
+           {{-- Lead Close By ========================================================= --}}
 			<!-- Lead Info -->					
             
 			<div class="col-md-12">
@@ -147,10 +217,34 @@
 @push('scripts')
 <script>
 $(document).ready(function() { 
-    $('.select2').select2({
-        placeholder: "Select Staff",
-        multiple: false,
-    }); 
+    // $('.select2').select2({
+    //     placeholder: "Select Staff",
+    //     multiple: false,
+    // }); 
+
+
+
+
+    jQuery('#customer').change(function(){
+      jQuery('#customer_id').val(parseInt(jQuery(this).val()));
+    });
+
+    jQuery('.customer_select[name="customer_select"]').change(function(){
+      if(jQuery(this).val() == 'add_new'){
+        jQuery('#select_customer').slideUp();
+        jQuery('#addnew_customer').slideDown();
+        jQuery('#customer_id').val(0);
+        
+      }else if(jQuery(this).val() == 'existing'){
+        jQuery('#addnew_customer').slideUp();
+        jQuery('#select_customer').slideDown();
+
+      }
+      // else{
+      //   jQuery('#select_customer').slideUp();
+      //   jQuery('#addnew_customer').slideDown();
+      // }
+   });
 });
 
 
@@ -160,7 +254,6 @@ function removeRow(row_no){
 
 
 $(function () {
-
 
     var row_number = 2;
 
@@ -249,5 +342,7 @@ $(function () {
     });
 
 });
+
+
 </script>
 @endpush

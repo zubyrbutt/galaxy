@@ -99,7 +99,10 @@ class LeadController extends Controller
         }else{
             $agents=\App\User::where('iscustomer',0)->where('status',1)->where('id', auth()->user()->id)->get();
         }
-        return view('leads.create',compact('agents'));
+
+        $users=\App\User::where('iscustomer',1)->get();
+        
+        return view('leads.create',compact('agents','users'));
     }
 
     /**
@@ -111,17 +114,39 @@ class LeadController extends Controller
     public function store(Request $request)
     {
 
- 
-        $this->validate(request(), [
-            'fname' => 'required',
-            'lname' => 'required',
-            'email' => 'required|email|unique:users',
-            'phonenumber' => 'required',
-            // 'businessName' => 'required',
-            // 'businessAddress' => 'required',
-			// 'businessNature' => 'required',
-			// 'description' => 'required' 
-        ]);
+    
+       if($request->customer_id){
+             $last_user_id = $request->customer_id;
+         }else{
+            $this->validate(request(), [
+                'fname' => 'required',
+                'lname' => 'required',
+                'email' => 'required|email|unique:users',
+                'phonenumber' => 'required',
+                // 'businessName' => 'required',
+                // 'businessAddress' => 'required',
+                // 'businessNature' => 'required',
+                // 'description' => 'required' 
+            ]);
+            //Customer Creation 
+            $user= new \App\User;
+            $user->fname=$request->get('fname');
+            $user->lname=$request->get('lname');
+            $user->email=$request->get('email');
+            $user->phonenumber=$request->get('phonenumber');
+            $user->status = 1;      
+            $user->password=Hash::make(str_random(6));
+            $date=date_create($request->get('date'));
+            $format = date_format($date,"Y-m-d");
+            $user->created_at = strtotime($format);
+            $user->updated_at = strtotime($format);
+            $user->iscustomer = 1;
+            
+            $user->save();
+
+            //Getting last inserted user id to be used in LEADS
+            $last_user_id = $user->id;
+         }
 
         $attributes = array();
 
@@ -129,23 +154,8 @@ class LeadController extends Controller
            $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
         }
 
-		//Customer Creation 
-        $user= new \App\User;
-        $user->fname=$request->get('fname');
-        $user->lname=$request->get('lname');
-        $user->email=$request->get('email');
-        $user->phonenumber=$request->get('phonenumber');
-        $user->status = 1;		
-		$user->password=Hash::make(str_random(6));
-        $date=date_create($request->get('date'));
-        $format = date_format($date,"Y-m-d");
-        $user->created_at = strtotime($format);
-        $user->updated_at = strtotime($format);
-		$user->iscustomer = 1;
-        
-		$user->save();
-		//Getting last inserted user id to be used in LEADS
-		$last_user_id = $user->id;
+		
+		
 		
 		//Lead Insertion
 		$lead= new \App\Lead;
