@@ -318,25 +318,6 @@
                       <div class="col-md-12">
                 
                 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Student</label>
-                  <div class="col-sm-6">
-                    <select id="studentID" name="studentID" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select Student" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                      <option value='0'>Select Student</option>
-                      @if ($students_list!='')
-                        @foreach($students_list as $key => $student)
-                        <option value="{{ $student->id }}">{{ $student->fname }} {{ $student->lname }}</option>
-                        @endforeach
-                      @endif
-                    </select>
-                    @if ($errors->has('studentID'))
-                                  <span class="text-red">
-                                      <strong>{{ $errors->first('studentID') }}</strong>
-                                  </span>
-                                @endif
-                  </div>
-                  <!-- /.form-group -->     
-                </div>
 
                 
                 <div class="form-group">
