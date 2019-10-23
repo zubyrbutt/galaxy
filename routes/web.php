@@ -239,7 +239,7 @@ Route::group(['prefix'=> 'yccref'],function(){
     Route::get('removefromtraining/{id}', 'LeadController@removefromtraining')->middleware('can:for-training-lead','ipcheck');
     Route::get('close/{id}/{lead_id}', 'LeadController@close_lead')->middleware('can:close-this-lead','ipcheck')->name('leads.close');
     Route::post('close', 'LeadController@close_lead_project_store')->middleware('can:close-this-lead','ipcheck')->name('leads.close.store');
-    Route::post('close', 'LeadController@close_lead_store')->middleware('can:close-this-lead','ipcheck')->name('leads.close.store');
+    // Route::post('close', 'LeadController@close_lead_store')->middleware('can:close-this-lead','ipcheck')->name('leads.close.store');
     Route::post('closeByClass', 'LeadController@close_by_class')->middleware('can:close-this-lead','ipcheck')->name('leads.close.store');
     
     Route::post('postleadstatus', 'LeadController@postleadstatus')->middleware('can:status-lead','ipcheck')->name('leads.postleadstatus');

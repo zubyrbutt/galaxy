@@ -15,7 +15,7 @@ class Schedule extends Model
         'startTime','endTime', 'teacherID', 'studentID','courseID','agentId','classType','status','dues_original','dues_usd',
 		'trial_confirm_by','status_dead','dead_reason','comments_dead','dead_by','confirm_dead_by','status_freeze','comments_freeze',
 		'freeze_by','std_status_old','std_status','comments','comments_reminder','currency_array','currency_text','grade',
-		'syllabus','record_link_signup','record_link_dead','record_link_freeze','created_by','modified_by'
+		'syllabus','record_link_signup','record_link_dead','record_link_freeze','created_by','modified_by','lead_id'
     ];
 	
 	protected $dates = [

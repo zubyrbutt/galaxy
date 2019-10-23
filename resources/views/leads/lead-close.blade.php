@@ -7,7 +7,7 @@ swal("Success", "{{session('success')}}", "success");
 });
 </script>
 @endif
-<div class="box box-info" >
+<div class="box box-info" style="display: none;">
   <div class="box-header with-border">
     <h3 class="box-title">Lead Close : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
   </div>
@@ -19,7 +19,7 @@ swal("Success", "{{session('success')}}", "success");
       
       <div class="row">
         <!--lead_id against which recording will be stored -->
-        <input name='lead_id' type='hidden' value='<?php echo $lead_id; ?>' />
+        
         <div class="col-md-12">
           <div class="form-group">
             <label for="title" class="col-sm-3 control-label">Lead Close By</label>
@@ -49,17 +49,20 @@ swal("Success", "{{session('success')}}", "success");
   {{-- </form> --}}
 </div>
 
-
-{{-- Close by Project --}}
-<div class="box box-info" id="lead-project" style="@if( !session('lead_close_form')) display: none; @endif">
+{{-- style="@if( !session('lead_close_form')) display: none; @endif" --}}
+{{-- Close by Project --}} 
+<div class="box box-info" id="lead-project" >
 
  
   <!-- /.box-header -->
   <!-- form start -->
+  {{-- <form class="form-horizontal" action="{!! url('/leads/close'); !!}" method="post" enctype="multipart/form-data"> --}}
+    {{-- @csrf --}}
+
+
   <form class="form-horizontal" action="{!! url('/leads/close'); !!}" method="post" enctype="multipart/form-data">
     @csrf
-
-
+      <input name='lead_id' type='hidden' value='{{ $lead_id }}' />
     <div class="box box-info" >
       <div class="box-header with-border">
         <h3 class="box-title">Upload Recording for Lead : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
@@ -72,7 +75,7 @@ swal("Success", "{{session('success')}}", "success");
           
           <div class="row">
             <!--lead_id against which recording will be stored -->
-            <input name='lead_id' type='hidden' value='<?php echo $lead_id; ?>' />
+           
             <div class="col-md-12">
               <div class="form-group">
                 <label for="title" class="col-sm-3 control-label">Title</label>
@@ -126,6 +129,11 @@ swal("Success", "{{session('success')}}", "success");
             </div>
           </div>
         </div>
+
+        <div class="box-footer">
+                <a href="{!! url('/schedule'); !!}" class="btn btn-default">Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Add</button>
+              </div>
         <!-- /.box-body -->
         {{-- <div class="box-footer">
           <a href="{!! url('/leads/'); !!}/{{$lead_id}}" class="btn btn-default">Cancel</a>
@@ -134,15 +142,15 @@ swal("Success", "{{session('success')}}", "success");
         <!-- /.box-footer -->
       {{-- </form> --}}
     </div>
-    
-     <div class="box-header with-border" >
+    </form>
+     <div class="box-header with-border" style="display: none;">
       <h3 class="box-title">Project</h3>
     </div>
     <input type="hidden"  name="customer_id"  value="{{ Request::segment(3) }}">
     <input type="hidden" name="lead_id" value="{{ Request::segment(4) }}">
     <div class="box-body" >
       
-      <div class="row">
+      <div class="row" style="display: none;">
         <!-- Customer Info -->
         <div class="col-md-12">
           <div class="form-group">
@@ -302,14 +310,13 @@ swal("Success", "{{session('success')}}", "success");
     
     
     <!-- /.box-body -->
-    <div class="box-footer">
+   {{--  <div class="box-footer">
       <a href="{{ URL::previous() }}" class="btn btn-default">Cancel</a>
       <button type="submit" class="btn btn-info pull-right">Add</button>
-    </div>
+    </div> --}}
     <!-- /.box-footer -->
   </form>
 </div>
-
 
 {{-- Close by Project --}}
 
@@ -336,7 +343,7 @@ swal("Success", "{{session('success')}}", "success");
           
           <div class="row">
             <!--lead_id against which recording will be stored -->
-            <input name='lead_id' type='hidden' value='<?php echo $lead_id; ?>' />
+           
             <div class="col-md-12">
               <div class="form-group">
                 <label for="title" class="col-sm-3 control-label">Title</label>
@@ -569,7 +576,7 @@ swal("Success", "{{session('success')}}", "success");
               </div>
      
     <!-- /.box-footer -->
-  </form>
+  {{-- </form> --}}
 </div>
 
 
@@ -646,18 +653,18 @@ init();
 <script>
 jQuery('#lead_close_by').change(function(){
 if(jQuery(this).val() == 'class'){
-jQuery('#lead-project').slideUp();
-jQuery('#lead-recording').slideUp();
+  jQuery('#lead-project').slideUp();
+  jQuery('#lead-recording').slideUp();
 
-jQuery('#lead-class').slideDown();
-jQuery('#lead-recording-class').slideDown();
+  jQuery('#lead-class').slideDown();
+  jQuery('#lead-recording-class').slideDown();
 }else if(jQuery(this).val() == 'project'){
 
-jQuery('#lead-class').slideUp();
-jQuery('#lead-recording-class').slideUp();
+  jQuery('#lead-class').slideUp();
+  jQuery('#lead-recording-class').slideUp();
 
-jQuery('#lead-project').slideDown();
-jQuery('#lead-recording').slideDown();
+  jQuery('#lead-project').slideDown();
+  jQuery('#lead-recording').slideDown();
 
 }
 });
