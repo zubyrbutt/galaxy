@@ -132,10 +132,10 @@
            
             <div class="col-md-12">
               <div class="form-group">
-                <label for="title" class="col-sm-3 control-label">Lead Close By</label>
+                <label for="title" class="col-sm-3 control-label">Lead Type</label>
                 <div class="col-sm-9">
                   <select class="form-control" id="lead_close_by" name="lead_close_by" required="">
-                    <option value="" selected="" disabled="">Lead Close By</option>
+                    <option value="" selected="" disabled="">Lead Type</option>
                     <option value="class">Class</option>
                     <option value="project">Project</option>
                   </select>
@@ -516,7 +516,7 @@
             </div>
     
   
-             <div class="form-group">
+             {{-- <div class="form-group">
                     <label for="description" class="col-sm-3 control-label">Assigned To</label>
                     <div class="col-sm-9">
                         <select name="agentid" class="form-control select2" data-placeholder="Select Satff" width="100%">
@@ -525,7 +525,7 @@
                         @endforeach                
                         </select>
                     </div>
-              </div>
+              </div> --}}
 
               <div class="form-group">
                 <label for="source" class="col-sm-3 control-label">Lead Source</label>

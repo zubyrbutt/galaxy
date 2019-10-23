@@ -136,6 +136,7 @@ class LeadController extends Controller
         // return $request->all()
        if($request->customer_id){
              $customer_id = $request->customer_id;
+             $studentID = $request->customer_id;
          }else{
             $this->validate(request(), [
                 'fname' => 'required',
@@ -165,6 +166,7 @@ class LeadController extends Controller
 
             //Getting last inserted user id to be used in LEADS
             $customer_id = $user->id;
+            $studentID = $user->id;
          }
 
         $attributes = array();
@@ -215,7 +217,7 @@ class LeadController extends Controller
             $courseDuration=config('constants.courseDuration');
             
             $this->validate(request(), [
-                'studentID' => 'required',
+                // 'studentID' => 'required',
                 'pakTime' => 'required',
                 'startDate' => 'required',
                 'slotDuration' => 'required',
@@ -252,7 +254,7 @@ class LeadController extends Controller
 
             $Schedule= new \App\Schedule;
             //Making values
-            $studentID = $request->get('studentID');        
+            $studentID = $studentID;        
             $paktime = $time[$request->get('pakTime')];     
             $startDate = $request->get('startDate');
             $slotDuration = $request->get('slotDuration');
