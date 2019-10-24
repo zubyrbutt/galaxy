@@ -334,7 +334,7 @@
                     <label for="time_zone" class="col-sm-3 control-label">Time Zone</label>
                     <div class="col-sm-6">
                         <select name="time_zone" id="time_zone" class="form-control select2">
-                          <option value=""></option><option value="0" selected="selected">Select  </option>
+                          <option value=""></option><option value="0" selected="selected">Select </option>
                           
                           @foreach($time_zones as $index => $zone)
                             <option value="{{ $index + 1 }}">{{$zone}}</option>
