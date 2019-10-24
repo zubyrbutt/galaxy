@@ -60,7 +60,7 @@ Route::get('profile', 'UserController@profile')->middleware('auth','ipcheck')->n
    Route::get('attendancesheet', 'AttendancesheetController@index')->middleware('can:attendance-index','ipcheck')->name('attendancesheet');
 
    //Store New Attedance
-     Route::post('attendancesheet', 'AttendancesheetController@store')->middleware('can:edit-staff-attendance','ipcheck')->name('attendancesheet.store');
+   Route::post('attendancesheet', 'AttendancesheetController@store')->middleware('can:edit-staff-attendance','ipcheck')->name('attendancesheet.store');
 
    //Edit Staff Attendance
    Route::post('attendancesheet/edit', 'AttendancesheetController@edit')->middleware('can:edit-staff-attendance','ipcheck')->name('attendancesheet.edit');
@@ -262,6 +262,9 @@ Route::group(['prefix'=> 'yccref'],function(){
     Route::post('upproposal/{id}', 'LeadController@upproposal')->middleware('auth','ipcheck')->name('upproposal');
     Route::post('updateproposal/{pro_id}', 'LeadController@updateproposal')->middleware('auth','ipcheck')->name('updateproposal');
     Route::get('edit_proposal/{id}/{lead_id}', 'LeadController@edit_proposal')->middleware('can:edit-proposal','ipcheck')->name('edit_proposal');
+
+    Route::post('time_zones', 'LeadController@time_zones')->name('time_zones');
+    Route::post('convertToPak', 'LeadController@convertToPak')->name('convertToPak');
     
  });
 
@@ -641,8 +644,7 @@ Route::group(['prefix'=> 'teacher_course'],function(){
       Route::delete('delete/{id}', 'TeacherTimingController@destroy')->middleware('can:delete-teacher_timing')->name('teacher_timing.destroy');
       Route::get('{id}/edit', 'TeacherTimingController@edit')->middleware('can:edit-teacher_timing')->name('teacher_timing.edit');
      Route::patch('{id}', 'TeacherTimingController@update')->middleware('auth')->name('teacher_timing.update');
-     
-  });
+   });
   
   /* //Settings-->parents*/	//CCMS
    Route::group(['prefix'=> 'parents'],function(){

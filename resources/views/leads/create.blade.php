@@ -9,6 +9,11 @@
     </script>
 @endif
 
+<style>
+  .select2-container{
+    width: 100% !important;
+  }
+</style>
  <form class="form-horizontal" action="{!! url('/leads'); !!}" method="post" enctype="multipart/form-data">
     <div class="box box-info">
 
@@ -60,7 +65,7 @@
                 <div class="form-group" >
                   <label for="" class="col-sm-3"></label>
                   <div class="col-sm-6">
-                  <select class="form-control m-bot15" id="customer" >
+                  <select class="form-control m-bot15 select2" id="customer" >
                     <option value="0" disabled="" selected="">Select Customer</option>
                     @foreach($users as $customer)
                       <option value="{{ $customer->id }}">{{ $customer->fname }} {{ $customer->lname }}</option>
@@ -317,20 +322,51 @@
                     <div class="row">
                       <div class="col-md-12">
                 
-                
+                @php
 
-                
+                $time_zones = array('Select Zone','Pacific','Mountain','Centeral','Eastern','UK','Western','Eastern[Aus]');
+
+                @endphp
+
+
+            
                 <div class="form-group">
-                          <label for="pakTime" class="col-sm-3 control-label">Pakistan time</label>
-                          <div class="col-sm-6">
-                              <select name="pakTime" id="pakTime" onchange="javascript: changetextfunction()" class="form-control"><option value=""></option><option value="0" selected="selected">Select  </option><option value="1">00:00</option><option value="2">00:30</option><option value="3">01:00</option><option value="4">01:30</option><option value="5">02:00</option><option value="6">02:30</option><option value="7">03:00</option><option value="8">03:30</option><option value="9">04:00</option><option value="10">04:30</option><option value="11">05:00</option><option value="12">05:30</option><option value="13">06:00</option><option value="14">06:30</option><option value="15">07:00</option><option value="16">07:30</option><option value="17">08:00</option><option value="18">08:30</option><option value="19">09:00</option><option value="20">09:30</option><option value="21">10:00</option><option value="22">10:30</option><option value="23">11:00</option><option value="24">11:30</option><option value="25">12:00</option><option value="26">12:30</option><option value="27">13:00</option><option value="28">13:30</option><option value="29">14:00</option><option value="30">14:30</option><option value="31">15:00</option><option value="32">15:30</option><option value="33">16:00</option><option value="34">16:30</option><option value="35">17:00</option><option value="36">17:30</option><option value="37">18:00</option><option value="38">18:30</option><option value="39">19:00</option><option value="40">19:30</option><option value="41">20:00</option><option value="42">20:30</option><option value="43">21:00</option><option value="44">21:30</option><option value="45">22:00</option><option value="46">22:30</option><option value="47">23:00</option><option value="48">23:30</option></select>
-                              @if ($errors->has('pakTime'))
-                                  <span class="text-red">
-                                      <strong>{{ $errors->first('pakTime') }}</strong>
-                                  </span>
-                              @endif
-                          </div>
-                        </div>
+                    <label for="time_zone" class="col-sm-3 control-label">Time Zone</label>
+                    <div class="col-sm-6">
+                        <select name="time_zone" id="time_zone" class="form-control select2">
+                          <option value=""></option><option value="0" selected="selected">Select  </option>
+                          
+                          @foreach($time_zones as $index => $zone)
+                            <option value="{{ $index + 1 }}">{{$zone}}</option>
+                          @endforeach
+                        </select>
+                        @if ($errors->has('time_zone'))
+                            <span class="text-red">
+                                <strong>{{ $errors->first('time_zone') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Time" class="col-sm-3 control-label">Time</label>
+                    <div class="col-sm-6">
+                        <select name="Time" id="Time" class="form-control">
+                         </select>
+                        @if ($errors->has('time_zone'))
+                            <span class="text-red">
+                                <strong>{{ $errors->first('time_zone') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Pakistan Time" class="col-sm-3 control-label">Pakistan Time</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="pakTime" name="pakTime" placeholder="Start Date" autocomplete="off"  readonly="" />
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label for="startDate" class="col-sm-3 control-label">Start Date</label>
@@ -369,7 +405,7 @@
                 <div class="form-group">
                     <label for="courseID" class="col-sm-3 control-label">Course</label>
                     <div class="col-sm-6">
-                      <select id="courseID" name="courseID" class="form-control m-bot15">
+                      <select id="courseID" name="courseID" class="form-control m-bot15 select2">
                         <option value="0">Select Course</option>  
                       @if ($course_list!='')
                         @foreach($course_list as $key => $course)
@@ -420,7 +456,7 @@
                 <div class="form-group">
                     <label for="agentId" class="col-sm-3 control-label">Agent</label>
                     <div class="col-sm-6">
-                      <select id="agentId" name="agentId" class="form-control m-bot15">
+                      <select id="agentId" name="agentId" class="form-control m-bot15 select2">
                         <option value="0">Select Agent</option> 
                       @if ($agents_list!='')
                         @foreach($agents_list as $key => $agent_list)
@@ -814,6 +850,52 @@ $(function () {
 </script>
 
 <script type="text/javascript">
+
+  jQuery('#time_zone').on('change',function(){
+    var token = $("input[name='_token']").val();
+    $.ajax({
+              url: "<?php echo route('time_zones') ?>",
+              dataType : 'json',
+              method: 'POST',
+              data: {
+                
+                zone:jQuery(this).val(),
+                _token:token,
+               
+              },
+              success: function(data) {
+                jQuery('#Time').html(data);
+                  var html = '';
+                data.forEach(function(value,index){
+                  html += `<option value="${value}">${value}</option>`;
+                });
+
+                jQuery('#Time').html(html);
+                
+              }
+          });
+  });
+
+  
+  jQuery('#Time').on('change',function(){
+      var token = $("input[name='_token']").val();
+      $.ajax({
+                url: "<?php echo route('convertToPak') ?>",
+                dataType : 'text',
+                method: 'POST',
+                data: {
+                  
+                  time:jQuery(this).val(),
+                  zone:jQuery('#time_zone').val(),
+                  _token:token,
+                 
+                },
+                success: function(data) {
+                  console.log(data);
+                  jQuery('#pakTime').val(data);
+                }
+            });
+  });
   
   jQuery('.group_type[name="type"]').change(function(){
     jQuery('#classType option:first-child').prop('selected',true);
@@ -821,18 +903,19 @@ $(function () {
 
   $("select[name='classType']").change(function(){
   
-  if ($("select[name='classType']")[0].selectedIndex <= 0) {
-    $("select[name='teacherID'").html('');
-    alert('Please select Class days.');
-    $("select[name='classType']").focus();
-    return false;
-}
+    if ($("select[name='classType']")[0].selectedIndex <= 0) {
+      $("select[name='teacherID'").html('');
+      alert('Please select Class days.');
+      $("select[name='classType']").focus();
+      return false;
+  }
 
   var course=document.getElementById('courseID').value;
   var classType=document.getElementById('classType').value;
   var group_type=jQuery('.group_type[name="type"]:checked').val();
-  var pakTimelist=document.getElementById('pakTime');
-  var pakTime = pakTimelist.options[pakTimelist.selectedIndex].text;
+  // var pakTimelist=document.getElementById('pakTime');
+  // var pakTime = pakTimelist.options[pakTimelist.selectedIndex].text;
+  var pakTime = jQuery('#pakTime').val();
   var zoneID=0; 
   var slotDuration=document.getElementById('slotDuration').value
   
