@@ -331,7 +331,7 @@
 
             
                 <div class="form-group">
-                    <label for="time_zone" class="col-sm-3 control-label">Time Zone</label>
+                    <label for="time_zone" class="col-sm-3 control-label" >Time Zone</label>
                     <div class="col-sm-6">
                         <select name="time_zone" id="time_zone" class="form-control select2">
                           <option value=""></option><option value="0" selected="selected">Select </option>
@@ -349,7 +349,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="Time" class="col-sm-3 control-label">Time</label>
+                    <label for="Time" class="col-sm-3 control-label" >Time</label>
                     <div class="col-sm-6">
                         <select name="Time" id="Time" class="form-control">
                          </select>
@@ -405,7 +405,7 @@
                 <div class="form-group">
                     <label for="courseID" class="col-sm-3 control-label">Course</label>
                     <div class="col-sm-6">
-                      <select id="courseID" name="courseID" class="form-control m-bot15 select2">
+                      <select id="courseID" name="courseID" class="form-control m-bot15">
                         <option value="0">Select Course</option>  
                       @if ($course_list!='')
                         @foreach($course_list as $key => $course)
@@ -852,6 +852,7 @@ $(function () {
 <script type="text/javascript">
 
   jQuery('#time_zone').on('change',function(){
+    changetextfunction();
     var token = $("input[name='_token']").val();
     $.ajax({
               url: "<?php echo route('time_zones') ?>",
@@ -878,6 +879,7 @@ $(function () {
 
   
   jQuery('#Time').on('change',function(){
+      changetextfunction();
       var token = $("input[name='_token']").val();
       $.ajax({
                 url: "<?php echo route('convertToPak') ?>",
@@ -891,7 +893,6 @@ $(function () {
                  
                 },
                 success: function(data) {
-                  console.log(data);
                   jQuery('#pakTime').val(data);
                 }
             });
