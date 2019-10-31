@@ -265,6 +265,10 @@ Route::group(['prefix'=> 'yccref'],function(){
 
     Route::post('time_zones', 'LeadController@time_zones')->name('time_zones');
     Route::post('convertToPak', 'LeadController@convertToPak')->name('convertToPak');
+
+    Route::get('attributes', 'LeadController@attributes_get')->name('attributes_get');
+    Route::post('attributes', 'LeadController@attributes_store')->name('attributes_store');
+    Route::get('attribute/{id}', 'LeadController@attributes_show')->name('attributes_show');
     
  });
 

@@ -26,14 +26,14 @@
                   <label for="title" class="col-sm-3 control-label">Select Date & Time</label>
 
                   <div class="col-sm-9">
-                        <div>
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" name="appointtime" autocomplete="off" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
+                      <div>
+                          <div class='input-group date' id='datetimepicker1'>
+                              <input type='text' class="form-control" name="appointtime" autocomplete="off" />
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                          </div>
+                      </div>
 
                     <script type="text/javascript">
                         $(function () {
@@ -51,20 +51,63 @@
                         @endif
                   </div>
                 </div>
+                
+                @php
 
+                      $time_zones = array('Select Zone','Pacific','Mountain','Centeral','Eastern','UK','Western','Eastern[Aus]');
+
+                  @endphp
+
+                  <div class="form-group">
+                      <label for="time_zone" class="col-sm-3 control-label" >Time Zone</label>
+                      <div class="col-sm-6">
+                          <select name="time_zone" id="time_zone" class="form-control select2">
+                            <option value=""></option><option value="0" selected="selected">Select </option>
+                            
+                            @foreach($time_zones as $index => $zone)
+                              <option value="{{ $index + 1 }}">{{$zone}}</option>
+                            @endforeach
+                          </select>
+                          @if ($errors->has('time_zone'))
+                              <span class="text-red">
+                                  <strong>{{ $errors->first('time_zone') }}</strong>
+                              </span>
+                          @endif
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="Time" class="col-sm-3 control-label" >Time</label>
+                      <div class="col-sm-6">
+                          <select name="Time" id="Time" class="form-control">
+                           </select>
+                          @if ($errors->has('time_zone'))
+                              <span class="text-red">
+                                  <strong>{{ $errors->first('time_zone') }}</strong>
+                              </span>
+                          @endif
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="Pakistan Time" class="col-sm-3 control-label">Pakistan Time</label>
+                      <div class="col-sm-6">
+                          <input type="text" class="form-control" id="pakTime" name="pakTime" placeholder="Start Date" autocomplete="off"  readonly="" />
+                      </div>
+                  </div>
 		
-				<div class="form-group">
-					  <label for="note" class="col-sm-3 control-label">Note</label>
+        				<div class="form-group">
+        					  <label for="note" class="col-sm-3 control-label">Note</label>
 
-					  <div class="col-sm-9">
-						<textarea type="text" class="form-control" id="note" name="note" placeholder="Any note, please put here." rows="10">{{old('note')}}</textarea>
-						@if ($errors->has('note'))
-							  <span class="text-red">
-								  <strong>{{ $errors->first('note') }}</strong>
-							  </span>
-						  @endif
-					  </div>
-				</div>
+        					  <div class="col-sm-9">
+        						<textarea type="text" class="form-control" id="note" name="note" placeholder="Any note, please put here." rows="10">{{old('note')}}</textarea>
+        						@if ($errors->has('note'))
+        							  <span class="text-red">
+        								  <strong>{{ $errors->first('note') }}</strong>
+        							  </span>
+        						  @endif
+        					  </div>
+        				</div>
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Select Staff</label>
@@ -100,6 +143,54 @@
 </div>
 <script>
     $(document).ready(function() {
+
+        jQuery('#time_zone').on('change',function(){
+          changetextfunction();
+          var token = $("input[name='_token']").val();
+          $.ajax({
+                    url: "<?php echo route('time_zones') ?>",
+                    dataType : 'json',
+                    method: 'POST',
+                    data: {
+                      
+                      zone:jQuery(this).val(),
+                      _token:token,
+                     
+                    },
+                    success: function(data) {
+                      jQuery('#Time').html(data);
+                        var html = '';
+                      data.forEach(function(value,index){
+                        html += `<option value="${value}">${value}</option>`;
+                      });
+
+                      jQuery('#Time').html(html);
+                      
+                    }
+                });
+        });
+
+        
+        jQuery('#Time').on('change',function(){
+            changetextfunction();
+            var token = $("input[name='_token']").val();
+            $.ajax({
+                    url: "<?php echo route('convertToPak') ?>",
+                      dataType : 'text',
+                    method: 'POST',
+                    data: {
+                      
+                      time:jQuery(this).val(),
+                      zone:jQuery('#time_zone').val(),
+                      _token:token,
+                     
+                    },
+                    success: function(data) {
+                      jQuery('#pakTime').val(data);
+                    }
+                });
+        });
+
         $("#selectAgents").select2({
             placeholder: "Select a Staff",
             allowClear: true

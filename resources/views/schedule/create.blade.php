@@ -63,9 +63,54 @@
 					</div>
 					<!-- /.form-group -->			
 				</div>
+      
+              
+        @php
 
+            $time_zones = array('Select Zone','Pacific','Mountain','Centeral','Eastern','UK','Western','Eastern[Aus]');
+
+        @endphp
+
+        <div class="form-group">
+            <label for="time_zone" class="col-sm-3 control-label" >Time Zone</label>
+            <div class="col-sm-6">
+                <select name="time_zone" id="time_zone" class="form-control select2">
+                  <option value=""></option><option value="0" selected="selected">Select </option>
+                  
+                  @foreach($time_zones as $index => $zone)
+                    <option value="{{ $index + 1 }}">{{$zone}}</option>
+                  @endforeach
+                </select>
+                @if ($errors->has('time_zone'))
+                    <span class="text-red">
+                        <strong>{{ $errors->first('time_zone') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="Time" class="col-sm-3 control-label" >Time</label>
+            <div class="col-sm-6">
+                <select name="Time" id="Time" class="form-control">
+                 </select>
+                @if ($errors->has('time_zone'))
+                    <span class="text-red">
+                        <strong>{{ $errors->first('time_zone') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Pakistan Time" class="col-sm-3 control-label">Pakistan Time</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="pakTime" name="pakTime" placeholder="Start Date" autocomplete="off"  readonly="" />
+            </div>
+        </div>
 				
-				<div class="form-group">
+				{{-- <div class="form-group">
                   <label for="pakTime" class="col-sm-3 control-label">Pakistan time</label>
                   <div class="col-sm-6">
                       <select name="pakTime" id="pakTime" onchange="javascript: changetextfunction()" class="form-control"><option value=""></option><option value="0" selected="selected">Select  </option><option value="1">00:00</option><option value="2">00:30</option><option value="3">01:00</option><option value="4">01:30</option><option value="5">02:00</option><option value="6">02:30</option><option value="7">03:00</option><option value="8">03:30</option><option value="9">04:00</option><option value="10">04:30</option><option value="11">05:00</option><option value="12">05:30</option><option value="13">06:00</option><option value="14">06:30</option><option value="15">07:00</option><option value="16">07:30</option><option value="17">08:00</option><option value="18">08:30</option><option value="19">09:00</option><option value="20">09:30</option><option value="21">10:00</option><option value="22">10:30</option><option value="23">11:00</option><option value="24">11:30</option><option value="25">12:00</option><option value="26">12:30</option><option value="27">13:00</option><option value="28">13:30</option><option value="29">14:00</option><option value="30">14:30</option><option value="31">15:00</option><option value="32">15:30</option><option value="33">16:00</option><option value="34">16:30</option><option value="35">17:00</option><option value="36">17:30</option><option value="37">18:00</option><option value="38">18:30</option><option value="39">19:00</option><option value="40">19:30</option><option value="41">20:00</option><option value="42">20:30</option><option value="43">21:00</option><option value="44">21:30</option><option value="45">22:00</option><option value="46">22:30</option><option value="47">23:00</option><option value="48">23:30</option></select>
@@ -75,7 +120,7 @@
                           </span>
                       @endif
                   </div>
-                </div>
+                </div> --}}
 
 				<div class="form-group">
 					  <label for="startDate" class="col-sm-3 control-label">Start Date</label>
@@ -203,6 +248,54 @@
 </div>
 <script>
 $(function () {
+
+    jQuery('#time_zone').on('change',function(){
+      changetextfunction();
+      var token = $("input[name='_token']").val();
+      $.ajax({
+                url: "<?php echo route('time_zones') ?>",
+                dataType : 'json',
+                method: 'POST',
+                data: {
+                  
+                  zone:jQuery(this).val(),
+                  _token:token,
+                 
+                },
+                success: function(data) {
+                  jQuery('#Time').html(data);
+                    var html = '';
+                  data.forEach(function(value,index){
+                    html += `<option value="${value}">${value}</option>`;
+                  });
+
+                  jQuery('#Time').html(html);
+                  
+                }
+            });
+    });
+
+    
+    jQuery('#Time').on('change',function(){
+        changetextfunction();
+        var token = $("input[name='_token']").val();
+        $.ajax({
+                url: "<?php echo route('convertToPak') ?>",
+                  dataType : 'text',
+                method: 'POST',
+                data: {
+                  
+                  time:jQuery(this).val(),
+                  zone:jQuery('#time_zone').val(),
+                  _token:token,
+                 
+                },
+                success: function(data) {
+                  jQuery('#pakTime').val(data);
+                }
+            });
+    });
+
     $('.button-checkbox').each(function () {
 
         // Settings

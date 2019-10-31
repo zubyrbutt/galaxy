@@ -114,7 +114,6 @@ class LeadController extends Controller
         $data['user'] = User::where('iscustomer',0)->where('status',1)->get();
         $customers=\App\User::where('iscustomer',1)->get();
         
-        
         return view('leads.create',compact('agents','users','students_list','plan','course_list','agents_list','customers','data'));
     }
 
@@ -1112,6 +1111,23 @@ class LeadController extends Controller
         $converted = Carbon::createFromFormat('H:i', $request->time,$timezone);
 
         return $converted->setTimeZone('Asia/Karachi')->format('H:i');
+        
+    }
+
+
+
+    public function attributes_get()
+    {
+        
+    }
+
+    public function attributes_post()
+    {
+        
+    }
+
+    public function attributes_show()
+    {
         
     }
    // Nisar Work =================================

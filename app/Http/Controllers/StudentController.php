@@ -181,7 +181,7 @@ class StudentController extends Controller
             'lname' => 'required',
             'email' => 'required|unique:users',
             'password' => 'required|min:6',
-			'parent_id' => 'required|not_in:0',			
+			// 'parent_id' => 'required|not_in:0',			
 			'gender' => 'required',
 			'dob' => 'required',
 			
@@ -198,7 +198,7 @@ class StudentController extends Controller
         $student->lname=$request->get('lname');
         $student->email=$request->get('email');
         $student->password=Hash::make($request->get('password'));
-		$student->parent_id=$request->get('parent_id');		
+		// $student->parent_id=$request->get('parent_id');		
 		//$student->role_id=6;
         $student->iscustomer=3;
 		$date=date_create($request->get('date'));
