@@ -152,7 +152,9 @@ function makeLinks($str) {
 					
 				</table>
 
-				<h3>Lead Closed by {{ ucfirst($lead_detail->lead_type) }}</h3>
+				@if($lead_detail->lead_type)
+					<h3>Lead Closed by {{ ucfirst($lead_detail->lead_type) }}</h3>
+				@endif
 			
 				<table>
 					<tbody>
