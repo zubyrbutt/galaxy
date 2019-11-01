@@ -106,62 +106,15 @@ function makeLinks($str) {
 			</div>
 			<div class="col-md-12">
 				<table class="table table-striped">
-					
-					@if($lead_detail->attributes)
-					@php
-					$attributes = unserialize($lead_detail->attributes)
-					@endphp
-					@foreach($attributes as $attribute)
-					<tr>
-						<td><b>{{ $attribute['name'] }}</b></td>
-						<td>{{ $attribute['value'] }}</td>
-					</tr>
-					@endforeach
-					@endif
-					
-					<tr>
-						<td><b>Assigned To</b></td>
-						<td>{{isset($lead_detail->assignedTo) ? $lead_detail->assignedTo->fname.' '.$lead_detail->assignedTo->lname : "NA" }}</td>
-					</tr>
-					<tr>
-						<td><b>Created By</b></td>
-						<td>{{$lead_detail->createdby->fname}} {{$lead_detail->createdby->lname}}</td>
-					</tr>
-					<tr>
-						<td><b>Status</b></td>
-						<td>
-							@if ($lead_detail->status === 1)
-							<span class="text-green"><b>Active</b></span>
-							@else
-							<span class="text-red"><b>Deactive</b></span>
-							@endif
-						</td>
-					</tr>
-					<tr>
-						<td><b>Created At</b></td>
-						<td>{{$lead_detail->created_at->format('d-m-Y')}}</td>
-					</tr>
-					<tr>
-						<td><b>Updated At</b></td>
-						<td>{{$lead_detail->updated_at->format('d-m-Y')}}</td>
-					</tr>
-					<tr>
-						<td><b>Lead Source</b></td>
-						<td>{{$lead_detail->source}}</td>
-					</tr>
-					
-				</table>
 
-				@if($lead_detail->lead_type)
-					<h3>Lead Closed by {{ ucfirst($lead_detail->lead_type) }}</h3>
-				@endif
-			
-				<table>
-					<tbody>
-						
-						@if($lead_detail->lead_type == 'project')
+					@if($lead_detail->lead_type == 'project')
 
-							<table class="table table-striped">
+				
+									<tr>
+											<td><b>Lead Type</b></td>
+											<td>{{ ucfirst($lead_detail->lead_type) }}</td>
+										</tr>
+
 									@php
 										$projectDetail = $lead_detail->closed_by_project;
 									@endphp
@@ -208,14 +161,18 @@ function makeLinks($str) {
 										<td><b>Updated At</b></td>
 										<td>{{$projectDetail->updated_at->format('d-m-Y')}}</td>
 									</tr>
-							</table>
+					
 
 					
 						@elseif($lead_detail->lead_type == 'class')
+							<tr>
+											<td><b>Lead Type</b></td>
+											<td>{{ ucfirst($lead_detail->lead_type) }}</td>
+										</tr>
 							@php
 								$show_schedule = $lead_detail->closed_by_class;
 							@endphp
-							<table class="table table-striped">
+					
 				                <tr>
 				                    <td width="25%"><b>First Name </b></td>
 				                    <td width="75%" >{{ $show_schedule->studentname->fname }}</td>
@@ -248,11 +205,55 @@ function makeLinks($str) {
 				                    <td><b>End Date</b></td>
 				                    <td>{{ $show_schedule->endDate->format('Y-m-d') }}</td>
 				                </tr>-->
-								
-				              </table>
+					
 						@endif
-					</tbody>
+					
+					@if($lead_detail->attributes)
+					@php
+					$attributes = unserialize($lead_detail->attributes)
+					@endphp
+					@foreach($attributes as $attribute)
+					<tr>
+						<td><b>{{ $attribute['name'] }}</b></td>
+						<td>{{ $attribute['value'] }}</td>
+					</tr>
+					@endforeach
+					@endif
+					
+					<tr>
+						<td><b>Assigned To</b></td>
+						<td>{{isset($lead_detail->assignedTo) ? $lead_detail->assignedTo->fname.' '.$lead_detail->assignedTo->lname : "NA" }}</td>
+					</tr>
+					<tr>
+						<td><b>Created By</b></td>
+						<td>{{$lead_detail->createdby->fname}} {{$lead_detail->createdby->lname}}</td>
+					</tr>
+					<tr>
+						<td><b>Status</b></td>
+						<td>
+							@if ($lead_detail->status === 1)
+							<span class="text-green"><b>Active</b></span>
+							@else
+							<span class="text-red"><b>Deactive</b></span>
+							@endif
+						</td>
+					</tr>
+					<tr>
+						<td><b>Created At</b></td>
+						<td>{{$lead_detail->created_at->format('d-m-Y')}}</td>
+					</tr>
+					<tr>
+						<td><b>Updated At</b></td>
+						<td>{{$lead_detail->updated_at->format('d-m-Y')}}</td>
+					</tr>
+					<tr>
+						<td><b>Lead Source</b></td>
+						<td>{{$lead_detail->source}}</td>
+					</tr>
+					
 				</table>
+
+
 			</div>
 		</div>
 	</div>
