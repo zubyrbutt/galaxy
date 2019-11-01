@@ -20533,15 +20533,15 @@ if (token) {
 
 window.Pusher = __webpack_require__(59);
 
-window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
-  // authEndpoint : 'http://127.0.0.1:8000/broadcasting/auth',
-  // authEndpoint : 'http://192.168.5.219/erp/public/broadcasting/auth',
-  authEndpoint: '/broadcasting/auth',
-  broadcaster: 'pusher',
-  key: "05ced53c0777950f013d",
-  cluster: "ap1",
-  encrypted: true
-});
+// window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
+//   // authEndpoint : 'http://127.0.0.1:8000/broadcasting/auth',
+//   // authEndpoint : 'http://192.168.5.219/erp/public/broadcasting/auth',
+//   authEndpoint: '/broadcasting/auth',
+//   broadcaster: 'pusher',
+//   key: "05ced53c0777950f013d",
+//   cluster: "ap1",
+//   encrypted: true
+// });
 
 /***/ }),
 /* 33 */
