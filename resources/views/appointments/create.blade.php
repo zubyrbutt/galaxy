@@ -23,29 +23,22 @@
 			    <input name='lead_id' type='hidden' value='<?php echo $lead_id; ?>' />
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="title" class="col-sm-3 control-label">Select Date & Time</label>
+                  <label for="title" class="col-sm-3 control-label">Select Date</label>
 
-                  <div class="col-sm-9">
+                  <div class="col-sm-6">
                       <div>
                           <div class='input-group date' id='datetimepicker1'>
-                              <input type='text' class="form-control" name="appointtime" autocomplete="off" />
+                              <input type='date' class="form-control" name="appointdate" autocomplete="off" />
                               <span class="input-group-addon">
                                   <span class="glyphicon glyphicon-calendar"></span>
                               </span>
                           </div>
                       </div>
 
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker1').datepicker({
-                              minDate: new Date(<?php echo date('Y')?>, <?php echo date('m')?> - 1, <?php echo date('d')?>),
-                            });
-                        });
-                    </script>
                     
-                        @if ($errors->has('title'))
+                        @if ($errors->has('appointdate'))
                           <span class="text-red">
-                              <strong>{{ $errors->first('title') }}</strong>
+                              <strong>{{ $errors->first('appointdate') }}</strong>
                           </span>
                         @endif
                   </div>
@@ -91,7 +84,7 @@
                   <div class="form-group">
                       <label for="Pakistan Time" class="col-sm-3 control-label">Pakistan Time</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" id="pakTime" name="pakTime" placeholder="Start Date" autocomplete="off"  readonly="" />
+                          <input type="text" class="form-control" id="appointtime" name="appointtime" placeholder="Start Date" autocomplete="off"  readonly="" />
                       </div>
                   </div>
 		
@@ -185,7 +178,7 @@
                      
                     },
                     success: function(data) {
-                      jQuery('#pakTime').val(data);
+                      jQuery('#appointtime').val(data);
                     }
                 });
         });

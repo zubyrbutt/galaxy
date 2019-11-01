@@ -308,8 +308,6 @@ class LeadController extends Controller
             $Schedule->comments = $request->get('comments');        
             $Schedule->save();
 
-            return $Schedule;
-
             // return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
         }elseif($request->lead_close_by == 'project'){
             
@@ -670,13 +668,14 @@ class LeadController extends Controller
     }
 
     public function storeappointments(Request $request){
+        // return $request->all();
         $this->validate(request(), [
             'appointtime' => 'required',
             'agentids' => 'required',
             'appointdate' => 'required',
         ]);
         //Recording Uploading
-        $appdate=date_create($request->get('appointtime'));
+        $appdate=date_create($request->get('appointdate')." ".$request->get('appointtime'));
         $appformat = date_format($appdate,"Y-m-d H:i:s");
 
 		$appointment= new \App\Appointment;
