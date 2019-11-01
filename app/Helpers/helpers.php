@@ -144,7 +144,8 @@ function getUserFullName($id) {
    function systemDate(){
 	  
   $todayDate = date("Y-m-d");// current date
-  $currentTime = time($todayDate); //Change date into time
+  // $currentTime = time($todayDate); //Change date into time
+  $currentTime = time(); //Change date into time
   $timeAfterOneHour = $currentTime-8*60*60;
 
   //return date("Y-m-d H:i:s",$timeAfterOneHour);
@@ -155,7 +156,7 @@ function getUserFullName($id) {
   function systemDateTime(){
 	  
   $todayDate = date("Y-m-d g:i a");// current date
-  $currentTime = time($todayDate); //Change date into time
+  $currentTime = time(); //Change date into time
   $timeAfterOneHour = $currentTime-8*60*60;
 
   return date("Y-m-d H:i:s",$timeAfterOneHour);
@@ -185,7 +186,6 @@ function getUserFullName($id) {
 		{ return '3'; break;}}
 		return false;
   }
-  
   
 function getTimeDiff($dtime,$atime){
  
