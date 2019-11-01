@@ -8,7 +8,7 @@ class Lead extends Model
 {
 
     protected $fillable = [
-        'businessName','businessNature', 'description', 'user_id',
+        'businessName','businessNature', 'description', 'user_id','lead_type'
     ];
 	
     protected $dates = [
@@ -44,5 +44,15 @@ class Lead extends Model
     public function assignedTo()
     {
         return $this->belongsTo('App\User', 'assignedto');
+    }
+
+    public function closed_by_project()
+    {
+        return $this->hasOne('App\Project', 'lead_id');
+    }
+
+    public function closed_by_class()
+    {
+        return $this->hasOne('App\Schedule', 'lead_id');
     }
 }

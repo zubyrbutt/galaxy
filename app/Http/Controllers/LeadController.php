@@ -203,6 +203,7 @@ class LeadController extends Controller
         $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
         $lead->attributes = serialize($attributes);
+        $lead->lead_type = $request->lead_close_by;
         $lead->save();
         $lead_id = $lead->id;
 
@@ -223,8 +224,8 @@ class LeadController extends Controller
                 'slotDuration' => 'required',
                 'courseID' => 'required',
                 'classType' => 'required',
-                'teacherID' => 'required',
-                'agentId' => 'required',
+                // 'teacherID' => 'required',
+                // 'agentId' => 'required',
 
             
                 //'recording_file' => ['mimes:mpga,wav']
@@ -263,6 +264,10 @@ class LeadController extends Controller
             $classType = $request->get('classType');
             $teacherID = $request->get('teacherID');
             $agentId = $request->get('agentId');
+
+            if(!$agentId){
+                $agentId = auth()->user()->id;
+            }
             
             $endTime = makeTime($paktime,$slotDuration);
             $endDate = date('Y-m-d',strtotime($courseDuration[$courseID]." months"));
@@ -347,10 +352,8 @@ class LeadController extends Controller
             $project->save();
             //Project Creation 
             
-
             //$role = Role::find(1);  
-     
-           if($project){
+            if($project){
 
                 if($staff_id && count($staff_id) > 0){
                     $project->users()->attach($staff_id);
@@ -401,7 +404,7 @@ class LeadController extends Controller
     public function show($id)
     {
         //
-        $lead_detail = \App\Lead::with('user')->with('assignedto')->with('createdby')->where('id',$id)->first();
+        $lead_detail = \App\Lead::with('user')->with(['assignedto','createdby','closed_by_project','closed_by_class'])->where('id',$id)->first();
         //dd($lead_detail->toArray());
         $recordings = \App\Recording::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         //$appointments = \App\Appointment::with('users')->where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
@@ -420,8 +423,7 @@ class LeadController extends Controller
         }else{
             return view('404');
         }
-
-		
+	
     }
 
     /**

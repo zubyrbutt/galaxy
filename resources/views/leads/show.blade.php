@@ -107,8 +107,6 @@ function makeLinks($str) {
 			<div class="col-md-12">
 				<table class="table table-striped">
 					
-					
-					
 					@if($lead_detail->attributes)
 					@php
 					$attributes = unserialize($lead_detail->attributes)
@@ -152,6 +150,106 @@ function makeLinks($str) {
 						<td>{{$lead_detail->source}}</td>
 					</tr>
 					
+				</table>
+
+				<h3>Lead Closed by {{ ucfirst($lead_detail->lead_type) }}</h3>
+			
+				<table>
+					<tbody>
+						
+						@if($lead_detail->lead_type == 'project')
+
+							<table class="table table-striped">
+									@php
+										$projectDetail = $lead_detail->closed_by_project;
+									@endphp
+									<tr>
+										<td width="25%"><b>Project Name</b></td>
+										<td width="75%">{{$projectDetail->projectName}}</td>
+									</tr>
+									<tr>
+										<td><b>Description</b></td>
+										<td>{!! html_entity_decode(nl2br(e(makeLinks($projectDetail->projectDescription)))) !!}</td>
+									</tr>
+									<!-- checkboxes -->
+									<tr>
+										<td><b>Requirements: </b></td>
+										<td>
+										 <b>SMM:</b> {{$projectDetail->isSMM=== 1 ? "Yes" : "No"}} | 
+										 <b>Web:</b> {{$projectDetail->isWeb=== 1 ? "Yes" : "No"}} | 
+										 <b>iOS APP:</b> {{$projectDetail->isiOS=== 1 ? "Yes" : "No"}} | 
+										 <b>Android APP:</b> {{$projectDetail->isAndroid=== 1 ? "Yes" : "No"}} | 
+										 <b>Custom Solutions:</b> {{$projectDetail->isCustom=== 1 ? "Yes" : "No"}}
+										</td>
+									</tr>
+									<tr>
+										<td><b>Created By</b></td>
+										<td>{{$projectDetail->createdby->fname}} {{$projectDetail->createdby->lname}}</td>
+									</tr>
+
+									<tr>
+										<td><b>Status</b></td>
+										<td>
+											@if ($projectDetail->status === 1)
+												<span class="text-green"><b>Active</b></span>
+											@else
+												<span class="text-red"><b>Deactive</b></span>
+											@endif
+										</td>
+									</tr>
+
+									<tr>
+										<td><b>Created At</b></td>
+										<td>{{$projectDetail->created_at->format('d-m-Y')}}</td>
+									</tr>
+									<tr>
+										<td><b>Updated At</b></td>
+										<td>{{$projectDetail->updated_at->format('d-m-Y')}}</td>
+									</tr>
+							</table>
+
+					
+						@elseif($lead_detail->lead_type == 'class')
+							@php
+								$show_schedule = $lead_detail->closed_by_class;
+							@endphp
+							<table class="table table-striped">
+				                <tr>
+				                    <td width="25%"><b>First Name </b></td>
+				                    <td width="75%" >{{ $show_schedule->studentname->fname }}</td>
+				                </tr>
+				                <tr>
+				                    <td width="25%"><b>Last Name </b></td>
+				                    <td width="75%" >{{ $show_schedule->studentname->lname }}</td>
+				                </tr>				
+								<tr>
+				                    <td width="25%"><b>Teacher</b></td>
+				                    <td width="75%" >{{ $show_schedule->teachername->fname }} {{ $show_schedule->teachername->lname }}</td>
+				                </tr>
+								<tr>
+				                    <td width="25%"><b>Course</b></td>
+				                    <td width="75%" >{{ $show_schedule->coursename->courses }} </td>
+				                </tr>			
+				                <tr>
+				                    <td width="25%"><b>Start time</b></td>
+				                    <td width="75%" >{{ $show_schedule->startTime }}</td>
+				                </tr>
+				                <tr>
+				                    <td width="25%"><b>End time</b></td>
+				                    <td width="75%" >{{ $show_schedule->endTime }}</td>
+				                </tr>
+								<!--<tr>
+				                    <td><b>Start Date</b></td>
+				                    <td>{{ $show_schedule->startDate->format('Y-m-d') }}</td>
+				                </tr>
+								<tr>
+				                    <td><b>End Date</b></td>
+				                    <td>{{ $show_schedule->endDate->format('Y-m-d') }}</td>
+				                </tr>-->
+								
+				              </table>
+						@endif
+					</tbody>
 				</table>
 			</div>
 		</div>

@@ -355,14 +355,14 @@ public function fetch(Request $request)
 		$stdStatus = config('constants.stdStatus');
 		$country = config('constants.country');	
 		$currency = config('constants.currency');
-		$show_schedule = \App\Schedule::with('teachername')->with('studentname')->with('coursename')->with('parent_name')->with('agentname')->with('parentdetail_relation')->find($id);
+		$show_schedule = \App\Schedule::with('teachername')->with('studentname')->with('coursename')->with('agentname')->with('parentdetail_relation')->find($id);
 		$students_list = \App\User::where('iscustomer',3)->where('id',$show_schedule->studentID)->get();
 		//
 		$data = [
 			'classType' => $plan[$show_schedule->classType],
 			'std_status' => $stdStatus[$show_schedule->std_status],
-			'country' => $country[$show_schedule->studentname->parent_name->parentdetail_relation['countryID']],
-			'currency' => $currency[$show_schedule->currency_array],
+			// 'country' => $country[$show_schedule->studentname->parent_name->parentdetail_relation['countryID']],
+			// 'currency' => $currency[$show_schedule->currency_array],
 		];
 		//dd($data);
 		return view('schedule.show',compact('id','show_schedule','data'));		

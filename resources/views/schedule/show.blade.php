@@ -160,10 +160,10 @@
 							<td><b>Dues (USD)</b></td>
 							<td>{{ $show_schedule->dues_usd }}</td>
 						  </tr>
-						  <tr>
+						 {{--  <tr>
 							<td><b>Dues Original Currency({{$data['currency']}})</b></td>
 							<td>{{ $show_schedule->dues_original }}</td>
-						  </tr>						
+						  </tr>	 --}}					
 						  </tbody>
 						</table>          
 				</div>
@@ -191,11 +191,11 @@
 					<div class="col-md-12">
 						<table class="table table-striped">
 						  <tbody>
-							<tr>
+							{{-- <tr>
 								<td><b>Country</b></td>
 								<td>
 									{{ $data['country'] }}</td>
-							</tr>
+							</tr> --}}
 							<tr>
 								<td><b>Agent</b></td>
 								<td>{{ $show_schedule->agentname->fname }} {{ $show_schedule->agentname->lname }}</td>
