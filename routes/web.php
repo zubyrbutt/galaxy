@@ -721,14 +721,14 @@ Route::group(['prefix'=> 'teacher_course'],function(){
    Route::get('create', 'ScheduleController@create')->middleware('can:create-schedule')->name('schedule.create');
    Route::post('', 'ScheduleController@store')->middleware('can:create-schedule')->name('schedule.store');   
    Route::get('', 'ScheduleController@index')->middleware('can:index-schedule')->name('schedule.index');
-  Route::post('/fetch', 'ScheduleController@fetch')->middleware('can:index-schedule')->name('schedule.fetch');	
+   Route::post('/fetch', 'ScheduleController@fetch')->middleware('can:index-schedule')->name('schedule.fetch');	
    Route::get('{id}', 'ScheduleController@show')->middleware('can:show-schedule')->name('schedule.show');
    Route::delete('delete/{id}', 'ScheduleController@destroy')->middleware('can:delete-schedule')->name('schedule.destroy');
    Route::get('{id}/edit', 'ScheduleController@edit')->middleware('can:edit-schedule')->name('schedule.edit');
    Route::patch('{id}', 'ScheduleController@update')->middleware('auth')->name('schedule.update');
   
-  Route::post('/schedule/availableTeacher', ['as'=>'/schedule/availableTeacher','uses'=>'ScheduleController@showAvailableTeacher']);
-  Route::get('createMakeRegular/{id}','ScheduleController@createMakeRegular')->middleware('auth')->name('createMakeRegular');
+    Route::post('/schedule/availableTeacher', ['as'=>'/schedule/availableTeacher','uses'=>'ScheduleController@showAvailableTeacher']);
+    Route::get('createMakeRegular/{id}','ScheduleController@createMakeRegular')->middleware('auth')->name('createMakeRegular');
    Route::post('storeMakeRegular/', 'ScheduleController@storeMakeRegular')->middleware('auth')->name('storeMakeRegular');   
   Route::post('/schedule/getCurrencyValueFromDB', ['as'=>'/schedule/getCurrencyValueFromDB','uses'=>'ScheduleController@getCurrencyValueFromDB']);
   });

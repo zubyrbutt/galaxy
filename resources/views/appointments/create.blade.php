@@ -37,9 +37,8 @@
 
                     <script type="text/javascript">
                         $(function () {
-                            $('#datetimepicker1').datetimepicker({
-                                sideBySide: true,
-                                minDate: new Date(<?php echo date('Y')?>, <?php echo date('m')?> - 1, <?php echo date('d')?>),
+                            $('#datetimepicker1').datepicker({
+                              minDate: new Date(<?php echo date('Y')?>, <?php echo date('m')?> - 1, <?php echo date('d')?>),
                             });
                         });
                     </script>
@@ -145,7 +144,7 @@
     $(document).ready(function() {
 
         jQuery('#time_zone').on('change',function(){
-          changetextfunction();
+          
           var token = $("input[name='_token']").val();
           $.ajax({
                     url: "<?php echo route('time_zones') ?>",
@@ -172,7 +171,7 @@
 
         
         jQuery('#Time').on('change',function(){
-            changetextfunction();
+      
             var token = $("input[name='_token']").val();
             $.ajax({
                     url: "<?php echo route('convertToPak') ?>",

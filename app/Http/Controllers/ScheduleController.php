@@ -227,7 +227,7 @@ public function fetch(Request $request)
 						
 					}
 				}				
-				//print_r($available);
+				/*print_r($available);*/
 				//exit;
 			
 				// $available[$time[$pakTime[0]]];

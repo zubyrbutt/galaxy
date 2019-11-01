@@ -255,7 +255,8 @@ class LeadController extends Controller
             $Schedule= new \App\Schedule;
             //Making values
             $studentID = $studentID;        
-            $paktime = $time[$request->get('pakTime')];     
+            // $paktime = $time[$request->get('pakTime')];     
+            $paktime = $request->get('pakTime');     
             $startDate = $request->get('startDate');
             $slotDuration = $request->get('slotDuration');
             $courseID = $request->get('courseID');
@@ -295,7 +296,7 @@ class LeadController extends Controller
             $Schedule->agentId = $agentId;
             $Schedule->dateBooked = $systemdate;
             $Schedule->classType = $classType;
-            $Schedule->status = 0;
+            $Schedule->status = 1;
             $Schedule->std_status = 1;
             $Schedule->created_by = auth()->user()->id;
             $Schedule->modified_by = auth()->user()->id;
@@ -306,6 +307,8 @@ class LeadController extends Controller
             $Schedule->updated_at = strtotime($format);
             $Schedule->comments = $request->get('comments');        
             $Schedule->save();
+
+            return $Schedule;
 
             // return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
         }elseif($request->lead_close_by == 'project'){
@@ -669,7 +672,8 @@ class LeadController extends Controller
     public function storeappointments(Request $request){
         $this->validate(request(), [
             'appointtime' => 'required',
-            'agentids' => 'required'
+            'agentids' => 'required',
+            'appointdate' => 'required',
         ]);
         //Recording Uploading
         $appdate=date_create($request->get('appointtime'));
