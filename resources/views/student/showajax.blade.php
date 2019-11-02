@@ -44,7 +44,7 @@
 				<tr>
                   <th>Name</th>
 				  <th>Username</th>
-				  <th>Parent</th>
+				  {{-- <th>Parent</th> --}}
 				  <th>Ext</th>
 				  <th>Created by</th>
 				  <th>Created at</th>
@@ -53,7 +53,7 @@
 				<tr>
 				  <td>{{$student_detail['fname']}} {{$student_detail['lname']}}</td>
 				  <td>{{$student_detail['email']}}</td>
-				  <td>{{$student->parent_name['fname']}} {{$student->parent_name['lname']}}</td>
+				  {{-- <td>{{$student->parent_name['fname']}} {{$stud ent->parent_name['lname']}}</td> --}}
 				  <td>{{$student->parent_name->getextId['extId']}}</td>
 				  <td>{{$student_detail->createdby_self['fname']}} {{$student_detail->createdby_self['lname']}}</td>
 				  <td>{{$student_detail['created_at']->format('d-m-Y')}}</td>

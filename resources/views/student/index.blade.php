@@ -38,7 +38,7 @@
                   <th>Id</th>
                   <th>Name</th>
                   <th>Email</th>
-				  <th>Parent</th>				  
+				           {{-- <th>Parent</th>				   --}}
                   <th>Phone</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -52,7 +52,7 @@
                   <th>Id</th>
                   <th>Name</th>
                   <th>Email</th>
-				  <th>Parent</th>				  
+				         {{-- <th>Parent</th>				   --}}
                   <th>Phone</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -98,21 +98,21 @@
                       <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" autocomplete="off" required>
                   </div>
 
-				  <!--Select2 dropdown used -->
-				  <div class="form-group">
-					<label>Select Parent</label>
-					<select id="parent_id" name="parent_id" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select teacher" style="width: 100%;" tabindex="-1" aria-hidden="true">
-					  <option value="0" >Select Parent</option>
-					  @foreach($parents as $key => $parent)
-						<option value="{{ $parent->id }}" >{{ $parent->fname }} {{ $parent->lname }}</option>    
-					  @endforeach              
-					</select>
-				  </div>
+        				  <!--Select2 dropdown used -->
+        				 {{--  <div class="form-group">
+        					<label>Select Parent</label>
+        					<select id="parent_id" name="parent_id" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select teacher" style="width: 100%;" tabindex="-1" aria-hidden="true">
+        					  <option value="0" >Select Parent</option>
+        					  @foreach($parents as $key => $parent)
+        						<option value="{{ $parent->id }}" >{{ $parent->fname }} {{ $parent->lname }}</option>    
+        					  @endforeach              
+        					</select>
+        				  </div> --}}
 				  
                   <div class="form-group">
                     <label for="gender" >Gender</label>
                     <select name="gender" class="form-control">
-					    <option value="">Select gender</option>
+					              <option value="">Select gender</option>
                         <option value="1">Male</option>
                         <option value="2">Female</option>
                     </select>
@@ -179,17 +179,17 @@
                       <input type="text" class="form-control" id="editusername" name="email" placeholder="Enter username" autocomplete="off" required>
                   </div>
 
-				  <div class="form-group">
-					<label for="extension" class="">Parent</label>
-						<select class="form-control m-bot15" id="editparent_id" name="parent_id">
-							<option value="0" >Select Parent</option>
-							@if ($parents!='')
-								@foreach($parents as $key => $parent)
-									<option value="{{ $parent->id }}" >{{ $parent->fname }} {{ $parent->lname }}</option>    
-								@endforeach
-							@endif
-						</select>
-				  </div>
+        				  {{-- <div class="form-group">
+          					<label for="extension" class="">Parent</label>
+          						<select class="form-control m-bot15" id="editparent_id" name="parent_id">
+          							<option value="0" >Select Parent</option>
+          							@if ($parents!='')
+          								@foreach($parents as $key => $parent)
+          									<option value="{{ $parent->id }}" >{{ $parent->fname }} {{ $parent->lname }}</option>    
+          								@endforeach
+          							@endif
+          						</select>
+          				  </div> --}}
                   <div class="form-group">
                     <label for="gender" >Gender</label>
                     <select id="editgender" name="gender" class="form-control">
@@ -358,7 +358,7 @@
             { "data": "id" },
             { "data": "fullname" },
             { "data": "email" },
-			{ "data": "parent" },
+			// { "data": "parent" },
             { "data": "phonenumber" },
             { "data": "status" },			
             { "data": "options" ,"orderable":false},

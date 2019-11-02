@@ -181,12 +181,12 @@ class StudentController extends Controller
             'lname' => 'required',
             'email' => 'required|unique:users',
             'password' => 'required|min:6',
-			// 'parent_id' => 'required|not_in:0',			
-			'gender' => 'required',
-			'dob' => 'required',
-			
+			     // 'parent_id' => 'required|not_in:0',			
+      			'gender' => 'required',
+      			'dob' => 'required',
+      			
         ];
-		$errormessage=['required'=>"All fields required.", 'unique'=>"Username must be unique."];
+		    $errormessage=['required'=>"All fields required.", 'unique'=>"Username must be unique."];
         $validator = Validator::make($request->all(), $rules,$errormessage);
         if ($validator->fails()) {
             //pass validator errors as errors object for ajax response
@@ -198,29 +198,29 @@ class StudentController extends Controller
         $student->lname=$request->get('lname');
         $student->email=$request->get('email');
         $student->password=Hash::make($request->get('password'));
-		// $student->parent_id=$request->get('parent_id');		
-		//$student->role_id=6;
+		    // $student->parent_id=$request->get('parent_id');		
+		    //$student->role_id=6;
         $student->iscustomer=3;
-		$date=date_create($request->get('date'));
+		    $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $student->created_at = strtotime($format);
         $student->updated_at = strtotime($format);
-		$student->createdby = auth()->user()->id;
+		    $student->createdby = auth()->user()->id;
         $student->save();
-		//Getting last inserted user id to be used in Studentdetail
-		$last_student_id = $student->id;
+		    //Getting last inserted user id to be used in Studentdetail
+	     	$last_student_id = $student->id;
 		
         $studentdetail= new \App\Studentdetail;
         $studentdetail->user_id=$last_student_id;
         $studentdetail->gender=$request->get('gender');
-		$dob = date_create($request->get('dob'));
+		    $dob = date_create($request->get('dob'));
         $dob=date_format($dob,"Y-m-d");
-		$studentdetail->dob=$dob;
+		    $studentdetail->dob=$dob;
         $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $studentdetail->created_at = strtotime($format);
         $studentdetail->updated_at = strtotime($format);
-		$studentdetail->save();		
+		    $studentdetail->save();		
 		
         return response()->json(['success'=>'New Student created successfully.']);		
     }
@@ -241,10 +241,10 @@ class StudentController extends Controller
             $showstatus=0;
         } */
         $student = User::findOrFail($request->id);
-		$student_details = \App\User::with('role')->with('createdby_self')->where('iscustomer',3)->where('id',$request->id)->get();
-		//Following not working as I have used relation in USER MODEL
-		//$student_g_d = \App\Studentdetail::where('user_id',$request->id)->get();
-		//dd($student_gen_dob);exit;
+		    $student_details = \App\User::with('role')->with('createdby_self')->where('iscustomer',3)->where('id',$request->id)->get();
+  		//Following not working as I have used relation in USER MODEL
+  		//$student_g_d = \App\Studentdetail::where('user_id',$request->id)->get();
+  		//dd($student_gen_dob);exit;
         if($request->ajax()) {
             return  view('student.showajax')->with(compact('student','student_details'));
         }				
@@ -354,7 +354,7 @@ class StudentController extends Controller
             $id=$id;
             $student = \App\User::findOrFail($id);
             $student->delete();
-			$student_detail = \App\Studentdetail::where('user_id', '=', $id)->firstOrFail();
+		      	$student_detail = \App\Studentdetail::where('user_id', '=', $id)->firstOrFail();
             $student_detail->delete();
             return response()->json(['success'=>'Student deleted successfully.']);
         } catch(\Illuminate\Database\QueryException $ex){ 
