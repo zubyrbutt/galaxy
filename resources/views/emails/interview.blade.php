@@ -74,7 +74,7 @@
 			padding-top: 0px;" class="hero">
 			<img border="0" vspace="0" hspace="0"
 			src="{{asset('img/logo.png')}}"
-			alt="Zeb Fortunes" title="Zeb Fortunes"
+			alt="Bksol" title="Bksol "
 			width="340" style="
 			width: 87.5%;
 			max-width: 340px;
@@ -142,7 +142,7 @@
 			color: #262626;
 			font-family: sans-serif;">
 
-			Zeb Fourtunes Pvt Ltd. 				
+			Bksol Pvt Ltd. 				
 				
 				
 		</td>
