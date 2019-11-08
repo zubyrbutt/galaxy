@@ -73,7 +73,7 @@
 		<td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
 			padding-top: 0px;" class="hero">
 			<img border="0" vspace="0" hspace="0"
-			src="{{asset('img/zebfortunes-logo.png')}}"
+			src="{{asset('img/logo.png')}}"
 			alt="Zeb Fortunes" title="Zeb Fortunes"
 			width="340" style="
 			width: 87.5%;
