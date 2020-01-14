@@ -36,8 +36,8 @@
               <h3 class="box-title">{{$user->fname}} {{$user->lname}} Details</h3>
               
               <span class="pull-right">
-                    @can('create-project')<a href="{!! url('projects/create/'.$user->id.''); !!}" class="btn btn-danger"><li class="fa fa-plus"></li> Project</a>@endcan
-                    @can('create-lead')<a href="{!! url('leads/create/'); !!}" class="btn btn-warning"><li class="fa fa-plus"></li> Lead</a>@endcan
+                   <!--  @can('create-project')<a href="{!! url('projects/create/'.$user->id.''); !!}" class="btn btn-danger"><li class="fa fa-plus"></li> Project</a>@endcan -->
+                    <!-- @can('create-lead')<a href="{!! url('leads/create/'); !!}" class="btn btn-warning"><li class="fa fa-plus"></li> Lead</a>@endcan -->
               </span>
             </div>
             <!-- /.box-header -->
@@ -45,7 +45,7 @@
             <div class="row">
               <div class="col-md-4 text-center">
                   <div class="kv-avatar">
-                          <img src="{{ asset('img/staff/'.$user->avatar) }}" width="90%">
+                          <img src="{{ asset('img/customer/'.$user->avatar) }}" width="90%">
                   </div>
               </div> 
               <div class="col-md-8">
@@ -65,6 +65,14 @@
                 <tr>
                     <td><b>Phone Number</b></td>
                     <td>{{$user->phonenumber}}</td>
+                </tr>
+                <tr>
+                    <td><b>Mobile Number</b></td>
+                    <td>{{$user->mobilenumber}}</td>
+                </tr>
+                <tr>
+                    <td><b>WhatsApp Number</b></td>
+                    <td>{{$user->whatsapp}}</td>
                 </tr>
                 <tr>
                     <td><b>Created At</b></td>
@@ -193,50 +201,6 @@
         </div>
         <!-- Address book, Phone END  -->
 </div>
-        
-<!-- Login Logs begins -->
-<div class="box box-danger">
-        <div class="box-header with-border">
-            <h3 class="box-title">Login Logs</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body" style="">
-                @if(count($loginlogs) > 0)
-                  <table id="loginlogs" class="display responsive wrap" style="width:100%;">
-                    <thead>
-                    <tr>
-                      <th>Login Date</th>
-                      <th>IP</th>
-                      <th>Device Info</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($loginlogs as $loginlog)
-                      <tr>
-                        <td>{{$loginlog->login_at !="" ? $loginlog->login_at->format('d-M-Y h:i:s') : "NA"}}</td>
-                        <td>{{$loginlog->ip_address}}</td>
-                        <td>{{$loginlog->user_agent}}</td>
-                      </tr>
-                      @endforeach			  
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                  </table>
-                  @else
-                  <div>No Record found.</div>
-                  @endif
-    
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer clearfix" style="">
-        </div>
-        <!-- /.box-footer -->
-    </div>
-    <!-- Login Logs ends -->        
 
 
 

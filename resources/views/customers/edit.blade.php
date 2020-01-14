@@ -39,7 +39,7 @@
             <!-- /.box-header -->
             <!-- form start -->
             <div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
-            <form class="form-horizontal" action="{{action('UserController@update', $id)}}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" action="{{action('CustomerController@update', $id)}}" method="post" enctype="multipart/form-data">
             @csrf
             <input name="_method" type="hidden" value="PATCH">
             <div class="box-body" >
@@ -104,6 +104,34 @@
                       @endif
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label for="mobilenumber" class="col-sm-3 control-label">Mobile Number</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile Number" value="{{ $user->mobilenumber }}" autocomplete="off" require>
+                    @if ($errors->has('mobilenumber'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('mobilenumber') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="whatsapp" class="col-sm-3 control-label">WhatsApp Number</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="WhatsApp Number" value="{{ $user->whatsapp }}" autocomplete="off" require>
+                    @if ($errors->has('whatsapp'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('whatsapp') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
+
                 <div class="form-group">
                   <label for="status" class="col-sm-3 control-label">Status</label>
 

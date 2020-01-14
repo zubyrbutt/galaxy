@@ -125,14 +125,6 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-
-        if($request->lead_close_by == 'class'){
-            Session::flash('lead_close_by_class', true);
-        }elseif($request->lead_close_by == 'project'){
-            Session::flash('lead_close_by_project', true);
-        }
-
-
         // return $request->all()
        if($request->customer_id){
              $customer_id = $request->customer_id;
@@ -154,6 +146,8 @@ class LeadController extends Controller
             $user->lname=$request->get('lname');
             $user->email=$request->get('email');
             $user->phonenumber=$request->get('phonenumber');
+            $user->mobilenumber=$request->get('mobilenumber');
+            $user->whatsapp=$request->get('whatsapp');
             $user->status = 1;      
             $user->password=Hash::make(str_random(6));
             $date=date_create($request->get('date'));
@@ -166,7 +160,6 @@ class LeadController extends Controller
 
             //Getting last inserted user id to be used in LEADS
             $customer_id = $user->id;
-            $studentID = $user->id;
          }
 
         $attributes = array();
@@ -176,223 +169,43 @@ class LeadController extends Controller
         }
 
 			
-		//Lead Insertion
+        //Lead Insertion
+        $date=date_create($request->get('leaddate'));
+        $leaddate = date_format($date,"Y-m-d");
 		$lead= new \App\Lead;
-        $lead->businessName=$request->get('businessName');
-        $lead->businessNature=$request->get('businessNature');
-        $lead->businessAddress=$request->get('businessAddress');
-        $lead->description=$request->get('description');
-        $lead->company_pro=($request->get('company_pro')) ? 1: 0;
-        $lead->testimonials=($request->get('testimonials')) ? 1: 0;
-        $lead->solser=($request->get('solser')) ? 1: 0;
-        $lead->fblink=$request->get('fblink');
-        $lead->fblike=$request->get('fblike');
-        $lead->twlink=$request->get('twlink');
-        $lead->twfollwer=$request->get('twfollwer');
-        $lead->inlink=$request->get('inlink');
-        $lead->incfollower=$request->get('incfollower');
-        $lead->lilink=$request->get('lilink');
-        $lead->livisitor=$request->get('livisitor');
-        $lead->weblink=$request->get('weblink');
-        $lead->assignedto=$request->get('agentid');
+        $lead->ccountry=$request->get('ccountry');
+        $lead->profession=$request->get('profession');
+        $lead->leaddate=$leaddate;
+        $lead->cityinterest=$request->get('cityinterest');
+        $lead->residential=($request->get('residential')) ? 1: 0;
+        $lead->commercial=($request->get('commercial')) ? 1: 0;
+        $lead->cash=($request->get('cash')) ? 1: 0;
+        $lead->installment=($request->get('installment')) ? 1: 0;
+        $lead->investmenthistory=$request->get('investmenthistory');
+        $lead->investmentpurpose=$request->get('investmentpurpose');
+        $lead->comments=$request->get('comments');
         $lead->source=$request->get('source');
         $lead->user_id=$customer_id;
+        $lead->assignedto=$request->agentid;
         $lead->created_by=auth()->user()->id;
 		$date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
         $lead->attributes = serialize($attributes);
-        $lead->lead_type = $request->lead_close_by;
         $lead->save();
         $lead_id = $lead->id;
 
 
-        // Lead by Close
-         if($request->lead_close_by == 'class'){
 
-            
-            $systemdate = systemDate();
-            //Calling constant arrays from constants.php
-            $time = config('constants.time');
-            $courseDuration=config('constants.courseDuration');
-            
-            $this->validate(request(), [
-                // 'studentID' => 'required',
-                'pakTime' => 'required',
-                'startDate' => 'required',
-                'slotDuration' => 'required',
-                'courseID' => 'required',
-                'classType' => 'required',
-                // 'teacherID' => 'required',
-                // 'agentId' => 'required',
-
-            
-                //'recording_file' => ['mimes:mpga,wav']
-            ]);
-           
-            //Recording Uploading
-            // $recording= new \App\Recording;
-            // $recording->title=$request->get('title');
-            // $recording->link=$request->get('link');
-            // $recording->note=$request->get('note');
-            // $recording->recording_file=$recordingfile;
-            // $recording->lead_id=$request->get('lead_id');
-            // $recording->created_by=auth()->user()->id;
-            // $date=date_create($request->get('date'));
-            // $format = date_format($date,"Y-m-d");
-            // $recording->created_at = strtotime($format);
-            // $recording->updated_at = strtotime($format);
-            // $recording->save();
-            
-            $id = $lead_id;
-            $url=url('/leads/'.$id);
-            $creator=auth()->user()->fname.' '.auth()->user()->lname;
-            //Nofication
-            $lead = Lead::where('id',$lead_id)->first();
-            $lead->closed = 1;
-            $lead->save();
-
-            $Schedule= new \App\Schedule;
-            //Making values
-            $studentID = $studentID;        
-            // $paktime = $time[$request->get('pakTime')];     
-            $paktime = $request->get('pakTime');     
-            $startDate = $request->get('startDate');
-            $slotDuration = $request->get('slotDuration');
-            $courseID = $request->get('courseID');
-            $classType = $request->get('classType');
-            $teacherID = $request->get('teacherID');
-            $agentId = $request->get('agentId');
-
-            if(!$agentId){
-                $agentId = auth()->user()->id;
-            }
-            
-            $endTime = makeTime($paktime,$slotDuration);
-            $endDate = date('Y-m-d',strtotime($courseDuration[$courseID]." months"));
-            
-            //Following is to check that same student, same time and same class type MUST NOT be rescheduled
-            //with same OR diff teacher
-            $check_student = \App\Schedule::where("studentID",$studentID)
-            ->where("startTime",'<=',$paktime)
-            ->where("endTime",'>',$paktime)
-            ->whereRaw("std_status!=3 and std_status!=4")
-            ->whereRaw(getClassTypeSchedule($classType))
-            ->count();
-            
-            //and status_dead!=1
-            // if($check_student>0){
-            //     return redirect('schedule/')->with('failed', 'Same student with same startTime and with same classtype cannot be rescheduled to any teacher');
-            // }
-            
-            //Inserting values
-            $Schedule->startTime=$paktime;
-            $Schedule->endTime=$endTime;
-            $systemdate;
-            $startDate = date_create($request->get('startDate'));
-            $startDate = date_format($startDate,"Y-m-d");
-            $Schedule->startDate = strtotime($startDate);
-            $Schedule->endDate = $endDate;
-            $Schedule->teacherID = $teacherID;
-            $Schedule->studentID = $studentID;
-            $Schedule->courseID = $courseID;
-            $Schedule->lead_id = $lead_id;
-            $Schedule->agentId = $agentId;
-            $Schedule->dateBooked = $systemdate;
-            $Schedule->classType = $classType;
-            $Schedule->status = 1;
-            $Schedule->std_status = 1;
-            $Schedule->created_by = auth()->user()->id;
-            $Schedule->modified_by = auth()->user()->id;
-
-            $date=date_create($request->get('date'));
-            $format = date_format($date,"Y-m-d");
-            $Schedule->created_at = strtotime($format);
-            $Schedule->updated_at = strtotime($format);
-            $Schedule->comments = $request->get('comments');        
-            $Schedule->save();
-
-            // return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
-        }elseif($request->lead_close_by == 'project'){
-            
-            $this->validate(request(), [
-               
-                'projectName' => 'required',
-                'projectDescription' => 'required',
-                'projectType' => 'required',
-                'amount' => 'required',
-                'startDateProject' => 'required|date',
-
-            ]);
-
-            $staff_id =  $request->get('staff_id');
-            //$staffId = implode(",",$staff_id);
-
-            $project= new \App\Project;
-            $project->user_id=$customer_id;
-            $project->lead_id=$lead_id;
-            //$project->staff_id=$staffId;
-            $project->created_by=auth()->user()->id;
-            $project->projectName=$request->get('projectName');
-            $project->projectDescription=$request->get('projectDescription');
-            $project->projectType=$request->get('projectType');
-            $project->startDate=$request->get('startDateProject');
-            $project->endDate=$request->get('endDate');
-            $project->amount=$request->get('amount');
-            $project->isSMM=($request->get('isSMM'))? 1: 0;
-            $project->isiOS=($request->get('isiOS'))? 1: 0;
-            $project->isAndroid=($request->get('isAndroid'))? 1: 0;
-            $project->isWeb=($request->get('isWeb'))? 1: 0;
-            $project->isCustom=($request->get('isCustom'))? 1: 0;
-            $date=date_create($request->get('date'));
-            $format = date_format($date,"Y-m-d");
-            $project->created_at = strtotime($format);
-            $project->updated_at = strtotime($format);
-            $project->save();
-            //Project Creation 
-            
-            //$role = Role::find(1);  
-            if($project){
-
-                if($staff_id && count($staff_id) > 0){
-                    $project->users()->attach($staff_id);
-                }
-            
-
-            }
-
-            //Getting last inserted user id to be used in LEADS
-            $projectid = $project->id;
-            $id = $projectid;
-            $url=url('/projects/'.$id);
-            $creator=auth()->user()->fname.' '.auth()->user()->lname;
-            //Send Notification
-
-            if($staff_id && count($staff_id) > 0){
-                $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->whereIn('id', $staff_id)->get();
-                $letter = collect(['title' => 'New Project','body'=>'A new project has been created by '.$creator.', please review it.','redirectURL'=>$url]);
-                Notification::send($users, new ProjectNotification($letter));
-            }
-            
-
-
-            $id = $lead_id;
-            $url=url('/leads/'.$id);
-            $creator=auth()->user()->fname.' '.auth()->user()->lname;
-            //Nofication
-            
-        }
-        // Lead by Close
-
-        $url=url('/leads/'.$id);
+        $url=url('/leads/'.$lead_id);
         $creator=auth()->user()->fname.' '.auth()->user()->lname;
         //Send Notification
         $users=\App\User::with('role')->where('iscustomer',0)->where('id', $request->get('agentid'))->where('status',1)->get();
         $letter = collect(['title' => 'New Lead Created','body'=>'A new lead has been created by '.$creator.' and assigned to you, please review it.','redirectURL'=>$url]);
         //Need to enabled with conditions currently sending to all users in the DB
         //Notification::send($users, new LeadNotification($letter));
-        return redirect('leads/'.$id)->with('success', 'Lead has been created Successfully.');
+        return redirect('leads/'.$lead_id)->with('success', 'Lead has been created successfully.');
     }
 
     /**
@@ -457,42 +270,38 @@ class LeadController extends Controller
         $lead= \App\Lead::find($id);
         $this->authorize('edit-lead', $lead);
         
-        $this->validate(request(), [
-   //          'businessName' => 'required',
-   //          'businessAddress' => 'required',
-			// 'businessNature' => 'required',
-			// 'description' => 'required' 
-        ]);
-
-       
+      
         $attributes = array();
         foreach ($request->get('attributes') as $index => $attribute) {
            $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
         }
         
-        $lead->businessName=$request->get('businessName');
-        $lead->businessAddress=$request->get('businessAddress');
-        $lead->businessNature=$request->get('businessNature');
-        $lead->description=$request->get('description');
-        $lead->company_pro=($request->get('company_pro')) ? 1: 0;
-        $lead->testimonials=($request->get('testimonials')) ? 1: 0;
-        $lead->solser=($request->get('solser')) ? 1: 0;
-        $lead->fblink=$request->get('fblink');
-        $lead->fblike=$request->get('fblike');
-        $lead->twlink=$request->get('twlink');
-        $lead->twfollwer=$request->get('twfollwer');
-        $lead->inlink=$request->get('inlink');
-        $lead->incfollower=$request->get('incfollower');
-        $lead->lilink=$request->get('lilink');
-        $lead->livisitor=$request->get('livisitor');
-        $lead->weblink=$request->get('weblink');
-        $lead->assignedto=$request->get('agentid');
+        //Lead Update
+        $date=date_create($request->get('leaddate'));
+        $leaddate = date_format($date,"Y-m-d");
+        $lead->ccountry=$request->get('ccountry');
+        $lead->profession=$request->get('profession');
+        $lead->leaddate=$leaddate;
+        $lead->cityinterest=$request->get('cityinterest');
+        $lead->residential=($request->get('residential')) ? 1: 0;
+        $lead->commercial=($request->get('commercial')) ? 1: 0;
+        $lead->cash=($request->get('cash')) ? 1: 0;
+        $lead->installment=($request->get('installment')) ? 1: 0;
+        $lead->investmenthistory=$request->get('investmenthistory');
+        $lead->investmentpurpose=$request->get('investmentpurpose');
+        $lead->comments=$request->get('comments');
+        $lead->source=$request->get('source');
+       // $lead->user_id=$customer_id;
+        //$lead->assignedto=$request->agentid;
+        //$lead->created_by=auth()->user()->id;
 		$date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
-        $lead->created_at = strtotime($format);
+       // $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
         $lead->attributes = serialize($attributes);
-		$lead->save();
+        $lead->save();
+       
+         
         return redirect('leads/'.$id)->with('success', 'Lead has been updated successfully.');
         
     }
@@ -692,6 +501,27 @@ class LeadController extends Controller
         $appointment->save();
         $appointment->users()->sync($request->get('agentids'));
         $id = $request->get('lead_id');
+
+        //Insert Lead status
+        $lead= new \App\Leadstatus;
+        $lead->lead_id=$request->get('lead_id');
+        $lead->status=6;
+        $lead->note="Appointment/Meeting has been scheduled on ".$appformat;
+        $lead->user_id=auth()->user()->id;
+        $date=date_create($request->get('date'));
+        $format = date_format($date, "Y-m-d H:i:s");
+        $lead->created_at = strtotime($format);
+        $lead->updated_at = strtotime($format);
+        $lead->save();
+
+        //Update status of Main lead
+        $lead= \App\Lead::find($request->get('lead_id'));
+        $lead->status=6;
+        $lead->save();
+
+
+
+
         $url=url('/leads/'.$id);
         $creator=auth()->user()->fname.' '.auth()->user()->lname;
         //Nofication
@@ -881,53 +711,7 @@ class LeadController extends Controller
 
    }
 
-   public function close_lead_project_store(Request $request){
-        
-        $request->session()->flash('lead_close_form', true);
-        $this->validate(request(), [
-
-            'title' => 'required',
-            'lead_id' => 'required',
-            //'recording_file' => ['mimes:mpga,wav']
-        ]);
-
-
-        if($request->hasfile('recording_file'))
-         {
-            $file = $request->file('recording_file');
-            $recordingfile=time().$file->getClientOriginalName();
-            //$file->move(public_path().'/leads_assets/recordings/', $recordingfile);
-            Storage::disk('local')->put('/public/leads_assets/recordings/'.$recordingfile, File::get($file));
-         }else{
-            $recordingfile="";
-         }
-        //Recording Uploading
-        $recording= new \App\Recording;
-        $recording->title=$request->get('title');
-        $recording->link=$request->get('link');
-        $recording->note=$request->get('note');
-        $recording->recording_file=$recordingfile;
-        $recording->lead_id=$request->get('lead_id');
-        $recording->created_by=auth()->user()->id;
-        $date=date_create($request->get('date'));
-        $format = date_format($date,"Y-m-d");
-        $recording->created_at = strtotime($format);
-        $recording->updated_at = strtotime($format);
-        $recording->save();
-        $id = $request->get('lead_id');
-        $url=url('/leads/'.$id);
-        $creator=auth()->user()->fname.' '.auth()->user()->lname;
-        //Nofication
-        $lead = Lead::where('id',$request->get('lead_id'))->first();
-        $lead->closed = 1;
-        $lead->save();
-        $users=\App\User::with('role')->where('iscustomer',0)->where('status',1)->get();
-        $message = collect(['title' => 'New recording has been uploaded','body'=>'A new recording has been uploaded by '.$creator.' on lead no.'.$id.', please review it.','redirectURL'=>$url]);
-
-        return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
  
-   }
-
    public function close_by_class(Request $request){
         
         $systemdate = systemDate();

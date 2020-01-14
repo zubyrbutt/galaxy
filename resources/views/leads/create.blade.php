@@ -30,7 +30,7 @@
 			
             <div class="row">			
                 <div class="col-md-12">
-                    <h3 class="box-title">Customer Information</h3>
+                    <h3 class="box-title">Customer/Lead Information</h3>
                 </div>
 			<!-- Customer Info -->
 
@@ -130,353 +130,144 @@
                       @endif
                   </div>
                 </div>
-			     </div>
-           {{-- Lead Close By ========================================================= --}}
-       
-            <!--lead_id against which recording will be stored -->
-           
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="title" class="col-sm-3 control-label">Lead Type</label>
-                <div class="col-sm-9">
-                  <select class="form-control" id="lead_close_by" name="lead_close_by" required="">
-                    <option value="" selected="" disabled="">Lead Type</option>
-                    <option value="class">Class</option>
-                    <option value="project">Project</option>
-                  </select>
-                  @if ($errors->has('lead_close_by'))
-                  <span class="text-red">
-                    <strong>{{ $errors->first('lead_close_by') }}</strong>
-                  </span>
-                  @endif
+
+                <div class="form-group">
+                  <label for="mobilenumber" class="col-sm-3 control-label">Mobile/Cell Number</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile/Cell Number" value="{{ old('mobilenumber') }}" autocomplete="off" require>
+                    @if ($errors->has('mobilenumber'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('mobilenumber') }}</strong>
+                          </span>
+                      @endif
+                  </div>
                 </div>
-              </div>
-              
-            </div>
-      
-           {{-- Lead Close By ========================================================= --}}
+
+                <div class="form-group">
+                  <label for="whatsapp" class="col-sm-3 control-label">WhatsApp Number</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="WhatsApp Number" value="{{ old('mobilenumber') }}" autocomplete="off" require>
+                    @if ($errors->has('whatsapp'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('whatsapp') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
+
+               
+			     </div>
+           
 			<!-- Lead Info -->	
     
-</div>
 
-      {{-- Close by Project --}}
-<div class="box box-info" id="lead-project" style="@if( !session('lead_close_by_project')) display: none; @endif">
 
- 
-  <!-- /.box-header -->
 
-     <div class="box-header with-border" >
-      <h3 class="box-title">Project</h3>
-    </div>
-  
-    <div class="box-body" >
-      
-      <div class="row">
-        <!-- Customer Info -->
-        <div class="col-md-12">
-
-          {{-- <div class="form-group">
-            <label for="user_id" class="col-sm-3 control-label">Select Customer</label>
-            <div class="col-sm-9">
-              <select class="form-control" name="user_id" id="user_id">
-                @if(count($customers) > 0)
-                @foreach($customers as $customer)
-                <option value="{{$customer->id}}" {{(isset($customerid) && $customerid==$customer->id ) ? "selected": ""}} >{{$customer->fname}} {{$customer->lname}}</option>
-                @endforeach
-                @else
-                <option value="">None</option>
-                @endif
-              </select>
-              @if ($errors->has('user_id'))
-              <span class="text-red">
-                <strong>{{ $errors->first('user_id') }}</strong>
-              </span>
-              @endif
-            </div>
-          </div> --}}
-
-          <div class="form-group">
-            <label for="projectName" class="col-sm-3 control-label">Project Name</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Project Name" value="{{ old('projectName') }}" autocomplete="off" require>
-              @if ($errors->has('projectName'))
-              <span class="text-red">
-                <strong>{{ $errors->first('projectName') }}</strong>
-              </span>
-              @endif
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="projectDescription" class="col-sm-3 control-label">Project Description</label>
-            <div class="col-sm-9">
-              <textarea rows="10" class="form-control" id="projectDescription" name="projectDescription" placeholder="Description" require >{{old('projectDescription')}}</textarea>
-              @if ($errors->has('projectDescription'))
-              <span class="text-red">
-                <strong>{{ $errors->first('projectDescription') }}</strong>
-              </span>
-              @endif
-            </div>
-          </div>
-          
-          <!-- checkboxes -->
-          <div class="form-group">
-            <label for="startDate" class="col-sm-3 control-label">Project Type:</label>
-            <div class="col-sm-9">
-              
-              <input type="radio" name="projectType" value="1">
-              <label for="projectType">Fixed</label>
-              
-              <br>
-              
-              <input type="radio" name="projectType" value="2">
-              <label for="projectType">Monthly</label>
-              
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="amount" class="col-sm-3 control-label">Amount:</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount" value="{{ old('amount') }}" autocomplete="off" require>
-              @if ($errors->has('amount'))
-              <span class="text-red">
-                <strong>{{ $errors->first('amount') }}</strong>
-              </span>
-              @endif
-            </div>
-          </div>
-          <!-- Social links -->
-          <div class="form-group">
-            <label for="startDateProject" class="col-sm-3 control-label">Start Date:</label>
-            <div class="col-sm-9">
-              <input type="date" class="form-control" id="startDateProject" name="startDateProject" placeholder="Start Date" autocomplete="off" />
-            </div>
-            
-          </div>
-          <div class="form-group">
-            <label for="endDate" class="col-sm-3 control-label">End Date</label>
-            <div class="col-sm-9" >
-              <input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date" autocomplete="off"  />
-            </div>
-          </div>
-          <!-- checkboxes -->
-          <div class="form-group">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-9">
-              <span class="button-checkbox">
-                <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;SMM</button>
-                <input type="checkbox" class="hidden"  name="isSMM" value="1">
-              </span>
-              <span class="button-checkbox">
-                <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;iOS App</button>
-                <input type="checkbox" class="hidden"  name="isiOS" value="1">
-              </span>
-              <span class="button-checkbox">
-                <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;Android App</button>
-                <input type="checkbox" class="hidden"  name="isAndroid" value="1">
-              </span>
-              <span class="button-checkbox">
-                <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;Website</button>
-                <input type="checkbox" class="hidden"  name="isWeb" value="1">
-              </span>
-              <span class="button-checkbox">
-                <button type="button" class="btn btn-default" data-color="primary"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;Custom Solution</button>
-                <input type="checkbox" class="hidden"  name="isCustom" value="1">
-              </span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="staff_id" class="col-sm-3 control-label">Assign To Staff</label>
-            <div class="col-sm-9" >
-              <select class="form-control select2" name="staff_id[]" multiple="multiple" data-placeholder="Select a Team members" style="width: 100%;">
-                @foreach($data['user'] as $row)
-                <option value="{{ $row->id }}">{{ $row->fname }} {{  $row->lname }} ({{$row->department->deptname}} - {{$row->designation->name}})</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    
-</div>
-
-{{-- Close by Project --}}
-
-      {{-- Close by Class --}}            {{-- style="@if( !session('lead_close_form')) display: none; @endif" --}}     
-      <div class="box box-info" id="lead-class"  style="@if( !session('lead_close_by_project')) display: none; @endif">
+      {{-- Close by Property --}}      
+      <input type="hidden" id="lead_close_by" name="lead_close_by" value="property">
+     
 
         
 
-            <div class="box-header with-border">
-                    <h3 class="box-title">Add Schedule</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
-                    <form class="form-horizontal" action="{!! url('/closeByClass'); !!}" method="post" enctype="multipart/form-data">
-                    @csrf
+        
+      
+            <div class="col-md-12">
                     <div class="box-body" >
                     <div class="row">
                       <div class="col-md-12">
-                
-                @php
 
-                $time_zones = array('Select Zone','Pacific','Mountain','Centeral','Eastern','UK','Western','Eastern[Aus]');
+                      <div class="form-group">
+                  <label for="country" class="col-sm-3 control-label">Current Country</label>
 
-                @endphp
-
-
-            
-                <div class="form-group">
-                    <label for="time_zone" class="col-sm-3 control-label" >Time Zone</label>
-                    <div class="col-sm-6">
-                        <select name="time_zone" id="time_zone" class="form-control select2">
-                          <option value=""></option><option value="0" selected="selected">Select </option>
-                          
-                          @foreach($time_zones as $index => $zone)
-                            <option value="{{ $index + 1 }}">{{$zone}}</option>
-                          @endforeach
-                        </select>
-                        @if ($errors->has('time_zone'))
-                            <span class="text-red">
-                                <strong>{{ $errors->first('time_zone') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="ccountry" name="ccountry" placeholder="Current Country" value="{{ old('ccountry') }}" autocomplete="off" require>
+                    @if ($errors->has('ccountry'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('ccountry') }}</strong>
+                          </span>
+                      @endif
+                  </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="Time" class="col-sm-3 control-label" >Time</label>
-                    <div class="col-sm-6">
-                        <select name="Time" id="Time" class="form-control">
-                         </select>
-                        @if ($errors->has('time_zone'))
-                            <span class="text-red">
-                                <strong>{{ $errors->first('time_zone') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>
 
                 <div class="form-group">
-                    <label for="Pakistan Time" class="col-sm-3 control-label">Pakistan Time</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" id="pakTime" name="pakTime" placeholder="Start Date" autocomplete="off"  readonly="" />
-                    </div>
+                  <label for="profession" class="col-sm-3 control-label">Profession</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="profession" name="profession" placeholder="Profession" value="{{ old('profession') }}" autocomplete="off" require>
+                    @if ($errors->has('profession'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('profession') }}</strong>
+                          </span>
+                      @endif
+                  </div>
                 </div>
 
+
+
                 <div class="form-group">
-                    <label for="startDate" class="col-sm-3 control-label">Start Date</label>
-                    <div class="col-sm-6">
-                    <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date" autocomplete="off" />
+                    <label for="startDate" class="col-sm-3 control-label">Lead Date</label>
+                    <div class="col-sm-9">
+                    <input type="date" class="form-control" id="leaddate" name="leaddate" placeholder="Lead Date" autocomplete="off" />
+                    </div>      
+                </div>
+
+
+                <div class="form-group">
+                    <label for="cityinterest" class="col-sm-3 control-label">City of  Interest</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="cityinterest" name="cityinterest" placeholder="City of Interest" autocomplete="off" />
                     </div>      
                 </div>
 
                 <div class="form-group">
-                            <label for="gendar" class="col-sm-3 control-label">Type</label>
+                            <label for="gendar" class="col-sm-3 control-label">Property Type</label>
                     
                             <div class="col-sm-9">
-                                <input class="group_type" type="radio" id="type_individual" name="type" value="individual" checked="">
-                                <label for="type_individual">Individual</label>
-                                <input class="group_type" type="radio" id="type_group" name="type" value="group"> 
-                                <label for="type_group">Group</label>
+                                <input class="group_type" type="checkbox" id="residential" name="residential" value="residential" checked="">
+                                <label for="residential">Residential</label>
+                                <input class="group_type" type="checkbox" id="commercial" name="commercial" value="commercial"> 
+                                <label for="commercial">Commercial</label>
                             </div>
-                        </div>
-                
-                <div class="form-group">
-                          <label class="col-sm-3 control-label">Select</label>
-                          <div class="col-sm-6">
-                    <select class="form-control" id="slotDuration" name="slotDuration">
-                    <option value="1">30 mins</option>
-                    <option value="2">60 mins</option>
-                    <option value="3">90 mins</option>
-                    </select>
-                    @if ($errors->has('slotDuration'))
-                          <span class="text-red">
-                            <strong>{{ $errors->first('slotDuration') }}</strong>
-                          </span>
-                    @endif
                   </div>
-                        </div>
-                
-                <div class="form-group">
-                    <label for="courseID" class="col-sm-3 control-label">Course</label>
-                    <div class="col-sm-6">
-                      <select id="courseID" name="courseID" class="form-control m-bot15">
-                        <option value="0">Select Course</option>  
-                      @if ($course_list!='')
-                        @foreach($course_list as $key => $course)
-                        <option value="{{ $course->id }}" >{{ $course->courses }}</option>              
-                        @endforeach
-                      @endif
-                      </select>
-                      @if ($errors->has('courseID'))
-                        <span class="text-red">
-                          <strong>{{ $errors->first('courseID') }}</strong>
-                        </span>
-                      @endif
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="classType" class="col-sm-3 control-label">Class Type</label>
-                    <div class="col-sm-6">
-                      <select id="classType" name="classType" class="form-control m-bot15">
-                      @if ($plan!='')
-                        @foreach($plan as $key => $classType)
-                        <option value="{{ $key }}" >{{ $classType }}</option>             
-                        @endforeach
-                      @endif
-                      </select>
-                      @if ($errors->has('classType'))
-                        <span class="text-red">
-                          <strong>{{ $errors->first('classType') }}</strong>
-                        </span>
-                      @endif
-                    </div>
-                </div>
-            
-                <div class="form-group">
-                          <label for="teacherID" class="col-sm-3 control-label">Teacher</label>
-                          <div class="col-sm-6">
-                  <select class="form-control m-bot15" id="teacherID" name="teacherID">
-                  
-                  </select>
-                    @if ($errors->has('teacherID'))
-                                  <span class="text-red">
-                                      <strong>{{ $errors->first('teacherID') }}</strong>
-                                  </span>
-                              @endif
-                          </div>
-                        </div>
 
-                <div class="form-group">
-                    <label for="agentId" class="col-sm-3 control-label">Agent</label>
-                    <div class="col-sm-6">
-                      <select id="agentId" name="agentId" class="form-control m-bot15 select2">
-                        <option value="0">Select Agent</option> 
-                      @if ($agents_list!='')
-                        @foreach($agents_list as $key => $agent_list)
-                        <option value="{{ $agent_list->id }}" >{{ $agent_list->fname }} {{ $agent_list->lname }}</option>             
-                        @endforeach
-                      @endif
-                      </select>
-                      @if ($errors->has('agentId'))
-                        <span class="text-red">
-                          <strong>{{ $errors->first('agentId') }}</strong>
-                        </span>
-                      @endif
-                    </div>
-                </div>      
+                  <div class="form-group">
+                            <label class="col-sm-3 control-label">Interested In</label>
+                    
+                            <div class="col-sm-9">
+                                <input class="group_type" type="checkbox" id="cash" name="cash" value="cash" checked="">
+                                <label for="cash">Cash</label>
+                                <input class="group_type" type="checkbox" id="installment" name="installment" value="installment"> 
+                                <label for="installment">Installment</label>
+                            </div>
+                  </div>
+
+                  <div class="form-group">
+                            <label for="investmenthistory" class="col-sm-3 control-label">History of Investment</label>
+                    
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" id="investmenthistory" name="investmenthistory" placeholder="History of Investment" autocomplete="off" />
+                            </div>
+                  </div>
+
+
+                  <div class="form-group">
+                            <label for="investmentpurpose" class="col-sm-3 control-label">Purpose of Investment</label>
+                    
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" id="investmentpurpose" name="investmentpurpose" placeholder="Purpose of Investment" autocomplete="off" />
+                            </div>
+                  </div>
+
 
                 
                 <div class="form-group">
                           <label class="col-sm-3 control-label">Comments</label>
-                    <div class="col-sm-6">
-                              <textarea class="form-control" rows="3" id="comments" name="comments" placeholder="Enter Comments for teacher..."></textarea>
+                    <div class="col-sm-9">
+                              <textarea class="form-control" rows="3" id="comments" name="comments" placeholder="Enter Comments if any..."></textarea>
                     </div>
                 </div>
 
@@ -485,23 +276,13 @@
 
                   </div>
                       <!-- /.box-body -->
-                      {{-- <div class="box-footer">
-                        <a href="{!! url('/schedule'); !!}" class="btn btn-default">Cancel</a>
-                        <button type="submit" class="btn btn-info pull-right">Add</button>
-                      </div> --}}
-             
-            <!-- /.box-footer -->
-          </form>
-        </div>
-
-
-        {{-- Close by Class --}}  
+        {{-- Close by Property --}}  
   
-  <div class="box box-info">
+  
     
             
            <div class="col-md-12">
-              <h3 class="box-title">Lead Information</h3>
+              <h3 class="box-title">Other Information</h3>
             </div> 
             <div class="col-md-12">
 
@@ -548,8 +329,9 @@
                 <label for="source" class="col-sm-3 control-label">Lead Source</label>
                 <div class="col-sm-9">
                     <select name="source" class="form-control select2" data-placeholder="Select Source"  width="100%">
-                        <option value="Call">Call</option>
-                        <option value="Facebook">Facebook</option>
+                        <option value="call" selected>Call</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="googleads">Google Ads</option>
                     </select>
                 </div>
             </div>
@@ -647,19 +429,6 @@ $(document).ready(function() {
     //     placeholder: "Select Staff",
     //     multiple: false,
     // }); 
-
-    jQuery('#lead_close_by').change(function(){
-      if(jQuery(this).val() == 'class'){
-        jQuery('#lead-project').slideUp();
-        jQuery('#lead-class').slideDown();
- 
-      }else if(jQuery(this).val() == 'project'){
-
-        jQuery('#lead-class').slideUp();
-        jQuery('#lead-project').slideDown();
-
-      }
-      });
 
 
     jQuery('#customer').change(function(){

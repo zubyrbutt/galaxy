@@ -17,7 +17,7 @@ class Appointment extends Model
     ];
     public function lead()
     {
-        return $this->belongsTo('App\Lead', 'lead_id');
+        return $this->belongsTo('App\Lead', 'lead_id')->withDefault();
     }
 
     public function createdby()

@@ -116,8 +116,8 @@ class UserController extends Controller
         $roles=\App\Role::all();
         $departments = Department::where('status', 1)->orderBy('deptname', 'ASC')->get();
         $designations = Designation::where('status', 1)->orderBy('name', 'ASC')->get();
-        $hrleads = HrLead::where('status', 13)->orderBy('name', 'ASC')->get();
-        return view('adminscreate',compact('roles','departments','designations','hrleads'));
+        
+        return view('adminscreate',compact('roles','departments','designations'));
 
     }
 
@@ -134,45 +134,18 @@ class UserController extends Controller
             'fname' => 'required',
             'lname' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',         
-            'phonenumber' => 'required|numeric|unique:staffdetails',
-            'salary' => 'required|numeric',
-            'salary_type' => 'required',
-            'currency_type' => 'required',
-            'department_id' => 'required',
+            'password' => 'required|min:6',   
+            'mobilenumber' => 'required',      
             'designation_id' => 'required',
-            // 'cnic' => 'required|unique:staffdetails',
-            // 'passportno' => 'nullable|unique:staffdetails',
-            'dob' => 'required',
-            'cstreetaddress' => 'required',
-            'ccity' => 'required',
-            'pstreetaddress' => 'required',
-            'pcity' => 'required',
-            'gaurdianname' => 'required',
-            'gaurdianrelation' => 'required',
-            'gaurdiancontact' => 'required',
-            'shift' => 'required',
             'avatar-1' => ['mimes:jpeg,png']
         ],[
             'fname.required' => 'This Field is requried.',
             'lname.required' => 'This Field is requried.',
             'email.unique' => 'This email address belongs to someone else.',
+            'password.required' => "This Field is required.",
+            'mobilenumber.required' => "This Field is required.",
             'department_id.required' => 'Deparment is required.',
             'designation_id.required' => 'Designation is required.',                            
-            'phonenumber.unique' => 'This Mobile number belongs to someone else.',
-            'salary.required' => 'This Field is required numeric value.',
-            'salary.numeric' => 'This Field is required numeric value.',
-            'cnic.unique' => 'This CNIC belongs to someone else.',
-            'passportno.unique' => 'This Passport No belongs to someone else.',
-            'dob.required' => 'Date of birth is required.',
-            'cstreetaddress.required' => 'This Field is requried.',
-            'ccity.required' => 'This Field is requried.',
-            'pstreetaddress.required' => 'This Field is requried.',
-            'pcity.required' => 'This Field is requried.',
-            'gaurdianname.required' => 'This Field is requried.',
-            'gaurdianrelation.required' => 'This Field is requried.',
-            'gaurdiancontact.required' => 'This Field is requried.',
-            'shift.required' => 'This Field is requried.'
         ]);
 
         if($request->hasfile('avatar-1'))
@@ -195,6 +168,7 @@ class UserController extends Controller
             $user->department_id=$request->get('department_id');
             $user->designation_id=$request->get('designation_id');
             $user->password=Hash::make($request->get('password'));
+            $user->mobilenumber=$request->get('mobilenumber');
             $user->phonenumber=$request->get('phonenumber');
             $user->isGoOnAppoints=($request->get('isGoOnAppoints')) ? 1: 0;
             $date=date_create($request->get('date'));
@@ -211,66 +185,6 @@ class UserController extends Controller
             $activity->subject; 
             //Activity Log ends
 
-            $userid=$user->id;
-            $staffdetail= new \App\Staffdetail;
-            $staffdetail->user_id=$userid;
-            $staffdetail->salary=$request->get('salary');
-            $staffdetail->cstreetaddress=$request->get('cstreetaddress');
-            $staffdetail->cstreetaddress2=$request->get('cstreetaddress2');
-            $staffdetail->ccity=$request->get('ccity');
-            $staffdetail->pstreetaddress=$request->get('pstreetaddress');
-            $staffdetail->pstreetaddress2=$request->get('pstreetaddress2');
-            $staffdetail->pcity=$request->get('pcity');
-            $staffdetail->gaurdianname=$request->get('gaurdianname');
-            $staffdetail->gaurdianrelation=$request->get('gaurdianrelation');
-            $staffdetail->gaurdiancontact=$request->get('gaurdiancontact');
-            $staffdetail->landline=$request->get('landline');
-            $staffdetail->phonenumber=$request->get('phonenumber');
-            $staffdetail->bloodgroup=$request->get('bloodgroup');
-            $dobdate=date_create($request->get('dob'));
-            $dobdateformated = date_format($dobdate,"Y-m-d");
-            $staffdetail->dob=$dobdateformated;
-            $staffdetail->cnic=$request->get('cnic');
-            $staffdetail->passportno=(!empty($request->get('passportno'))) ? $request->get('passportno') : NULL;
-            $staffdetail->attendanceid=$request->get('attendanceid');
-            $staffdetail->extension=$request->get('extension');
-            $staffdetail->ccmsid=$request->get('ccmsid');
-            $staffdetail->hrlead_id=$request->get('hrlead_id');
-            $staffdetail->skypeid=$request->get('skypeid');
-            $staffdetail->shift=$request->get('shift');
-            $staffdetail->fileno=$request->get('fileno');
-            $staffdetail->gender=$request->get('gender');
-            $staffdetail->showinsalary=($request->get('showinsalary')) ? $request->get('showinsalary') : 0 ;
-            if($request->has('latecomming')){
-                $staffdetail->latecomming=$request->get('latecomming');
-            }
-            if($request->has('earlygoing')){
-                $staffdetail->earlygoing=$request->get('earlygoing');
-            }
-            
-            if($request->has('attendancecheck')){
-                $staffdetail->attendancecheck=$request->get('attendancecheck');
-            }else{
-                $staffdetail->attendancecheck=1;
-            }
-
-            $sdate=date_create($request->get('joiningdate'));
-            $joiningdate = date_format($sdate,"Y-m-d");
-            $staffdetail->joiningdate=$joiningdate;
-            $sdate=date_create($request->get('starttime'));
-            $starttime = date_format($sdate,"H:i");
-            $edate=date_create($request->get('endtime'));
-            $endtime = date_format($edate,"H:i");
-            $staffdetail->starttime=$starttime;
-            $staffdetail->endtime=$endtime;
-            $staffdetail->created_at = strtotime($format);
-            $staffdetail->updated_at = strtotime($format);
-            $staffdetail->save();
-             //Activity Log begins
-             $activity = Activity::all()->last();
-             $activity->description; 
-             $activity->subject; 
-             //Activity Log ends
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
@@ -556,47 +470,23 @@ class UserController extends Controller
             }
 
             $user=\App\User::find($id); 
+            
+
             $this->validate(request(), [
                 'fname' => 'required',
                 'lname' => 'required',
                 'email' => 'required|email|unique:users,email,'.$user->id,
-                'department_id' => 'required',
-                'designation_id' => 'required',                            
-                'phonenumber' => 'unique:staffdetails,phonenumber,'.$user->id.',user_id',
-                'salary' => 'required|numeric',
-                // 'cnic' => 'unique:staffdetails,cnic,'.$user->id.',user_id',
-                // 'passportno' => 'nullable|unique:staffdetails,passportno,'.$user->id.',user_id',
-                'dob' => 'required',
-                'cstreetaddress' => 'required',
-                'ccity' => 'required',
-                'pstreetaddress' => 'required',
-                'pcity' => 'required',
-                'gaurdianname' => 'required',
-                'gaurdianrelation' => 'required',
-                'gaurdiancontact' => 'required',
-                'salary_type' => 'required',
-                'currency_type' => 'required',
-                'shift' => 'required'
+                'mobilenumber' => 'required',  
+                'department_id' => 'required',    
+                'designation_id' => 'required',
+                'avatar-1' => ['mimes:jpeg,png']
             ],[
                 'fname.required' => 'This Field is requried.',
                 'lname.required' => 'This Field is requried.',
                 'email.unique' => 'This email address belongs to someone else.',
+                'mobilenumber.required' => "This Field is required.",
                 'department_id.required' => 'Deparment is required.',
                 'designation_id.required' => 'Designation is required.',                            
-                'phonenumber.unique' => 'This Mobile number belongs to someone else.',
-                'salary.required' => 'This Field is required numeric value.',
-                'salary.numeric' => 'This Field is required numeric value.',
-                'cnic.unique' => 'This CNIC belongs to someone else.',
-                'passportno.unique' => 'This Passport No belongs to someone else.',
-                'dob.required' => 'Date of birth is required.',
-                'cstreetaddress.required' => 'This Field is requried.',
-                'ccity.required' => 'This Field is requried.',
-                'pstreetaddress.required' => 'This Field is requried.',
-                'pcity.required' => 'This Field is requried.',
-                'gaurdianname.required' => 'This Field is requried.',
-                'gaurdianrelation.required' => 'This Field is requried.',
-                'gaurdiancontact.required' => 'This Field is requried.',
-                'shift.required' => 'This Field is requried.'
             ]);
             
             
@@ -609,6 +499,7 @@ class UserController extends Controller
             $user->designation_id=$request->get('designation_id');
             $user->password=Hash::make($request->get('password'));
             $user->phonenumber=$request->get('phonenumber');
+            $user->mobilenumber=$request->get('mobilenumber');
             $user->isGoOnAppoints=($request->get('isGoOnAppoints')) ? 1: 0;
             $date=date_create($request->get('date'));
             $format = date_format($date,"Y-m-d");
@@ -622,75 +513,6 @@ class UserController extends Controller
                 $user->avatar = $avatarname;
             }
             $user->save();
-            //Activity Log begins
-            /*$activity = Activity::all()->last();
-            $activity->description; 
-            $activity->subject; 
-            $activity->changes; */
-            //Activity Log ends
-            $userid=$user->id;
-            //$staffdetail= new \App\Staffdetail;
-            $staffdetail=\App\Staffdetail::firstOrCreate(['user_id' => $user->id]);
-            $staffdetail->user_id=$userid;
-            $staffdetail->salary=$request->get('salary');
-            $staffdetail->cstreetaddress=$request->get('cstreetaddress');
-            $staffdetail->cstreetaddress2=$request->get('cstreetaddress2');
-            $staffdetail->ccity=$request->get('ccity');
-            $staffdetail->pstreetaddress=$request->get('pstreetaddress');
-            $staffdetail->pstreetaddress2=$request->get('pstreetaddress2');
-        
-            $staffdetail->pcity=$request->get('pcity');
-            $staffdetail->gaurdianname=$request->get('gaurdianname');
-            $staffdetail->gaurdianrelation=$request->get('gaurdianrelation');
-            $staffdetail->gaurdiancontact=$request->get('gaurdiancontact');
-            $staffdetail->landline=$request->get('landline');
-            $staffdetail->phonenumber=$request->get('phonenumber');
-            $staffdetail->bloodgroup=$request->get('bloodgroup');
-            $dobdate=date_create($request->get('dob'));
-            $dobdateformated = date_format($dobdate,"Y-m-d");
-            $staffdetail->dob=$dobdateformated;
-            $staffdetail->cnic=$request->get('cnic');
-            $staffdetail->passportno=(!empty($request->get('passportno'))) ? $request->get('passportno') : NULL;
-            $staffdetail->attendanceid=$request->get('attendanceid');
-            $staffdetail->extension=$request->get('extension');
-            $staffdetail->ccmsid=$request->get('ccmsid');
-            $staffdetail->hrlead_id=$request->get('hrlead_id');
-            $staffdetail->skypeid=$request->get('skypeid');
-            $staffdetail->shift=$request->get('shift');
-            $staffdetail->fileno=$request->get('fileno');
-            $staffdetail->gender=$request->get('gender');
-            $staffdetail->salary_type=$request->get('salary_type');
-            $staffdetail->currency_type=$request->get('currency_type');
-            $staffdetail->showinsalary=($request->get('showinsalary')) ? $request->get('showinsalary') : 0 ;
-            
-            if($request->has('latecomming')){
-                $staffdetail->latecomming=$request->get('latecomming');
-            }
-            if($request->has('earlygoing')){
-                $staffdetail->earlygoing=$request->get('earlygoing');
-            }
-            
-            if($request->has('attendancecheck')){
-                $staffdetail->attendancecheck=$request->get('attendancecheck');
-            }
-            $sdate=date_create($request->get('joiningdate'));
-            $joiningdate = date_format($sdate,"Y-m-d");
-            $staffdetail->joiningdate=$joiningdate;
-            $sdate=date_create($request->get('starttime'));
-            $starttime = date_format($sdate,"H:i");
-            $edate=date_create($request->get('endtime'));
-            $endtime = date_format($edate,"H:i");
-            $staffdetail->starttime=$starttime;
-            $staffdetail->endtime=$endtime;
-            $staffdetail->updated_at = strtotime($format);
-            $staffdetail->save();
-             //Activity Log begins
-             /*$activity = Activity::all()->last();
-             $activity->description; 
-             $activity->subject; */
-             //Activity Log ends
-
-            
             if($request->get('profile')){
                 $message='Profile details has been updated.';
             }else{
@@ -712,13 +534,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try{
-            $staffdetail = \App\Staffdetail::where('user_id' ,$id)->first();
-            $staffdetail->delete();
-            //Activity Log begins
-            $activity = Activity::all()->last();
-            $activity->description; 
-            //Activity Log ends
-
+           
             $user = \App\User::find($id);
             $user->delete();
 

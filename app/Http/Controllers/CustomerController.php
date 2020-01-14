@@ -63,6 +63,8 @@ class CustomerController extends Controller
         $user->iscustomer=1;
         $user->password=Hash::make($request->get('password'));
         $user->phonenumber=$request->get('phonenumber');
+        $user->mobilenumber=$request->get('mobilenumber');
+        $user->whatsapp=$request->get('whatsapp');
         $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $user->created_at = strtotime($format);
@@ -219,6 +221,8 @@ class CustomerController extends Controller
             $user->email=$request->get('email');
             $user->iscustomer=1;
             $user->phonenumber=$request->get('phonenumber');
+            $user->mobilenumber=$request->get('mobilenumber');
+            $user->whatsapp=$request->get('whatsapp');
             if(!$request->get('profile')){
             $user->status=$request->get('status');
             }

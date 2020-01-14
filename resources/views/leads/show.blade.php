@@ -96,6 +96,14 @@ function makeLinks($str) {
 						<td><a href="tel:{{$lead_detail->user->phonenumber}}">{{$lead_detail->user->phonenumber}}</a></td>
 					</tr>
 					<tr>
+						<td><b>Mobile Number </b></td>
+						<td><a href="tel:{{$lead_detail->user->mobilenumber}}">{{$lead_detail->user->mobilenumber}}</a></td>
+					</tr>
+					<tr>
+						<td><b>WhatsApp Number </b></td>
+						<td><a href="tel:{{$lead_detail->user->whatsapp}}">{{$lead_detail->user->whatsapp}}</a></td>
+					</tr>
+					<tr>
 						<td><b>Email</b></td>
 						<td><a href="mailto:{{$lead_detail->user->email}}">{{$lead_detail->user->email}}</a></td>
 					</tr>
@@ -105,108 +113,79 @@ function makeLinks($str) {
 				<h3>Lead Information:</h3>
 			</div>
 			<div class="col-md-12">
+
 				<table class="table table-striped">
+			
+					<tr>
+						<td><b>Current Country</b></td>
+						<td>{{ ucfirst($lead_detail->ccountry) }}</td>
+					</tr>
 
-					@if($lead_detail->lead_type == 'project')
+					<tr>
+						<td width="25%"><b>Profession</b></td>
+						<td width="75%">{{$lead_detail->profession}}</td>
+					</tr>
 
-				
-									<tr>
-											<td><b>Lead Type</b></td>
-											<td>{{ ucfirst($lead_detail->lead_type) }}</td>
-										</tr>
+					<tr>
+						<td width="25%"><b>Lead Date</b></td>
+						<td width="75%">{{$lead_detail->leaddate->format('d-m-Y')}}</td>
+					</tr>
 
-									@php
-										$projectDetail = $lead_detail->closed_by_project;
-									@endphp
-									<tr>
-										<td width="25%"><b>Project Name</b></td>
-										<td width="75%">{{$projectDetail->projectName}}</td>
-									</tr>
-									<tr>
-										<td><b>Description</b></td>
-										<td>{!! html_entity_decode(nl2br(e(makeLinks($projectDetail->projectDescription)))) !!}</td>
-									</tr>
-									<!-- checkboxes -->
-									<tr>
-										<td><b>Requirements: </b></td>
-										<td>
-										 <b>SMM:</b> {{$projectDetail->isSMM=== 1 ? "Yes" : "No"}} | 
-										 <b>Web:</b> {{$projectDetail->isWeb=== 1 ? "Yes" : "No"}} | 
-										 <b>iOS APP:</b> {{$projectDetail->isiOS=== 1 ? "Yes" : "No"}} | 
-										 <b>Android APP:</b> {{$projectDetail->isAndroid=== 1 ? "Yes" : "No"}} | 
-										 <b>Custom Solutions:</b> {{$projectDetail->isCustom=== 1 ? "Yes" : "No"}}
-										</td>
-									</tr>
-									<tr>
-										<td><b>Created By</b></td>
-										<td>{{$projectDetail->createdby->fname}} {{$projectDetail->createdby->lname}}</td>
-									</tr>
+					<tr>
+						<td width="25%"><b>City of Interest</b></td>
+						<td width="75%">{{$lead_detail->cityinterest}}</td>
+					</tr>
 
-									<tr>
-										<td><b>Status</b></td>
-										<td>
-											@if ($projectDetail->status === 1)
-												<span class="text-green"><b>Active</b></span>
-											@else
-												<span class="text-red"><b>Deactive</b></span>
-											@endif
-										</td>
-									</tr>
+					<tr>
+						<td width="25%"><b>Property Type</b></td>
+						<td width="75%">Residential: <b>{{$lead_detail->residential=== 1 ? "Yes" : "No"}}</b><br> Commercial: <b>{{$lead_detail->commercial=== 1 ? "Yes" : "No"}}</b> </td>
+					</tr>
 
-									<tr>
-										<td><b>Created At</b></td>
-										<td>{{$projectDetail->created_at->format('d-m-Y')}}</td>
-									</tr>
-									<tr>
-										<td><b>Updated At</b></td>
-										<td>{{$projectDetail->updated_at->format('d-m-Y')}}</td>
-									</tr>
+					<tr>
+						<td width="25%"><b>Interested In</b></td>
+						<td width="75%">Cash: <b>{{$lead_detail->cash=== 1 ? "Yes" : "No"}}</b> <br> Installment: <b>{{$lead_detail->installment=== 1 ? "Yes" : "No"}}</b> </td>
+					</tr>
+
+					<tr>
+						<td width="25%"><b>History of Investment</b></td>
+						<td width="75%">{{$lead_detail->investmenthistory}}</td>
+					</tr>
+
+					<tr>
+						<td width="25%"><b>Purpose of Investment</b></td>
+						<td width="75%">{{$lead_detail->investmentpurpose}}</td>
+					</tr>
+
+					<tr>
+						<td width="25%"><b>Comments</b></td>
+						<td width="75%">{{$lead_detail->comments}}</td>
+					</tr>
 					
+					<tr>
+						<td><b>Created By</b></td>
+						<td>{{$lead_detail->createdby->fname}} {{$lead_detail->createdby->lname}}</td>
+					</tr>
 
-					
-						@elseif($lead_detail->lead_type == 'class')
-							<tr>
-											<td><b>Lead Type</b></td>
-											<td>{{ ucfirst($lead_detail->lead_type) }}</td>
-										</tr>
-							@php
-								$show_schedule = $lead_detail->closed_by_class;
-							@endphp
-					
-				                <tr>
-				                    <td width="25%"><b>First Name </b></td>
-				                    <td width="75%" >{{ $show_schedule->studentname->fname }}</td>
-				                </tr>
-				                <tr>
-				                    <td width="25%"><b>Last Name </b></td>
-				                    <td width="75%" >{{ $show_schedule->studentname->lname }}</td>
-				                </tr>				
-								<tr>
-				                    <td width="25%"><b>Teacher</b></td>
-				                    <td width="75%" >{{ $show_schedule->teachername->fname }} {{ $show_schedule->teachername->lname }}</td>
-				                </tr>
-								<tr>
-				                    <td width="25%"><b>Course</b></td>
-				                    <td width="75%" >{{ $show_schedule->coursename->courses }} </td>
-				                </tr>			
-				                <tr>
-				                    <td width="25%"><b>Start time</b></td>
-				                    <td width="75%" >{{ $show_schedule->startTime }}</td>
-				                </tr>
-				                <tr>
-				                    <td width="25%"><b>End time</b></td>
-				                    <td width="75%" >{{ $show_schedule->endTime }}</td>
-				                </tr>
-								<!--<tr>
-				                    <td><b>Start Date</b></td>
-				                    <td>{{ $show_schedule->startDate->format('Y-m-d') }}</td>
-				                </tr>
-								<tr>
-				                    <td><b>End Date</b></td>
-				                    <td>{{ $show_schedule->endDate->format('Y-m-d') }}</td>
-				                </tr>-->
-					
-						@endif
+					<tr>
+						<td><b>Status</b></td>
+						<td>
+							@if ($lead_detail->status === 1)
+								<span class="text-green"><b>Active</b></span>
+							@else
+								<span class="text-red"><b>Deactive</b></span>
+							@endif
+						</td>
+					</tr>
+
+					<tr>
+						<td><b>Created At</b></td>
+						<td>{{$lead_detail->created_at->format('d-m-Y')}}</td>
+					</tr>
+					<tr>
+						<td><b>Updated At</b></td>
+						<td>{{$lead_detail->updated_at->format('d-m-Y')}}</td>
+					</tr>
+		
 					
 					@if($lead_detail->attributes)
 					@php
@@ -225,30 +204,8 @@ function makeLinks($str) {
 						<td>{{isset($lead_detail->assignedTo) ? $lead_detail->assignedTo->fname.' '.$lead_detail->assignedTo->lname : "NA" }}</td>
 					</tr>
 					<tr>
-						<td><b>Created By</b></td>
-						<td>{{$lead_detail->createdby->fname}} {{$lead_detail->createdby->lname}}</td>
-					</tr>
-					<tr>
-						<td><b>Status</b></td>
-						<td>
-							@if ($lead_detail->status === 1)
-							<span class="text-green"><b>Active</b></span>
-							@else
-							<span class="text-red"><b>Deactive</b></span>
-							@endif
-						</td>
-					</tr>
-					<tr>
-						<td><b>Created At</b></td>
-						<td>{{$lead_detail->created_at->format('d-m-Y')}}</td>
-					</tr>
-					<tr>
-						<td><b>Updated At</b></td>
-						<td>{{$lead_detail->updated_at->format('d-m-Y')}}</td>
-					</tr>
-					<tr>
 						<td><b>Lead Source</b></td>
-						<td>{{$lead_detail->source}}</td>
+						<td>{{ucfirst($lead_detail->source)}}</td>
 					</tr>
 					
 				</table>
@@ -306,10 +263,10 @@ function makeLinks($str) {
 						<span class="text-green"><b>Call Back</b></span>
 						@break
 						@case(6)
-						<span class="text-green"><b>Trial Committed</b></span>
+						<span class="text-green"><b>Appointment Booked</b></span>
 						@break
 						@case(7)
-						<span class="text-green"><b>Trial Delivered</b></span>
+						<span class="text-green"><b>Meeting Done</b></span>
 						@break
 						@case(8)
 						<span class="text-green"><b>Invoice Sent</b></span>
@@ -319,6 +276,9 @@ function makeLinks($str) {
 						@break
 						@case(10)
 						<span class="text-green"><b>NSNC</b></span>
+						@break
+						@case(11)
+						<span class="text-info"><b>Duplicate</b></span>
 						@break
 						@default
 						<span class="text-green"><b>New</b></span>
@@ -370,8 +330,8 @@ function makeLinks($str) {
 						<option value="3">Rejected</option>
 						<option value="4">Not Interested</option>
 						<option value="5">Call Back</option>
-						<option value="6">Trial Committed</option>
-						<option value="7">Trial Delivered</option>
+						<option value="6">Appointment Booked</option>
+						<option value="7">Meeting Done</option>
 						<option value="8">Invoice Sent</option>
 						<option value="9">Spam</option>
 						<option value="10">NSNC</option>

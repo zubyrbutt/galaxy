@@ -21,7 +21,7 @@
 			
             <div class="row">			
                 <div class="col-md-12">
-                    <h3 class="box-title">Customer Information</h3>
+                    <h3 class="box-title">Customer/Lead Information</h3>
                 </div>
 			<!-- Customer Info -->	
               <div class="col-md-12">
@@ -75,11 +75,144 @@
                       @endif
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label for="mobilenumber" class="col-sm-3 control-label">Mobile Number</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile Number" value="{{ $lead->user->mobilenumber }}" autocomplete="off" readonly>
+                    @if ($errors->has('mobilenumber'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('mobilenumber') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="whatsapp" class="col-sm-3 control-label">WhatsApp</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="WhatsApp Number" value="{{ $lead->user->whatsapp }}" autocomplete="off" readonly>
+                    @if ($errors->has('whatsapp'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('whatsapp') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
 			</div>
-			<!-- Lead Info -->					
+			<!-- Lead Info -->		
+
+      {{-- Close by Property --}}      
+      <input type="hidden" id="lead_close_by" name="lead_close_by" value="property">
+    
+            <div class="col-md-12">
+                    <div class="box-body" >
+                    <div class="row">
+                      <div class="col-md-12">
+
+                      <div class="form-group">
+                  <label for="country" class="col-sm-3 control-label">Current Country</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="ccountry" name="ccountry" placeholder="Current Country" value="{{ $lead->ccountry }}" autocomplete="off" require>
+                    @if ($errors->has('ccountry'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('ccountry') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="profession" class="col-sm-3 control-label">Profession</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="profession" name="profession" placeholder="Profession" value="{{ $lead->profession }}" autocomplete="off" require>
+                    @if ($errors->has('profession'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('profession') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="startDate" class="col-sm-3 control-label">Lead Date</label>
+                    <div class="col-sm-9">
+                    <input type="date" class="form-control" id="leaddate" name="leaddate" placeholder="Lead Date" autocomplete="off" value="{{ $lead->leaddate->format('Y-m-d') }}" />
+                    </div>      
+                </div>
+
+
+                <div class="form-group">
+                    <label for="cityinterest" class="col-sm-3 control-label">City of  Interest</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="cityinterest" name="cityinterest" placeholder="City of Interest" autocomplete="off" value="{{ $lead->cityinterest }}" />
+                    </div>      
+                </div>
+
+                <div class="form-group">
+                            <label for="gendar" class="col-sm-3 control-label">Property Type</label>
+                    
+                            <div class="col-sm-9">
+                                <input class="group_type" type="checkbox" id="residential" name="residential" value="residential" {{($lead->residential=== 1 ? "checked" : "")}}>
+                                <label for="residential">Residential</label>
+                                <input class="group_type" type="checkbox" id="commercial" name="commercial" value="commercial" {{($lead->commercial=== 1 ? "checked" : "")}}> 
+                                <label for="commercial">Commercial</label>
+                            </div>
+                  </div>
+
+                  <div class="form-group">
+                            <label class="col-sm-3 control-label">Interested In</label>
+                    
+                            <div class="col-sm-9">
+                                <input class="group_type" type="checkbox" id="cash" name="cash" value="cash" {{($lead->cash=== 1 ? "checked" : "")}}>
+                                <label for="cash">Cash</label>
+                                <input class="group_type" type="checkbox" id="installment" name="installment" value="installment" {{($lead->installment=== 1 ? "checked" : "")}}> 
+                                <label for="installment">Installment</label>
+                            </div>
+                  </div>
+
+                  <div class="form-group">
+                            <label for="investmenthistory" class="col-sm-3 control-label">History of Investment</label>
+                    
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" id="investmenthistory" name="investmenthistory" placeholder="History of Investment" value="{{ $lead->investmenthistory }}" autocomplete="off" />
+                            </div>
+                  </div>
+
+
+                  <div class="form-group">
+                            <label for="investmentpurpose" class="col-sm-3 control-label">Purpose of Investment</label>
+                    
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" id="investmentpurpose" name="investmentpurpose" placeholder="Purpose of Investment" value="{{ $lead->investmentpurpose }}" autocomplete="off" />
+                            </div>
+                  </div>
+
+
+                
+                <div class="form-group">
+                          <label class="col-sm-3 control-label">Comments</label>
+                    <div class="col-sm-9">
+                              <textarea class="form-control" rows="3" id="comments" name="comments" placeholder="Enter Comments if any...">{{$lead->comments}}</textarea>
+                    </div>
+                </div>
+
+                      </div>
+                      </div>
+
+                  </div>
+                      <!-- /.box-body -->
+        {{-- Close by Property --}}  			
             
 			<div class="col-md-12">
-              <h3 class="box-title">Lead Information</h3>
+              <h3 class="box-title">Other Information</h3>
             </div> 
             <div class="col-md-12">
 			
@@ -126,7 +259,16 @@
                     </div>
                     
               </div>
-
+              <div class="form-group">
+                <label for="source" class="col-sm-3 control-label">Lead Source</label>
+                <div class="col-sm-9">
+                    <select name="source" class="form-control select2" data-placeholder="Select Source"  width="100%">
+                        <option value="call" {{($lead->source=== "call" ? "selected" : "")}}>Call</option>
+                        <option value="facebook" {{($lead->source=== "facebook" ? "selected" : "")}}>Facebook</option>
+                        <option value="googleads" {{($lead->source=== "googleads" ? "selected" : "")}}>Google Ads</option>
+                    </select>
+                </div>
+            </div>
 		
             <div class="form-group">
                     <label for="description" class="col-sm-3 control-label">Assigned To</label>

@@ -109,6 +109,7 @@ class HomeController extends Controller
         if(auth()->user()->can('show-dashboard-calendar')){
             //Appointment Calendar Begins
             $events = [];
+            //$apppointmentdata = \App\Appointment::with('lead')->with('createdby')->whereDate('appointtime', '>', Carbon::now())->get(); 
             $apppointmentdata = \App\Appointment::with('lead')->with('createdby')->whereDate('appointtime', '>', Carbon::now())->get(); 
             //dd($apppointmentdata->toArray());
             if($apppointmentdata->count()) {

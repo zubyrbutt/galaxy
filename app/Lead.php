@@ -8,12 +8,13 @@ class Lead extends Model
 {
 
     protected $fillable = [
-        'businessName','businessNature', 'description', 'user_id','lead_type'
+        'ccountry','profession', 'leaddate','cityinterest' ,'residential','commercial','cash', 'user_id','cityinterest'
     ];
 	
     protected $dates = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'leaddate'
     ];
 	
 	public function user()

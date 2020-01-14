@@ -116,8 +116,36 @@
                   </div>
                 </div>
 
+                <div class="form-group">
+                  <label for="mobilenumber" class="col-sm-3 control-label">Mobile Number</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile Number" value="{{ old('mobilenumber') }}" autocomplete="off" require>
+                    @if ($errors->has('mobilenumber'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('mobilenumber') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="whatsapp" class="col-sm-3 control-label">WhatsApp Number</label>
+
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="WhatsApp Number" value="{{ old('whatsapp') }}" autocomplete="off" require>
+                    @if ($errors->has('whatsapp'))
+                          <span class="text-red">
+                              <strong>{{ $errors->first('whatsapp') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                </div>
+
               </div>
               </div>
+
+              
               
           </div>
               <!-- /.box-body -->
