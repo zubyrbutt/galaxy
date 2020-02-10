@@ -44,6 +44,24 @@
                 </select>
                 
               </div>
+              <div class="form-group col-md-12">
+              <label>Status</label>
+              <select class="form-control" name="status" id="status" required="required">
+                <option value="all">All</option>
+                <option value="1">Inprocess</option>
+                <option value="3">Rejected</option>
+                <option value="4">Not Interested</option>
+                <option value="5">Call Back</option>
+                <option value="6">Appointment Booked</option>
+                <option value="7">Meeting Done</option>
+                <option value="8">Invoice Sent</option>
+                <option value="9">Spam</option>
+                <option value="10">NSNC</option>
+                <option value="11">Duplicate</option>
+                <option value="12">Details Sent on WhatsApp</option>
+                <option value="13">Details Send on Email</option>
+              </select>
+            </div>
 
               <div class="form-group col-md-12">
                   <label>Select Date Range:</label>

@@ -364,11 +364,6 @@ function makeLinks($str) {
 					<label>Name</label>
 					<input type="text" name="name" id="name" class="form-control" value="{{$lead_detail->user->fname}} {{$lead_detail->user->lname}}" readonly>
 				</div>
-				{{--                   <div class="form-group">
-					<label>Contact No</label>
-					<input type="text" name="contactno" id="contactno" class="form-control" value="{{$lead_detail->user->phonenumber}}" readonly>
-				</div>
-				--}}
 				<div class="form-group">
 					<label>Status</label>
 					<select class="form-control" name="status" id="status" required="required">

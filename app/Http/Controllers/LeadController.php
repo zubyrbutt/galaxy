@@ -73,6 +73,13 @@ class LeadController extends Controller
                     $query = $query->where('created_by',$request->get('agentid'))->whereBetween('created_at', [date($request->get('dateFrom')), date($request->get('dateTo'))]);
                 }
             }
+
+            if($request->get('status')){
+                if($request->get('status')!='all')
+                {
+                    $query = $query->where('status',$request->get('status'));
+                }
+            }
         }
         $permissions_arr=json_decode(auth()->user()->role->permissions,true);         
         if(isset($permissions_arr['show-all-leads'])==true){
