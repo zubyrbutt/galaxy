@@ -81,6 +81,7 @@ class LeadController extends Controller
                 }
             }
         }
+        
         $permissions_arr=json_decode(auth()->user()->role->permissions,true);         
         if(isset($permissions_arr['show-all-leads'])==true){
             $leads = $query->get();
