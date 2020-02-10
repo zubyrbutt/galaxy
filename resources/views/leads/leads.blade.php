@@ -151,11 +151,52 @@
                     <!-- <td>{{$lead['businessName']}}</td> -->
                     <!-- <td>{{$lead['businessNature']}}</td> -->
                     <td>
-                      @if ($lead['status'] === 1)
-                      <span class="btn btn-success">Active</span>
-                      @else
-                      <span class="btn btn-danger">Deactive</span>
-                      @endif
+                      @switch($lead->status)
+                        @case(0)
+                        <span class="text-green"><b>New</b></span>
+                        @break
+                        @case(1)
+                        <span class="text-orange"><b>Inprocess</b></span>
+                        @break
+                        @case(2)
+                        <span class="text-green"><b>Closed</b></span>
+                        @break
+                        @case(3)
+                        <span class="text-red"><b>Rejected</b></span>
+                        @break
+                        @case(4)
+                        <span class="text-red"><b>Not Interested</b></span>
+                        @break
+                        @case(5)
+                        <span class="text-green"><b>Call Back</b></span>
+                        @break
+                        @case(6)
+                        <span class="text-green"><b>Appointment Booked</b></span>
+                        @break
+                        @case(7)
+                        <span class="text-green"><b>Meeting Done</b></span>
+                        @break
+                        @case(8)
+                        <span class="text-green"><b>Invoice Sent</b></span>
+                        @break
+                        @case(9)
+                        <span class="text-red"><b>Spam</b></span>
+                        @break
+                        @case(10)
+                        <span class="text-green"><b>NSNC</b></span>
+                        @break
+                        @case(11)
+                        <span class="text-info"><b>Duplicate</b></span>
+                        @break
+                        @case(12)
+                        <span class="text-info"><b>Details Sent on WhatsApp</b></span>
+                        @break
+                        @case(13)
+                        <span class="text-info"><b>Details Send on Email</b></span>
+                        @break
+                        @default
+                        <span class="text-green"><b>New</b></span>
+                      @endswitch
                     </td>
                     @can('delete-lead')
                      <!-- For Delete Form begin -->
