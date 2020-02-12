@@ -10,7 +10,7 @@
 @endif
 <div class="login-box">
   <div class="login-logo">
-  <img src="{{ asset('img/logo.png') }}">
+  <img src="{{ asset('img/logo.png') }}" class="responsive">
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
