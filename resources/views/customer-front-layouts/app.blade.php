@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'NSOL') }}</title>
+    <title>{{ config('app.name', 'GR') }}</title>
     <link rel="icon" href="{{ asset('img/favicon.png')}}" type="image/png">
 
     <!-- Bootstrap 3.3.7 -->
