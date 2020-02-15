@@ -394,8 +394,8 @@
 
                             <option value="3">Rejected</option>
                             <option value="4">Not Interested</option>
-                            <option value="5">Call Back</option>
-                            <option value="6">Appointment Booked</option>
+{{--                            <option value="5">Call Back</option>--}}
+{{--                            <option value="6">Appointment Booked</option>--}}
                             <option value="7">Meeting Done</option>
                             <option value="8">Invoice Sent</option>
                             <option value="9">Spam</option>
