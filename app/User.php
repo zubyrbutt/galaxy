@@ -107,6 +107,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Appointment');
     }
+    public function callbacks()
+    {
+        return $this->belongsToMany('App\CallBacks');
+    }
 
     public function yccleadstatus()
     {

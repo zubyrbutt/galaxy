@@ -251,7 +251,13 @@ Route::group(['prefix'=> 'yccref'],function(){
     //Appointmetns
     Route::get('createappointments/{id}', 'LeadController@createappointments')->middleware('can:create-appointment','ipcheck')->name('createappointments');
     Route::post('storeappointments/', 'LeadController@storeappointments')->middleware('can:create-appointment','ipcheck')->name('storeappointments');
-    //Lead Docs
+
+    //Call Back
+     Route::get('createcallback/{id}', 'LeadController@createcallback')->middleware('can:create-appointment','ipcheck')->name('createcallback');
+     Route::post('storecallback/', 'LeadController@storecallback')->middleware('can:create-appointment','ipcheck')->name('storecallback');
+
+
+     //Lead Docs
     Route::get('createdocs/{id}', 'LeadController@createdocs')->middleware('can:create-doc','ipcheck')->name('createdocs');
     Route::post('storedocs/', 'LeadController@storedocs')->middleware('can:create-doc','ipcheck')->name('storedocs');
     //Proposal
@@ -283,11 +289,16 @@ Route::group(['prefix'=> 'yccref'],function(){
  Route::get('/appointments', 'AppointmentController@index')->middleware('auth','ipcheck')->name('appointments');
  Route::resource('appointments', 'AppointmentController')->middleware('auth','ipcheck');
 
+ //Call back
+Route::get('/callbacks/{id}', 'CallBackController@index')->middleware('auth','ipcheck')->name('callbacks');
+
  //Conversation
  Route::post('/leads/store_conversation', 'LeadController@store_conversation')->middleware('auth','ipcheck')->name('store_conversation');
  Route::get('/leads/create_appnote/{id}/{app_id}', 'LeadController@create_appnote')->middleware('auth','ipcheck')->name('create_appnote');
+Route::get('/leads/callback_note/{id}/{app_id}', 'LeadController@callback_note')->middleware('auth','ipcheck')->name('callback_note');
  Route::post('/leads/store_appnote/', 'LeadController@store_appnote')->middleware('auth','ipcheck')->name('store_appnote');
- 
+ Route::post('/leads/store_callback/', 'LeadController@store_callback')->middleware('auth','ipcheck')->name('store_callback');
+
 //Project Routes Begins
  //Project
  Route::post('/projectasset', 'ProjectController@projectasset')->middleware('auth','ipcheck')->name('projectasset');

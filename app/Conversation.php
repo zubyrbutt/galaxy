@@ -27,5 +27,8 @@ class Conversation extends Model
 	public function appointment(){
 		return $this->belongsTo('App\Appointment','appointment_id');
 	}
+	public function callback(){
+		return $this->belongsTo('App\CallBack','call_back_id');
+	}
 	
 }

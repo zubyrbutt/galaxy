@@ -21,7 +21,7 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Manage Appointments</h3>
-              <span class="pull-right">
+              <span class="pull-right"></span>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Appocintment;
 use App\Lead;
 use App\Notifications\AppointmentNotification;
 use App\Notifications\LeadNotification;
@@ -230,6 +231,8 @@ class LeadController extends Controller
         $recordings = \App\Recording::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         //$appointments = \App\Appointment::with('users')->where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         $appointments = \App\Appointment::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
+        $callbacks = \App\CallBack::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
+        //$conversations = \App\Conversation::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         $docs = \App\LeadAsset::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
 		//Proposal
         $proposals = \App\Proposal::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
@@ -240,7 +243,7 @@ class LeadController extends Controller
 
         // return $lead_detail;
         if($lead_detail){
-            return view('leads.show', compact('recordings','appointments','docs','proposals','conversations','lead_detail','notes'));
+            return view('leads.show', compact('recordings','appointments','callbacks','docs','proposals','conversations','lead_detail','notes'));
         }else{
             return view('404');
         }
@@ -485,8 +488,15 @@ class LeadController extends Controller
         $agents = \App\User::where('isGoOnAppoints',1)->get();
         return view('appointments.create',compact('lead','lead_id','agents'));
     }
+    //Call Back
+    public function createcallback($lead_id){
+        $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
+        $agents = \App\User::where('isGoOnAppoints',1)->get();
+        return view('callBack.create',compact('lead','lead_id','agents'));
+    }
 
     public function storeappointments(Request $request){
+
         // return $request->all();
         $this->validate(request(), [
             'appointtime' => 'required',
@@ -497,16 +507,20 @@ class LeadController extends Controller
         $appdate=date_create($request->get('appointdate')." ".$request->get('appointtime'));
         $appformat = date_format($appdate,"Y-m-d H:i:s");
 
-		$appointment= new \App\Appointment;
+		$appointment=  new \App\Appointment;
         $appointment->appointtime=$appformat;
         $appointment->note=$request->get('note');
+
         $appointment->lead_id=$request->get('lead_id');
         $appointment->created_by=auth()->user()->id;
+
 		$date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $appointment->created_at = strtotime($format);
         $appointment->updated_at = strtotime($format);
+
         $appointment->save();
+
         $appointment->users()->sync($request->get('agentids'));
         $id = $request->get('lead_id');
 
@@ -541,8 +555,63 @@ class LeadController extends Controller
 
         return redirect('leads/'.$id)->with('success', 'Appointment has been schedule successfully.');
     }
-    
-	
+    public function storecallback(Request $request){
+        // return $request->all();
+        $this->validate(request(), [
+            'appointtime' => 'required',
+            'agentids' => 'required',
+            'appointdate' => 'required',
+        ]);
+        //Recording Uploading
+        $appdate=date_create($request->get('appointdate')." ".$request->get('appointtime'));
+        $appformat = date_format($appdate,"Y-m-d H:i:s");
+
+        $callback= new \App\CallBack;
+        $callback->appointtime=$appformat;
+        $callback->note=$request->get('note');
+        $callback->lead_id=$request->get('lead_id');
+        $callback->created_by=auth()->user()->id;
+        $date=date_create($request->get('date'));
+        $format = date_format($date,"Y-m-d");
+        $callback->created_at = strtotime($format);
+        $callback->updated_at = strtotime($format);
+        $callback->save();
+        $callback->users()->sync($request->get('agentids'));
+
+        $id = $request->get('lead_id');
+
+        //Insert Lead status
+        $lead= new \App\Leadstatus;
+        $lead->lead_id=$request->get('lead_id');
+        $lead->status=6;
+        $lead->note="Appointment/Meeting has been scheduled on ".$appformat;
+        $lead->user_id=auth()->user()->id;
+        $date=date_create($request->get('date'));
+        $format = date_format($date, "Y-m-d H:i:s");
+        $lead->created_at = strtotime($format);
+        $lead->updated_at = strtotime($format);
+        $lead->save();
+
+        //Update status of Main lead
+        $lead= \App\Lead::find($request->get('lead_id'));
+        $lead->status=6;
+        $lead->save();
+
+
+
+
+        $url=url('/leads/'.$id);
+        $creator=auth()->user()->fname.' '.auth()->user()->lname;
+        //Nofication
+        $users=\App\User::where('iscustomer',0)->where('status',1)->whereIn('id', $request->get('agentids'))->get();
+        $message = collect(['title' => 'New appointment has been scheduled','body'=>'A new appointment has been schedule by '.$creator.', please review it.','redirectURL'=>$url]);
+        //Need to enabled with conditions currently sending to all users in the DB
+        //Notification::send($users, new AppointmentNotification($message));
+
+
+        return redirect('leads/'.$id)->with('success', 'Appointment has been schedule successfully.');
+    }
+
 	//Proposal
     public function createproposal($lead_id){     
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
@@ -633,7 +702,6 @@ class LeadController extends Controller
         $this->validate(request(), [
             'title' => 'required' 
         ]);
-
 		$proposal= \App\Proposal::find($id);
         $proposal->title=$request->get('title');
         $proposal->note=$request->get('note');
@@ -672,6 +740,11 @@ class LeadController extends Controller
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
         return view('appointments.note',compact('lead','lead_id','app_id'));
     }
+//callback Note to show under Conversation
+    public function callback_note($lead_id,$app_id){
+        $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
+        return view('callBack.note',compact('lead','lead_id','app_id'));
+    }
 
     public function store_appnote(Request $request){
         $this->validate(request(), [
@@ -691,6 +764,26 @@ class LeadController extends Controller
         $id = $request->get('lead_id');
         return redirect('leads/'.$id)->with('success', 'Appointment Note for Conversation Added Successfully.');
     }	
+	/************************** CONVERSATION 	-	END************************/
+  public function store_callback(Request $request){
+        $this->validate(request(), [
+            'note' => 'required',
+        ]);
+
+		$conversation= new \App\Conversation;
+        $conversation->message=$request->get('note');
+        //$proposal->docfile=$docfile;
+        $conversation->lead_id=$request->get('lead_id');
+		$conversation->call_back_id=$request->get('app_id');
+        $conversation->created_by=auth()->user()->id;
+		$date=date_create($request->get('date'));
+        $format = date_format($date,"Y-m-d H:i:s");
+        $conversation->created_at = strtotime($format);
+        $conversation->updated_at = strtotime($format);
+        $conversation->save();
+        $id = $request->get('lead_id');
+        return redirect('leads/'.$id)->with('success', 'Appointment Note for Conversation Added Successfully.');
+    }
 	/************************** CONVERSATION 	-	END************************/
 
    

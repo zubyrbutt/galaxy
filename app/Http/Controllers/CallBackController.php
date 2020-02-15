@@ -2,30 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Appointment;
 use App\CallBack;
 use Illuminate\Http\Request;
 
-class AppointmentController extends Controller
+class CallBackController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param null $lead_id
      * @return \Illuminate\Http\Response
      */
-    public function index($lead_id=null)
+    public function index($lead_id)
     {
         if($lead_id){
-            $appointments = Appointment::with('lead')->with('createdby')->where('lead_id',$lead_id)->get();
-
-
+            $callbacks = CallBack::with('lead')->with('createdby')->where('lead_id',$lead_id)->get();
         }else{
-            $appointments = Appointment::with('lead')->with('createdby')->get();
-
-
+            $callbacks = CallBack::with('lead')->with('createdby')->get();
         }
-		return view('appointments.appointments', compact('appointments'));
+        return view('callBack.callback', compact('callbacks'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -51,10 +48,10 @@ class AppointmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Appointment  $appointment
+     * @param  \App\CallBack  $callBack
      * @return \Illuminate\Http\Response
      */
-    public function show(Appointment $appointment)
+    public function show(CallBack $callBack)
     {
         //
     }
@@ -62,10 +59,10 @@ class AppointmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Appointment  $appointment
+     * @param  \App\CallBack  $callBack
      * @return \Illuminate\Http\Response
      */
-    public function edit(Appointment $appointment)
+    public function edit(CallBack $callBack)
     {
         //
     }
@@ -74,10 +71,10 @@ class AppointmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Appointment  $appointment
+     * @param  \App\CallBack  $callBack
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $appointment)
+    public function update(Request $request, CallBack $callBack)
     {
         //
     }
@@ -85,10 +82,10 @@ class AppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Appointment  $appointment
+     * @param  \App\CallBack  $callBack
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $appointment)
+    public function destroy(CallBack $callBack)
     {
         //
     }

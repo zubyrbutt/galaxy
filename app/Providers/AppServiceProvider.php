@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Providers;
-Use View;
+use Illuminate\Support\Facades\View;
+
 Use DB;
 Use App\Adminmenu;
 use Laravel\Passport\Passport;

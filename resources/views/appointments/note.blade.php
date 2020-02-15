@@ -41,7 +41,7 @@
               <!-- /.box-body -->
               <div class="box-footer">
                 <a href="{!! url('/leads/'); !!}/{{$lead_id}}" class="btn btn-default">Cancel</a>
-                <button type="submit" class="btn btn-info pull-right">Add Appointment</button>
+                <button type="submit" class="btn btn-info pull-right">Add Note</button>
               </div>
               <!-- /.box-footer -->
             </form>

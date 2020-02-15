@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Appointment extends Model
+class CallBack extends Model
 {
     protected $fillable = [
         'appointtime','note',
     ];
-        
+
     protected $dates = [
         'appointtime',
         'created_at',
@@ -24,10 +24,10 @@ class Appointment extends Model
     {
         return $this->belongsTo('App\User', 'created_by');
     }
-    
-    public function appointment()
+
+    public function callback()
     {
-        return $this->belongsTo('App\Appointment', 'appointment_id');
+        return $this->belongsTo('App\callback', 'callback_id');
     }
 
     public function users()
@@ -38,4 +38,6 @@ class Appointment extends Model
     {
         return $this->hasMany('App\Conversation');
     }
+
+
 }

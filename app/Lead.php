@@ -31,7 +31,10 @@ class Lead extends Model
     {
 		return $this->hasMany('App\Appointment');
     }
-
+    public function callbacks()
+    {
+        return $this->hasMany('App\Callbacks');
+    }
     public function createdby()
     {
         return $this->belongsTo('App\User', 'created_by');
