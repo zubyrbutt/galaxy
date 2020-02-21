@@ -73,14 +73,7 @@
                 @can('create-recording')<a href="{!! url('leads/createrecording/'.$lead_detail['id'].'' ); !!}"
                                            class="btn btn-warning"><li class="fa fa-plus"></li> Recording</a>@endcan
                 @can('create-appointment')<a href="{!! url('leads/createappointments/'.$lead_detail['id'].'' ); !!}"
-                                             class="btn btn-success"><li class="fa fa-plus"></li> Appointment</a>@endcan
-
-                @can('leads-callbackfilter')
-                @can('create-callback')<a href="{!! url('leads/createcallback/'.$lead_detail['id'].'' ); !!}"
-                                             class="btn btn-success"><li class="fa fa-phone"></li> Call Back</a>@endcan
-                @endcan
-
-
+                                             class="btn btn-success"><li class="fa fa-plus"></li> Appintment</a>@endcan
                 @can('create-doc')<a href="{!! url('leads/createdocs/'.$lead_detail['id'].'' ); !!}"
                                      class="btn btn-success"><li class="fa fa-plus"></li> Document</a>@endcan
                 @can('create-proposal')<a href="{!! url('leads/createproposal/'.$lead_detail['id'].'' ); !!}"
@@ -216,7 +209,7 @@
                                     <span class="text-green"><b>Call Back</b></span>
                                     @break
                                     @case(6)
-                                    <span class="text-green"><b>Interested in Webinar</b></span>
+                                    <span class="text-green"><b>Appointment Booked</b></span>
                                     @break
                                     @case(7)
                                     <span class="text-green"><b>Meeting Done</b></span>
@@ -238,9 +231,6 @@
                                     @break
                                     @case(13)
                                     <span class="text-info"><b>Details Send on Email</b></span>
-                                    @break
-                                    @case(14)
-                                    <span class="text-green"><b>Interested in Property</b></span>
                                     @break
                                     @default
                                     <span class="text-green"><b>New</b></span>
@@ -336,7 +326,7 @@
                                     <span class="text-green"><b>Call Back</b></span>
                                     @break
                                     @case(6)
-                                    <span class="text-green"><b>Interested in Webinar</b></span>
+                                    <span class="text-green"><b>Appointment Booked</b></span>
                                     @break
                                     @case(7)
                                     <span class="text-green"><b>Meeting Done</b></span>
@@ -359,16 +349,13 @@
                                     @case(13)
                                     <span class="text-info"><b>Details Send on Email</b></span>
                                     @break
-                                    @case(14)
-                                    <span class="text-green"><b>Interested in Property</b></span>
-                                    @break
                                     @default
                                     <span class="text-green"><b>New</b></span>
                                 @endswitch
                             </td>
                             <td>{{$note->note}}</td>
                             <td>{{$note->createdby->fname}} {{$note->createdby->lname}}</td>
-                            <td>{{$note->created_at->diffForHumans()}}</td>
+                            <td>{{$note->created_at->format('d-m-Y  H:i:s')}}</td>
                             <td>
                             </td>
                         </tr>
@@ -408,7 +395,7 @@
                             <option value="3">Rejected</option>
                             <option value="4">Not Interested</option>
 {{--                            <option value="5">Call Back</option>--}}
-{{--                            <option value="6">Interested in Webinar</option>--}}
+{{--                            <option value="6">Appointment Booked</option>--}}
                             <option value="7">Meeting Done</option>
                             <option value="8">Invoice Sent</option>
                             <option value="9">Spam</option>
@@ -416,7 +403,6 @@
                             <option value="11">Duplicate</option>
                             <option value="12">Details Sent on WhatsApp</option>
                             <option value="13">Details Send on Email</option>
-                            <option value="14">Interested in Property</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -550,13 +536,14 @@
                             <td>{{$appointment->appointtime->format('d-M-Y h:i:s')}}</td>
                             <td>{{ str_limit($appointment->note, 100)}}</td>
 
-                            @if (count($appointment->conversations) != 0)
+                            @if (count($appointment->conversations)> 0)
                                 @foreach($appointment->conversations as $conversation)
                                     <td>{{ str_limit($conversation->message, 30) }}</td>
                                 @endforeach
                                 @else
                                 <td><span class="badge badge-success">Not yet</span></td>
                             @endif
+
                             <td>
                                 @foreach($appointment->users as $staff)
                                     {{ $loop->first ? '' : ' ' }}
@@ -567,8 +554,9 @@
                                 @if($appointment->createdby)
                                     {{$appointment->createdby->fname}} {{$appointment->createdby->lname}}
                                 @endif
+
                             </td>
-                            @if(count($appointment->conversations) ==null)
+                            @if(count($appointment->conversations)> 0)
                             <td>
                                 <a href="{!! url('leads/create_appnote/'.$lead_detail['id'].'/'.$appointment['id'].'' ); !!}"
                                    class="btn btn-primary" title="Create Note">
@@ -605,7 +593,6 @@
     <!-- Box Appointments ends -->
 
 	<!-- Box Call Back Begins -->
-    @can('leads-callbackfilter')
     <div class="box box-success">
         <div class="box-header with-border">
             <h3 class="box-title">Call Back</h3>
@@ -621,7 +608,7 @@
                 <table id="nofeaturesapp" class="display responsive wrap" style="width:100%;">
                     <thead>
                     <tr>
-                        <th>Call Back Date</th>
+                        <th>Appointment Date</th>
                         <th width="40%">Conservation</th>
                         <th width="20%">Note</th>
                         <th>Assigned To</th>
@@ -635,10 +622,9 @@
                             <td>{{$callback->appointtime->format('d-M-Y h:i:s')}}</td>
                             <td>{{ $callback->note}}</td>
 
-                            @if (count($callback->conversations) != 0)
+                            @if (count($callback->conversations)> 0)
                                 @foreach($callback->conversations as $conversation)
-
-                                    <td>{{ $conversation->message }}</td>
+                                    <td>{{ str_limit($conversation->message, 30) }}</td>
                                 @endforeach
                             @else
                                 <td><span class="badge badge-success">Not yet</span></td>
@@ -646,7 +632,7 @@
                             <td>
                                 @foreach($callback->users as $staff)
                                     {{ $loop->first ? '' : ' ' }}
-                                    <span class="btn bg-blue btn-xs" style="margin: 1px;"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
+                                    <span class="btn bg-blue btn-xs"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
                                 @endforeach
                             </td>
                             <td>
@@ -655,10 +641,10 @@
                                 @endif
 
                             </td>
-                            @if(count($callback->conversations) == null )
+                            @if(count($callback->conversations) ==null )
                             <td>
-                                <a href="{!! url('leads/create_appnote/'.$lead_detail['id'].'/'.$callback['id'].'' ); !!}"
-                                   class="btn btn-primary" style="margin: 1px" title="Create Note">
+                                <a href="{!! url('leads/callback_note/'.$lead_detail['id'].'/'.$callback['id'].'' ); !!}"
+                                   class="btn btn-primary" title="Create Note">
                                     <li class="fa fa-sticky-note"></li>
                                 </a>
                             </td>
@@ -677,20 +663,18 @@
 
         </div>
         <!-- /.box-body -->
-        @can('create-callback')
         <div class="box-footer clearfix" style="">
             <div>
                 <a href="{!! url('/callbacks/'.$lead_detail['id']); !!}" class="pull-right btn btn-info"
                    style="margin-top:5px;">View All</a>
-                <a href="{!! url('leads/createcallback/'.$lead_detail['id'].'' ); !!}"
+                @can('create-appointment')<a href="{!! url('leads/createcallback/'.$lead_detail['id'].'' ); !!}"
                                              class="btn btn-success">
                     <li class="fa fa-plus"></li>
-                    Call Back</a>
+                    Call Back</a>@endcan
             </div>
-        </div>@endcan
+        </div>
         <!-- /.box-footer -->
     </div>
-    @endcan
     <!-- Box Call Back ends -->
     <!-- Box Proposal Begins -->
     <div class="box box-primary">

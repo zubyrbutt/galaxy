@@ -10,11 +10,11 @@
     @endif
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">Add Call Bacl Note for Lead : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
+            <h3 class="box-title">Add Call Back Note for Lead : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form class="form-horizontal" action="{!! url('leads/store_callback'); !!}" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{!! url('store_callback'); !!}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="box-body" >
                 <div class="row">

@@ -20,7 +20,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Manage Appointments</h3>
+                    <h3 class="box-title">Manage Call Back</h3>
                     <span class="pull-right">
                 </div>
                 <!-- /.box-header -->
@@ -30,8 +30,8 @@
                                 <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Appointment Time</th>
-                                <th width="45%">Note</th>
+                                <th>Call Back Time</th>
+                                <th width="40%">Note</th>
                                 <th>Business Name</th>
                                 <th>Business Nature</th>
                                 <th>Created By</th>
@@ -40,31 +40,31 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($callbacks as $appointment)
+                            @foreach($callbacks as $callback)
 
                                 <tr>
-                                    <td>{{$appointment['id']}}</td>
-                                    <td>{{$appointment->appointtime->format('d-M-Y h:i:s') }}</td>
-                                    <td>{{$appointment->note}}</td>
-                                    <td><a href="{!! url('/leads/'.$appointment->lead_id ); !!}">{{$appointment->lead->businessName}}</a></td>
-                                    <td>{{$appointment->lead->businessNature}}</td>
-                                    <td>{{$appointment->createdby->fname }} {{ $appointment->createdby->lname }}</td>
+                                    <td>{{$callback['id']}}</td>
+                                    <td>{{$callback->appointtime->format('d-M-Y h:i:s') }}</td>
+                                    <td>{{$callback->note}}</td>
+                                    <td><a href="{!! url('/leads/'.$callback->lead_id ); !!}">{{$callback->lead->businessName}}</a></td>
+                                    <td>{{$callback->lead->businessNature}}</td>
+                                    <td>{{$callback->createdby->fname }} {{ $callback->createdby->lname }}</td>
                                     <td>
-                                        @foreach($appointment->users as $staff)
+                                        @foreach($callback->users as $staff)
                                             {{ $loop->first ? '' : ' ' }}
                                             <span class="btn bg-blue btn-xs"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
                                         @endforeach
                                     </td>
                                 <!-- For Delete Form begin
-                    <form id="form{{$appointment['id']}}" action="{{action('AppointmentController@destroy', $appointment['id'])}}" method="post">
+                    <form id="form{{$callback['id']}}" action="{{action('AppointmentController@destroy', $callback['id'])}}" method="post">
                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
                                     </form>
                                     For Delete Form Ends -->
                                     <td>
-                                    <!--<a href="{!! url('/appointment/'.$appointment['id'] ); !!}" class="btn btn-primary" title="View Detail"><i class="fa fa-eye"></i> </a>
-                      <a href="{!! url('/appointment/'.$appointment['id'].'/recordingcreate'); !!}" target='_blank'  class="btn btn-warning" title="Recording link"><i class="fa fa-file-audio-o"></i> </a>
-					            <button class="btn btn-danger" onclick="archiveFunction('form{{$appointment['id']}}')"><i class="fa fa-trash"></i></button>-->
+                                    <!--<a href="{!! url('/appointment/'.$callback['id'] ); !!}" class="btn btn-primary" title="View Detail"><i class="fa fa-eye"></i> </a>
+                      <a href="{!! url('/appointment/'.$callback['id'].'/recordingcreate'); !!}" target='_blank'  class="btn btn-warning" title="Recording link"><i class="fa fa-file-audio-o"></i> </a>
+					            <button class="btn btn-danger" onclick="archiveFunction('form{{$callback['id']}}')"><i class="fa fa-trash"></i></button>-->
                                         Action
                                     </td>
                                 </tr>
@@ -74,7 +74,7 @@
                             <tfoot>
                             <tr>
                                 <th>Id</th>
-                                <th>Appointment Time</th>
+                                <th>Call Back Time</th>
                                 <th>Note</th>
                                 <th>Business Name</th>
                                 <th>Business Nature</th>

@@ -222,6 +222,16 @@ Route::group(['prefix'=> 'yccref'],function(){
  Route::get('/leads/anydata', 'LeadController@anyData')->middleware('auth','ipcheck')->name('leads.data');
 /* Server side Datatable testing begins */
 
+//Call Backs
+
+Route::get('callbackfilter', 'CallBackController@todaycallbacks' )->middleware('can:show-all-call-backs','ipcheck')->name('callbackfilter');
+Route::post('callbacksearch', 'CallBackController@callbacksearch')->middleware('can:search-callbacks','ipcheck')->name('callbacksearch');
+Route::get('/leads/createcallback/{id}', 'CallBackController@createcallback')->middleware('can:create-callback','ipcheck')->name('createcallback');
+Route::post('/leads/storecallback/', 'CallBackController@storecallback')->middleware('can:create-callback','ipcheck')->name('storecallback');
+Route::get('/leads/callback_note/{id}/{app_id}', 'CallbackController@callback_note')->middleware('auth','ipcheck')->name('callback_note');
+Route::post('store_callback', 'CallBackController@store_callback')->middleware('auth','ipcheck')->name('store_callback');
+
+// Lead group
  Route::group(['prefix'=> 'leads'],function(){
     Route::get('create', 'LeadController@create')->middleware('can:create-lead','ipcheck')->name('leads.create');
     Route::post('', 'LeadController@store')->middleware('can:create-lead','ipcheck')->name('leads.store');   
@@ -251,11 +261,6 @@ Route::group(['prefix'=> 'yccref'],function(){
     //Appointmetns
     Route::get('createappointments/{id}', 'LeadController@createappointments')->middleware('can:create-appointment','ipcheck')->name('createappointments');
     Route::post('storeappointments/', 'LeadController@storeappointments')->middleware('can:create-appointment','ipcheck')->name('storeappointments');
-
-    //Call Back
-     Route::get('createcallback/{id}', 'LeadController@createcallback')->middleware('can:create-appointment','ipcheck')->name('createcallback');
-     Route::post('storecallback/', 'LeadController@storecallback')->middleware('can:create-appointment','ipcheck')->name('storecallback');
-
 
      //Lead Docs
     Route::get('createdocs/{id}', 'LeadController@createdocs')->middleware('can:create-doc','ipcheck')->name('createdocs');
@@ -291,13 +296,13 @@ Route::group(['prefix'=> 'yccref'],function(){
 
  //Call back
 Route::get('/callbacks/{id}', 'CallBackController@index')->middleware('auth','ipcheck')->name('callbacks');
+Route::get('/callbacks', 'CallBackController@searchCallBack')->middleware('auth','ipcheck')->name('search_callbacks');
 
  //Conversation
  Route::post('/leads/store_conversation', 'LeadController@store_conversation')->middleware('auth','ipcheck')->name('store_conversation');
  Route::get('/leads/create_appnote/{id}/{app_id}', 'LeadController@create_appnote')->middleware('auth','ipcheck')->name('create_appnote');
-Route::get('/leads/callback_note/{id}/{app_id}', 'LeadController@callback_note')->middleware('auth','ipcheck')->name('callback_note');
- Route::post('/leads/store_appnote/', 'LeadController@store_appnote')->middleware('auth','ipcheck')->name('store_appnote');
- Route::post('/leads/store_callback/', 'LeadController@store_callback')->middleware('auth','ipcheck')->name('store_callback');
+
+
 
 //Project Routes Begins
  //Project

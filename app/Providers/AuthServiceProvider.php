@@ -30,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         $this->registerDashboardPolicies();
         $this->registerLeadPolicies();
+        $this->registerCallBackPolicies();
         $this->registerProjectPolicies();
         $this->registerCustomersProjectPolicies();
         $this->registerAdminsPolicies();
@@ -1098,7 +1099,32 @@ public function JournalVoucher(){
         
 
     }
-    
+    //Call Back
+    public function registerCallBackPolicies(){
+
+        Gate::define('create-callback', function ($user){
+            return $user->hasAccess(['create-callbacks']);
+        });
+
+        Gate::define('search-callbacks', function ($user){
+            return $user->hasAccess(['search-callbacks']);
+
+        });
+
+        Gate::define('create-callback', function ($user){
+            return $user->hasAccess(['create-callback']);
+
+        });
+
+        Gate::define('leads-callbackfilter', function($user){
+            return $user->hasAccess(['leads-callbackfilter']);
+        });
+
+        Gate::define('show-all-call-backs', function($user){
+            return $user->hasAccess(['show-all-call-backs']);
+        });
+
+    }
     //Leads
     public function registerLeadPolicies(){
        
@@ -1138,6 +1164,7 @@ public function JournalVoucher(){
             return $user->hasAccess(['search-leads']);
         });
 
+
         Gate::define('update-lead', function($user, \App\Lead $lead){
             return $user->hasAccess(['update-lead']) or $user->id==$lead->user_id;
         });
@@ -1153,6 +1180,10 @@ public function JournalVoucher(){
 
         Gate::define('create-appointment', function($user){
             return $user->hasAccess(['create-appointment']);
+        });
+
+        Gate::define('create-callback', function($user){
+            return $user->hasAccess(['create-callback']);
         });
 
         Gate::define('create-doc', function($user){
