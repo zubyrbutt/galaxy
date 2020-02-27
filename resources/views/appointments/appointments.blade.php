@@ -20,7 +20,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Manage Appointments</h3>
+              <h3 class="box-title">Manage Webinar</h3>
               <span class="pull-right"></span>
             </div>
             <!-- /.box-header -->
@@ -30,7 +30,7 @@
                 <thead>
                 <tr>
                   <th>Id</th>
-                  <th>Appointment Time</th>
+                  <th>Webinar Time</th>
                   <th width="45%">Note</th>
                   <th>Business Name</th>
                   <th>Business Nature</th>
@@ -72,7 +72,7 @@
                 <tfoot>
                 <tr>
                   <th>Id</th>
-                  <th>Appointment Time</th>
+                  <th>Webinar Time</th>
                   <th>Note</th>
                   <th>Business Name</th>
                   <th>Business Nature</th>

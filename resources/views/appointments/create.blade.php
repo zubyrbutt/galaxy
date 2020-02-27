@@ -10,7 +10,7 @@
 @endif
     <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Add Appointment for Lead : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
+              <h3 class="box-title">Add Wibenar for Lead : {{$lead->businessName}} ({{$lead->user->fname}} {{$lead->user->lname}})</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -128,7 +128,7 @@
               <!-- /.box-body -->
               <div class="box-footer">
                 <a href="{!! url('/leads/'); !!}/{{$lead_id}}" class="btn btn-default">Cancel</a>
-                <button type="submit" class="btn btn-info pull-right">Add Appointment</button>
+                <button type="submit" class="btn btn-info pull-right">Add Webinar</button>
               </div>
               <!-- /.box-footer -->
             </form>

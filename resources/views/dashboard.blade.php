@@ -102,7 +102,7 @@
             <span class="info-box-icon bg-green"><i class="fa fa-calendar"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Appointments</span>
+              <span class="info-box-text"> Interested in Webinar</span>
               <span class="info-box-number">{{$statistics_count['appointments']}}</span>
             </div>
             <!-- /.info-box-content -->
@@ -429,6 +429,7 @@
                             By: {{$lead->createdby->fname}} {{$lead->createdby->lname}}
                         </span>
                   </div>
+
                 </li>
                 @endforeach
                 <!-- /.item -->                

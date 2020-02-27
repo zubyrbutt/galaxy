@@ -73,7 +73,7 @@
                 @can('create-recording')<a href="{!! url('leads/createrecording/'.$lead_detail['id'].'' ); !!}"
                                            class="btn btn-warning"><li class="fa fa-plus"></li> Recording</a>@endcan
                 @can('create-appointment')<a href="{!! url('leads/createappointments/'.$lead_detail['id'].'' ); !!}"
-                                             class="btn btn-success"><li class="fa fa-plus"></li> Appointment</a>@endcan
+                                             class="btn btn-success"><li class="fa fa-plus"></li> Interested in Webinar</a>@endcan
 
                 @can('leads-callbackfilter')
                 @can('create-callback')<a href="{!! url('leads/createcallback/'.$lead_detail['id'].'' ); !!}"
@@ -242,6 +242,9 @@
                                     @case(14)
                                     <span class="text-green"><b>Interested in Property</b></span>
                                     @break
+                                    @case(15)
+                                    <span class="text-green"><b>Follow Up</b></span>
+                                    @break
                                     @default
                                     <span class="text-green"><b>New</b></span>
                                 @endswitch
@@ -362,6 +365,9 @@
                                     @case(14)
                                     <span class="text-green"><b>Interested in Property</b></span>
                                     @break
+                                    @case(15)
+                                    <span class="text-green"><b>Follow Up</b></span>
+                                    @break
                                     @default
                                     <span class="text-green"><b>New</b></span>
                                 @endswitch
@@ -417,6 +423,7 @@
                             <option value="12">Details Sent on WhatsApp</option>
                             <option value="13">Details Send on Email</option>
                             <option value="14">Interested in Property</option>
+                            <option value="15">Follow Up</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -522,7 +529,7 @@
     <!-- Box Appointments Begins -->
     <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title">Appointments</h3>
+            <h3 class="box-title">Interested in Webinar</h3>
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
@@ -535,7 +542,7 @@
                 <table id="nofeaturesapp" class="display responsive wrap" style="width:100%;">
                     <thead>
                     <tr>
-                        <th>Appointment Date</th>
+                        <th>Interested in Webinar Date</th>
                         <th width="40%">Conservation</th>
                         <th width="20%">Note</th>
                         <th>Assigned To</th>
@@ -548,11 +555,11 @@
                     @foreach($appointments as $appointment)
                         <tr>
                             <td>{{$appointment->appointtime->format('d-M-Y h:i:s')}}</td>
-                            <td>{{ str_limit($appointment->note, 100)}}</td>
+                            <td>{{ $appointment->note}}</td>
 
                             @if (count($appointment->conversations) != 0)
                                 @foreach($appointment->conversations as $conversation)
-                                    <td>{{ str_limit($conversation->message, 30) }}</td>
+                                    <td>{{ $conversation->message}}</td>
                                 @endforeach
                                 @else
                                 <td><span class="badge badge-success">Not yet</span></td>
@@ -560,7 +567,7 @@
                             <td>
                                 @foreach($appointment->users as $staff)
                                     {{ $loop->first ? '' : ' ' }}
-                                    <span class="btn bg-blue btn-xs"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
+                                    <span class="btn bg-blue btn-xs" style="margin: 1px"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
                                 @endforeach
                             </td>
                             <td>
@@ -571,7 +578,7 @@
                             @if(count($appointment->conversations) ==null)
                             <td>
                                 <a href="{!! url('leads/create_appnote/'.$lead_detail['id'].'/'.$appointment['id'].'' ); !!}"
-                                   class="btn btn-primary" title="Create Note">
+                                   class="btn btn-primary" style="margin: 1px" title="Create Note">
                                     <li class="fa fa-sticky-note"></li>
                                 </a>
                             </td>
@@ -597,7 +604,7 @@
                 @can('create-appointment')<a href="{!! url('leads/createappointments/'.$lead_detail['id'].'' ); !!}"
                                              class="btn btn-success">
                     <li class="fa fa-plus"></li>
-                    Appintment</a>@endcan
+                    Interested in Webinar</a>@endcan
             </div>
         </div>
         <!-- /.box-footer -->
@@ -646,7 +653,7 @@
                             <td>
                                 @foreach($callback->users as $staff)
                                     {{ $loop->first ? '' : ' ' }}
-                                    <span class="btn bg-blue btn-xs" style="margin: 1px;"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
+                                    <span class="btn bg-blue btn-xs" style="margin: 1px"><small>{{$staff->fname}} {{$staff->lname}}</small></span>
                                 @endforeach
                             </td>
                             <td>
@@ -657,14 +664,14 @@
                             </td>
                             @if(count($callback->conversations) == null )
                             <td>
-                                <a href="{!! url('leads/create_appnote/'.$lead_detail['id'].'/'.$callback['id'].'' ); !!}"
+                                <a href="{!! url('leads/create_callback_note/'.$callback->lead_id.'/'.$callback['id'].''  ); !!}"
                                    class="btn btn-primary" style="margin: 1px" title="Create Note">
                                     <li class="fa fa-sticky-note"></li>
                                 </a>
                             </td>
                                 @else
                                 <td></td>
-                            |@endif
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>
@@ -682,7 +689,7 @@
             <div>
                 <a href="{!! url('/callbacks/'.$lead_detail['id']); !!}" class="pull-right btn btn-info"
                    style="margin-top:5px;">View All</a>
-                <a href="{!! url('leads/createcallback/'.$lead_detail['id'].'' ); !!}"
+                <a href="{!! url('/leads/createcallback/'.$lead_detail['id'].'' ); !!}"
                                              class="btn btn-success">
                     <li class="fa fa-plus"></li>
                     Call Back</a>

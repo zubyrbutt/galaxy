@@ -52,7 +52,7 @@
                 <option value="3">Rejected</option>
                 <option value="4">Not Interested</option>
               <option value="5">Call Back</option>
-           <option value="6">Appointment Booked</option>
+           <option value="6">Interested in Webinar</option>
                 <option value="7">Meeting Done</option>
                 <option value="8">Invoice Sent</option>
                 <option value="9">Spam</option>
@@ -60,6 +60,9 @@
                 <option value="11">Duplicate</option>
                 <option value="12">Details Sent on WhatsApp</option>
                 <option value="13">Details Send on Email</option>
+                <option value="14">Interested in Property</option>
+                <option value="15">Follow Up</option>
+
               </select>
             </div>
 
@@ -147,7 +150,8 @@
                   <!-- <th>Business Name</th>
                   <th>Business Nature</th> -->
                   <th>Status</th>
-				          <th>Action</th>
+                  <th>Country</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -189,7 +193,7 @@
                         <span class="text-green"><b>Call Back</b></span>
                         @break
                         @case(6)
-                        <span class="text-green"><b>Appointment Booked</b></span>
+                        <span class="text-green"><b>Interested in Webinar</b></span>
                         @break
                         @case(7)
                         <span class="text-green"><b>Meeting Done</b></span>
@@ -212,10 +216,17 @@
                         @case(13)
                         <span class="text-info"><b>Details Send on Email</b></span>
                         @break
+                            @case(14)
+                                <span class="text-green"><b>Interested in Property</b></span>
+                                @break
+                                @case(15)
+                                <span class="text-green"><b>Follow Up</b></span>
+                                @break
                         @default
                         <span class="text-green"><b>New</b></span>
                       @endswitch
                     </td>
+                      <td>{{$lead->ccountry}}</td>
                     @can('delete-lead')
                      <!-- For Delete Form begin -->
                     <form id="form{{$lead['id']}}" action="{{action('LeadController@destroy', $lead['id'])}}" method="post">
@@ -257,6 +268,7 @@
                     <!-- <th>Business Name</th> -->
                     <!-- <th>Business Nature</th> -->
                     <th>Status</th>
+                    <th>Country</th>
                     <th>Action</th>
                 </tr>
                 </tfoot>
