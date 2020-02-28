@@ -1182,6 +1182,14 @@ public function JournalVoucher(){
             return $user->hasAccess(['create-appointment']);
         });
 
+      Gate::define('leads-appointments', function ($user){
+         return $user->hasAccess(['leads-appointments']);
+      });
+
+       Gate::define('appointment-filter', function ($user){
+             return $user->hasAccess(['appointment-filter']);
+          });
+
         Gate::define('create-callback', function($user){
             return $user->hasAccess(['create-callback']);
         });

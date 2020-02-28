@@ -13,6 +13,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/expo2020', 'ExpoController@index')->name('expo.index');
+Route::post('/expo_store', 'ExpoController@store');
+Route::get('/thank_you', 'ExpoController@thank_you');
+
 
 
 Auth::routes();
@@ -229,12 +233,8 @@ Route::post('callbacksearch', 'CallBackController@callbacksearch')->middleware('
 Route::get('/leads/createcallback/{id}', 'CallBackController@createcallback')->middleware('can:create-callback','ipcheck')->name('createcallback');
 Route::post('/leads/storecallback/', 'CallBackController@storecallback')->middleware('can:create-callback','ipcheck')->name('storecallback');
 Route::get('/leads/callback_note/{id}/{app_id}', 'CallbackController@callback_note')->middleware('auth','ipcheck')->name('callback_note');
-
-
 Route::get('/leads/create_callback_note/{id}/{app_id}', 'CallbackController@create_callback_note')->middleware('auth','ipcheck')->name('create_callback_note');
-
 Route::post('store_callback_note', 'CallBackController@store_callback_note')->middleware('auth','ipcheck')->name('store_callback_note');
-
 Route::post('store_callback', 'CallBackController@store_callback')->middleware('auth','ipcheck')->name('store_callback');
 
 
