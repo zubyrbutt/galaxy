@@ -24,10 +24,13 @@ class CallBack extends Model
     {
         return $this->belongsTo('App\User', 'created_by');
     }
-
-    public function callback()
+    public function assignedTo()
     {
-        return $this->belongsTo('App\callback', 'callback_id');
+        return $this->belongsTo('App\User', 'id');
+    }
+    public function callbackuser_id()
+    {
+        return $this->belongsTo('App\callBackUser', 'id' , 'call_back_id');
     }
 
     public function users()

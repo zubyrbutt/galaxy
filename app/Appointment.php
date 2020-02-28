@@ -29,6 +29,15 @@ class Appointment extends Model
     {
         return $this->belongsTo('App\Appointment', 'appointment_id');
     }
+    public function assignedTo()
+    {
+        return $this->belongsTo('App\User', 'id');
+    }
+
+    public function appointmentUser_id()
+    {
+        return $this->belongsTo('App\AppointmentUser', 'id' , 'appointment_id');
+    }
 
     public function users()
     {
@@ -38,4 +47,5 @@ class Appointment extends Model
     {
         return $this->hasMany('App\Conversation');
     }
+
 }

@@ -16,7 +16,7 @@
       
     </script>
 @endif
-@can('search-leads')
+    @can('search-leads')
 <div class="row">
     <div class="col-md-12">
         <form class="form-horizontal" action="{!! url('/leads/search'); !!}" method="post" enctype="multipart/form-data">
@@ -35,6 +35,7 @@
             
             <!--Search Form Begins -->
             <div class="form-group col-md-12">
+
                 <label>Select Staff</label>
                 <select name="agentid" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a Satff" style="width: 100%;" tabindex="-1" aria-hidden="true">
                   @can('show-all-leads')<option value="all">All</option>@endcan
@@ -42,7 +43,15 @@
                     <option value="{{$agent->id}}">{{$agent->fname}} {{$agent->lname}}</option>
                   @endforeach                
                 </select>
-                
+
+                  <label>Select Country</label>
+                <select name="countryId" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a Satff" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                  @can('show-all-leads')<option value="all">All</option>@endcan
+                  @foreach($countries as $country)
+                    <option value="{{$country->ccountry}}">{{$country->ccountry}}</option>
+                  @endforeach
+                </select>
+
               </div>
               <div class="form-group col-md-12">
               <label>Status</label>
@@ -64,6 +73,7 @@
                 <option value="15">Follow Up</option>
 
               </select>
+
             </div>
 
               <div class="form-group col-md-12">
@@ -77,6 +87,13 @@
                       <i class="fa fa-caret-down"></i>
                     </button>
                   </div>
+                  <br>
+                  <label>Most Recent:</label><br>
+                  <label for="male">Leads</label>
+                  <label for="recentLead"></label><input type="radio" id="recentLead" name="recent" value="recentLead" checked>
+
+                  <label for="male">Status</label>
+                  <label for="recentStatus"></label><input type="radio" id="recentStatus" name="recent" value="recentStatus">
                 </div>
 
               <script>
