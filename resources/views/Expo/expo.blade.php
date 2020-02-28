@@ -54,7 +54,7 @@
         }
 
         .currency-amount {
-            text-align: right;
+            text-align: left;
         }
 
         .currency-addon {
@@ -139,9 +139,9 @@
                 <span class="text-danger">{{ $errors->first('interested')  }}</span>
             @endif
         </div>
+        <strong>How much do you want to invest?</strong><br>
+        <div class="" style="width: 300px">
 
-        <div class="">
-            <strong>How much do you want to invest?</strong><br>
 
             <label class="sr-only" for="inlineFormInputGroup">Amount</label>
             <div class="input-group">
@@ -151,7 +151,7 @@
                 <div class="input-group-addon currency-addon">
 
                     <select class="currency-selector" name="symbol">
-                        <option data-symbol="PKR" data-placeholder="0" selected>PKR</option>
+                        <option data-symbol="PKR" data-placeholder="0.0" selected>PKR</option>
                         <option data-symbol="£" data-placeholder="0.00">GBP</option>
                         <option data-symbol="$" data-placeholder="0">US</option>
                         <option data-symbol="$" data-placeholder="0.00">AUD</option>
