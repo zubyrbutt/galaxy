@@ -4,19 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CallBackUser extends Model
+class AppointmentUser extends Model
 {
 
-    protected $table = 'call_back_user';
+    protected $table = 'appointment_user';
 
     public function createdby()
     {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function callback()
+    public function appointment()
     {
-        return $this->belongsTo('App\callBack', 'id' ,'call_back_id');
+        return $this->belongsTo('App\Appointment', 'id' ,'appointment_id');
     }
 
     public function users()

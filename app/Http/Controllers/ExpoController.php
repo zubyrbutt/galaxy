@@ -66,12 +66,10 @@ class ExpoController extends Controller
         //multi
         $projects = $request->input('projects');
         $expo->projects = implode(',', $projects);
-
         $interested = $request->input('interested');
         $expo->interested = implode(',', $interested);
 
         $expo->symbol = $request['symbol'];
-
         $expo->amount = $request['amount'];
         $expo->comment = $request['comment'];
         $expo->rating = $request['selected_rating'];

@@ -133,8 +133,63 @@ class CallBackController extends Controller
         return view('callBack.note',compact('lead','lead_id','app_id'));
     }
 
-    public function store_callback(Request $request){
+
+
+   public function create_callback_note($lead_id,$app_id){
+
+        $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
+
+        return view('callBack.callback_note',compact('lead','lead_id','app_id'));
+    }
+
+    public function store_callback(Request $request)
+    {
+
         //dd($request->url());
+        $this->validate(request(), [
+            'note' => 'required',
+            'lead_id' => 'required',
+            'app_id' => 'required',
+        ]);
+
+        $conversation = new \App\Conversation;
+        $conversation->message = $request->get('note');
+        //$proposal->docfile=$docfile;
+        $conversation->lead_id = $request->get('lead_id');
+        $conversation->call_back_id = $request->get('app_id');
+        $conversation->created_by = auth()->user()->id;
+        $date = date_create($request->get('date'));
+        $format = date_format($date, "Y-m-d H:i:s");
+        $conversation->created_at = strtotime($format);
+        $conversation->updated_at = strtotime($format);
+        $conversation->save();
+        $id = $request->get('lead_id');
+
+        //Insert Lead status
+        $lead = new \App\Leadstatus;
+        $lead->lead_id = $request->get('lead_id');
+        $lead->status = 5;
+
+        $lead->note = "Call Back ..  ";
+
+        $lead->user_id = auth()->user()->id;
+        $date = date_create($request->get('date'));
+        $format = date_format($date, "Y-m-d H:i:s");
+        $lead->created_at = strtotime($format);
+        $lead->updated_at = strtotime($format);
+        $lead->save();
+
+        //Update status of Main lead
+        $lead = \App\Lead::find($request->get('lead_id'));
+        $lead->status = 5;
+        $lead->save();
+
+        return redirect('callbackfilter')->with('success', 'Appointment Note for Conversation Added Successfully.');
+    }
+
+
+        public function store_callback_note(Request $request){
+            //dd($request->url());
         $this->validate(request(), [
             'note' => 'required',
             'lead_id' => 'required',
@@ -143,7 +198,6 @@ class CallBackController extends Controller
 
         $conversation= new \App\Conversation;
         $conversation->message=$request->get('note');
-        //$proposal->docfile=$docfile;
         $conversation->lead_id=$request->get('lead_id');
         $conversation->call_back_id=$request->get('app_id');
         $conversation->created_by=auth()->user()->id;
@@ -173,7 +227,7 @@ class CallBackController extends Controller
         $lead->status=5;
         $lead->save();
 
-    return redirect('callbackfilter')->with('success', 'Appointment Note for Conversation Added Successfully.');
+    return redirect('leads/'.$id)->with('success', 'Appointment Note for Conversation Added Successfully.');
 
     }
     public function todaycallbacks()

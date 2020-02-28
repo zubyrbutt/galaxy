@@ -1,5 +1,5 @@
 <?php
-use App\User;
+
 namespace App\Http\Controllers;
 use App\EndService;
 use App\UserChecklist;

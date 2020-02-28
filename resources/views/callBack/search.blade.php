@@ -180,7 +180,7 @@
                                         </td>
                                     @else
                                         <td></td>
-                                        |@endif
+                                        @endif
 
                                 </tr>
 

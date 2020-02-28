@@ -45,27 +45,29 @@ class LeadController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
-        $countries = \App\Lead::distinct()->get(['ccountry']);
-        //dd($countries);
+
+        //return Datatables::of(User::all())->make(true);
+       //$agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
+
+       $countries = \App\Lead::distinct()->get(['ccountry']);
         $query = \App\Lead::with('user')->with('createdby')->with('assignedTo')->distinct('ccountry');
-        //$countries = \App\Lead::distinct()->get(['ccountry']);
-        $permissions_arr=json_decode(auth()->user()->role->permissions,true);
+      $permissions_arr=json_decode(auth()->user()->role->permissions,true);
 
         if(isset($permissions_arr['show-all-leads'])==true){
+         $leads = $query->get();
+         $agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
+      }else {
+            $query = $query->where('created_by', auth()->user()->id)->orwhere('assignedto', auth()->user()->id);
             $leads = $query->get();
-            $agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
-        }else{
-            $query=$query->where('created_by',auth()->user()->id)->orwhere('assignedto',auth()->user()->id);
-            $leads = $query->get();
-            $agents=\App\User::where('iscustomer',0)->where('status',1)->where('id', auth()->user()->id)->get();
+            $agents = \App\User::where('iscustomer', 0)->where('status', 1)->where('id', auth()->user()->id)->get();
         }
 
-        return view('leads.leads', compact('leads','agents', 'countries'));
+
+       return view('leads.leads', compact('leads','agents', 'countries'));
     }
 
 

@@ -21,7 +21,7 @@
 <body>
 
 <div class="container">
-    <div class="text-center mt-5">  <img src="{{asset('./img/grlogo.png')}}" class="img-fluid mb-5 mt-5"   alt="logo" width="225" height="225"/><br></div>
+    <div class="text-center mt-5">  <img src="{{asset('./img/logo.png')}}" class="img-fluid mb-5 mt-5"   alt="logo" width="225" height="225"/><br></div>
     <div class="jumbotron text-center mt-5">
 
         <img class="text-center"
