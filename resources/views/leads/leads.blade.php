@@ -161,6 +161,7 @@
                   <th>Created By</th>
                   <th>Assigned To</th>
                   <th>Created At</th>
+                  <th>Updated At</th>
                   <th>Customer Name</th>
                   <!--<th>Email</th>
                   <th>Phone Number</th>-->
@@ -184,6 +185,7 @@
                     <td>{{$lead->createdby->fname }} {{ $lead->createdby->lname }}</td>
                     <td>{{isset($lead->assignedTo) ? $lead->assignedTo->fname.' '.$lead->assignedTo->lname : "NA" }}</td>
                     <td>{{$lead->created_at->format('d-m-Y')}}</td>
+                    <td>{{$lead->updated_at->diffForhumans()}}</td>
                     <td>{{$lead->user->fname }} {{ $lead->user->lname }}</td>
                     <!--<td>{  {$lead->user->email}  }</td>
                     <td>{  {$lead->user->phonenumber}  }</td>-->
@@ -279,6 +281,7 @@
                     <th>Created By</th>
                     <th>Assigned To</th>
                     <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Customer Name</th>
                     <!--<th>Email</th>
                     <th>Phone Number</th>-->

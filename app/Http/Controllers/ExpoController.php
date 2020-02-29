@@ -51,7 +51,6 @@ class ExpoController extends Controller
             'projects' => 'required',
             'interested' => 'required',
             'amount' => 'required',
-            'comment' => 'required',
             'event' => 'required',
             'selected_rating' => 'required',
 
@@ -91,7 +90,10 @@ class ExpoController extends Controller
      */
     public function show(Expo $expo)
     {
-        //
+        //dd($expo->toArray());
+        $expos = Expo::all();
+
+        return view('Expo.show', compact('expos'));
     }
 
     /**

@@ -64,10 +64,11 @@
         }
     </style>
 </head>
-<body>
-<div class="container mt-3 mb-5">
+<body style="background-color: #ECF0F5">
 
+    <div class="container mt-3 mb-5" >
 
+<div class="jumbotron" style="background-color: #fff">
 
 
     {{--    @if ($errors->any())--}}
@@ -75,8 +76,9 @@
 {{--            <div>{{$error}}</div>--}}
 {{--        @endforeach--}}
 {{--    @endif--}}
-    <img src="{{asset('img/expo2020.jpg')}}" class="img-fluid" style="width: 100%">
-    <h2>Galaxy Realtors Expo <b>2020</b> Feedback  Form</h2>
+    <hr>
+    <img src="{{asset('img/expo2020.jpg')}}" class="img-fluid" style="width: 100%"><hr>
+    <h2 class="text-center">Galaxy Realtors Expo <b>2020</b> Feedback  Form</h2>
     <form action="{{url('expo_store')}}" method="post">
         @csrf
         <input type="hidden" id="event" name="event" value="1">
@@ -172,8 +174,9 @@
 
         <div class="text-right">
 
-
+            <strong>Please give us a rating</strong>
             <div class="form-group" id="rating-ability-wrapper">
+
                 <label class="control-label" for="rating">
                     <span class="field-label-info"></span>
                     <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
@@ -206,7 +209,7 @@
         </div>
     </form>
 </div>
-
+    </div>
 <script>
     function updateSymbol(e) {
         var selected = $(".currency-selector option:selected");

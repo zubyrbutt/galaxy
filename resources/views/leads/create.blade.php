@@ -178,12 +178,18 @@
                     <div class="box-body" >
                     <div class="row">
                       <div class="col-md-12">
-
                       <div class="form-group">
                   <label for="country" class="col-sm-3 control-label">Current Country</label>
-
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="ccountry" name="ccountry" placeholder="Current Country" value="{{ old('ccountry') }}" autocomplete="off" require>
+                          <select class="form-control" id="ccountry" name="ccountry" value="{{ old('ccountry') }}" required="required">
+                              <option value="all" selected>Select Country</option>
+                              <option value="US">US</option>
+                              <option value="UK">UK</option>
+                              <option value="Australia">Australia</option>
+                              <option value="Canada">Canada</option>
+                              <option value="UE">UE</option>
+                          </select>
+{{--                    <input type="text" class="form-control" id="ccountry" name="ccountry" placeholder="Current Country" value="{{ old('ccountry') }}" autocomplete="off" require>--}}
                     @if ($errors->has('ccountry'))
                           <span class="text-red">
                               <strong>{{ $errors->first('ccountry') }}</strong>
@@ -191,8 +197,6 @@
                       @endif
                   </div>
                 </div>
-
-
                 <div class="form-group">
                   <label for="profession" class="col-sm-3 control-label">Profession</label>
 
@@ -347,7 +351,7 @@
               </div>
               <!-- /.box-footer -->
   </div>
-
+    </div>
   </form>
 
 
@@ -674,7 +678,7 @@ $(function () {
   $("select[name='classType']").change(function(){
   
     if ($("select[name='classType']")[0].selectedIndex <= 0) {
-      $("select[name='teacherID'").html('');
+      $("select[name='teacherID']").html('');
       alert('Please select Class days.');
       $("select[name='classType']").focus();
       return false;
@@ -703,8 +707,8 @@ $(function () {
           success: function(data) {
         console.log(token);
         console.log(data);
-            $("select[name='teacherID'").html('');
-            $("select[name='teacherID'").html(data.options);
+            $("select[name='teacherID']").html('');
+            $("select[name='teacherID']").html(data.options);
           }
       });
   });
