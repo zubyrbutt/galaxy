@@ -16,10 +16,10 @@
 
         </script>
     @endif
-    @can('expo-show')
+    @can('search-feedback')
         <div class="row">
             <div class="col-md-12">
-                <form class="form-horizontal" action="{!! url('/search/feedback') !!}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="{!! url('search/feedback') !!}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="box box-success collapsed-box">
                         <div class="box-header with-border">
@@ -33,22 +33,8 @@
                         <!-- /.box-header -->
                         <div class="box-body" style="display: none;">
 
-                            <!--Search Form Begins -->
-{{--                            <div class="form-group col-md-12">--}}
-{{--                                <label>Select Agent</label>--}}
-{{--                                <select name="agentid" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a Satff" style="width: 100%;" tabindex="-1" aria-hidden="true">--}}
-{{--                                    @can('show-all-leads')<option value="all">All</option>@endcan--}}
-{{--                                    @foreach($agents as $agent)--}}
-{{--                                        <option value="{{$agent->id}}">{{$agent->fname}} {{$agent->lname}}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-
-{{--                            </div>--}}
-
-
                             <div class="form-group col-md-12">
                                 <label>Select Date Range:</label>
-
                                 <div class="input-group">
                                     <button type="button" class="btn btn-default pull-right" id="daterange-btn">
                                         <span>{{date('F d, Y')}} - {{date('F d, Y')}}</span>
@@ -108,7 +94,7 @@
                 <div class="box-header">
                     <h3 class="box-title">Expo 2020 Feedback</h3>
 
-                        <span class="pull-right">
+                    <span class="pull-right">
               <a href="{!! url('/expo2020'); !!}" class="btn btn-info"><span class="fa fa-plus"></span> Expo Form</a>
               </span>
 
@@ -116,7 +102,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    @if(count($expos))
+                    @if(count($expos)>0)
                         <table id="example1" class="display responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
@@ -131,7 +117,7 @@
                                 <th>Amount</th>
                                 <th>Comment</th>
                                 <th>Rating</th>
-                                <th>Created At</th>
+                                <th>Created_at</th>
 
                             </tr>
                             </thead>
@@ -141,7 +127,7 @@
                                 <tr>
                                     <td>{{$expo->id}}</td>
 
-{{--                                    <td>{{$callback->appointtime->format('d-M-Y h:i:s')}}</td>--}}
+                                    {{--                                    <td>{{$callback->appointtime->format('d-M-Y h:i:s')}}</td>--}}
                                     <td>{{ $expo->name}}</td>
                                     <td>{{ $expo->email }}</td>
                                     <td>{{$expo->phone}}</td>
@@ -170,7 +156,7 @@
                                 <th>Amount</th>
                                 <th>Comment</th>
                                 <th>Rating</th>
-                                <th>Created At</th>
+                                <th>Created_at</th>
 
                             </tr>
                             </tfoot>

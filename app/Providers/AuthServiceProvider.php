@@ -71,6 +71,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->logs();
         $this->ccms();
         $this->leads();
+        $this->registerExpoPolicies();
         Passport::routes();
 
     }
@@ -1099,6 +1100,20 @@ public function JournalVoucher(){
         
 
     }
+    //Expo
+    public function registerExpoPolicies()
+    {
+        Gate::define('expo-show', function($user){
+        return $user->hasAccess(['expo-show']);
+    });
+
+        Gate::define('search-feedback', function($user){
+        return $user->hasAccess(['search-feedback']);
+    });
+
+
+    }
+
     //Call Back
     public function registerCallBackPolicies(){
 

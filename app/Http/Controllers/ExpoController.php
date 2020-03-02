@@ -6,6 +6,7 @@ use App\Expo;
 use Illuminate\Http\Request;
 
 use RealRashid\SweetAlert\Facades\Alert;
+use function MongoDB\BSON\toJSON;
 
 class ExpoController extends Controller
 {
@@ -51,6 +52,7 @@ class ExpoController extends Controller
             'projects' => 'required',
             'interested' => 'required',
             'amount' => 'required',
+            'comment' => 'required',
             'event' => 'required',
             'selected_rating' => 'required',
 
@@ -99,9 +101,26 @@ class ExpoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Expo  $expo
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
+
+    public function searchFeedback(Request $request){
+
+
+        $query = \App\Expo::query();
+        $query = $query->whereBetween('created_at', [date($request->get('dateFrom'))." 00:00:00", date($request->get('dateTo'))." 23:59:59"]);
+        $expos = $query->get();
+        //return $expos;
+        return view('Expo.search', compact('expos'));
+
+    }
+
+
+
+
+
+
     public function edit(Expo $expo)
     {
         //
@@ -128,5 +147,9 @@ class ExpoController extends Controller
     public function destroy(Expo $expo)
     {
         //
+    }
+
+    public function counter1(){
+        return view('Counter.counter');
     }
 }

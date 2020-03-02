@@ -1,0 +1,432 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,400i,700,700i');
+.count-up-section{
+    color:#222;
+    font-family:'Poppins', sans-serif;
+    font-size:16px;
+    line-height:1.48;
+    padding:100px 0;
+}
+.copyright.text-center{
+    text-align:center;
+}
+.count-up-section .style-point{
+    color:#000;
+    font-size:38px;
+}
+.count-up-section .style-point span{
+    background-color:#3e4b99;
+    background-image:-moz-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-webkit-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-o-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-ms-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    color:#fff;
+    border-radius:50%;
+    display:block;
+    width:80px;
+    height:80px;
+    text-align:center;
+    font-size:54px;
+}
+.count-up-section .colorfont{
+    color:#0147fe;
+}
+#count-up-section6.count-up-section{
+    background-color:#000;
+    max-width:100%;
+}
+.flipTimemodulesboxes{
+    max-width:720px;
+    margin:0 auto;
+}
+.darkbgFlip h2.style-point{
+    color:#fff;
+}
+.italictext{
+    font-style:italic;
+    font-weight:normal;
+    color:#ff0000;
+}
+.flipTimebox{
+    margin:50px auto 100px;
+}
+.flipTimebox .flip-clock-divider .flip-clock-label{
+    right:-100px;
+    font-size:16px;
+    font-weight:bold;
+}
+.flip-clock-wrapper{
+
+}
+.flipTimebox .flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(128, 128, 128, .5);
+}
+.flipTimebox .flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#333333;
+    border-radius:6px;
+}
+.flipclock1message, .flipclock2message, .flipclock3message, .flipclock4message, .flipclock5message, .flipclock6message, .flipclock14message{
+    padding-left:15px;
+    color:#ff0000;
+}
+.darkbgFlip .flip-clock-divider .flip-clock-label{
+    color:#fff;
+}
+.flipTimebox .orangetheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#fb9902;
+}
+.flipTimebox .orangetheme .flip-clock-dot{
+    background-color:#fb9902;
+    box-shadow:none;
+}
+.flipTimebox .orangetheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#fb9902;
+    border-radius:6px;
+}
+.flipTimebox .orangetheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .darkorangetheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#fd5308;
+}
+.flipTimebox .darkorangetheme .flip-clock-dot{
+    background-color:#fd5308;
+    box-shadow:none;
+}
+.flipTimebox .darkorangetheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#fd5308;
+    border-radius:6px;
+}
+.flipTimebox .darkorangetheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .bluetheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#0147fe;
+}
+.flipTimebox .bluetheme .flip-clock-dot{
+    background-color:#0147fe;
+    box-shadow:none;
+}
+.flipTimebox .bluetheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#0147fe;
+    border-radius:6px;
+}
+.flipTimebox .bluetheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .greentheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#23a929;
+}
+.flipTimebox .greentheme .flip-clock-dot{
+    background-color:#23a929;
+    box-shadow:none;
+}
+.flipTimebox .greentheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#23a929;
+    border-radius:6px;
+}
+.flipTimebox .greentheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .redtheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#d81e1e;
+}
+.flipTimebox .redtheme .flip-clock-dot{
+    background-color:#d81e1e;
+    box-shadow:none;
+}
+.flipTimebox .redtheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#d81e1e;
+    border-radius:6px;
+}
+.flipTimebox .redtheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .pinktheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#8501ad;
+}
+.flipTimebox .pinktheme .flip-clock-dot{
+    background-color:#8501ad;
+    box-shadow:none;
+}
+.flipTimebox .pinktheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#8501ad;
+    border-radius:6px;
+}
+.flipTimebox .pinktheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .purpletheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#a7194b;
+}
+.flipTimebox .purpletheme .flip-clock-dot{
+    background-color:#a7194b;
+    box-shadow:none;
+}
+.flipTimebox .purpletheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#a7194b;
+    border-radius:6px;
+}
+.flipTimebox .purpletheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .coffeetheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#7b5a26;
+}
+.flipTimebox .coffeetheme .flip-clock-dot{
+    background-color:#7b5a26;
+}
+.flipTimebox .coffeetheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    background-color:#7b5a26;
+    border-radius:6px;
+}
+.flipTimebox .coffeetheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .gradienttheme.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#3e4b99;
+    background-image:-moz-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-webkit-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-o-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-ms-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+}
+.flipTimebox .gradienttheme .flip-clock-dot{
+    box-shadow:none;
+    background-color:#3e4b99;
+    background-image:-moz-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-webkit-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-o-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-ms-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+}
+.flipTimebox .gradienttheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    border-radius:6px;
+    background-color:#3e4b99;
+    background-image:-moz-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-webkit-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-o-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:-ms-linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+    background-image:linear-gradient(90deg, #3e4b99 10%, #d81e1e 100%);
+}
+.flipTimebox .gradienttheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .gradienttheme2.flip-clock-wrapper ul li a div div.inn{
+    color:#fff;
+    background-color:#0147fe;
+    background-image:-moz-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-webkit-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-o-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-ms-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+}
+.flipTimebox .gradienttheme2 .flip-clock-dot{
+    box-shadow:none;
+    background-color:#0147fe;
+    background-image:-moz-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-webkit-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-o-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-ms-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+}
+.flipTimebox .gradienttheme2.flip-clock-wrapper .flip-clock-meridium a{
+    color:#fff;
+    border-radius:6px;
+    background-color:#0147fe;
+    background-image:-moz-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-webkit-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-o-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:-ms-linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+    background-image:linear-gradient(270deg, #0147fe 0%, #23a929 100%);
+}
+.flipTimebox .gradienttheme2.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(250, 250, 250, .5);
+}
+.flipTimebox .whitetheme.flip-clock-wrapper ul li a div div.inn{
+    color:#0147fe;
+    background-color:#fff;
+}
+.flipTimebox .whitetheme .flip-clock-dot{
+    background-color:#fff;
+    box-shadow:none;
+}
+.flipTimebox .whitetheme.flip-clock-wrapper .flip-clock-meridium a{
+    color:#0147fe;
+    background-color:#fff;
+    border-radius:6px;
+}
+.flipTimebox .whitetheme.flip-clock-wrapper ul li a div.up:after{
+    background-color:rgba(128, 128, 128, .5);
+}
+ @media screen and (max-width:767px){
+    .flipTimebox .flip-clock-wrapper ul{
+        height:50px;
+        line-height:50px;
+    }
+    .flipTimebox .flip-clock-wrapper ul li{
+        line-height:50px;
+    }
+    .flipTimebox .flip-clock-wrapper ul li a div.up:after{
+        top:24px;
+    }
+    .flipTimebox .flip-clock-divider{
+        height:50px;
+    }
+    .flipTimebox .flip-clock-dot{
+        height:6px;
+        width:6px;
+        left:7px;
+    }
+    .flipTimebox .flip-clock-dot.top{
+        top:17px;
+    }
+    .flipTimebox .flip-clock-dot.bottom{
+        bottom:8px;
+    }
+    .flipTimebox .flip-clock-divider.hours .flip-clock-label{
+        right:-66px;
+    }
+    .flipTimebox .flip-clock-divider.minutes .flip-clock-label{
+        right:-78px;
+    }
+    .flipTimebox .flip-clock-divider.seconds .flip-clock-label{
+        right:-78px;
+    }
+    .flipTimebox .flip-clock-wrapper ul{
+        width:37px;
+    }
+    .flipTimebox .flip-clock-wrapper ul li a div div.inn{
+        font-size:38px;
+    }
+    .flipTimebox .flip-clock-meridium{
+        font-size:20px !important;
+    }
+}
+@media screen and (max-width:568px){
+    .flipTimebox .flip-clock-wrapper ul{
+        margin:2px;
+    }
+    .flipTimebox .flip-clock-divider{
+        width:5px;
+    }
+    .flipTimebox .flip-clock-dot{
+        height:3px;
+        width:3px;
+        left:1px;
+    }
+    .flipTimebox .flip-clock-divider.days .flip-clock-label{
+        right:-86px;
+    }
+    .flipTimebox .flip-clock-divider.hours .flip-clock-label{
+        right:-66px;
+    }
+    .flipTimebox .flip-clock-divider.minutes .flip-clock-label{
+        right:-72px;
+    }
+    .flipTimebox .flip-clock-divider.seconds .flip-clock-label{
+        right:-72px;
+    }
+    .flipTimebox .flip-clock-meridium{
+        font-size:18px !important;
+    }
+}
+@media screen and (max-width:480px){
+    .flipTimebox .flip-clock-divider .flip-clock-label{
+        font-size:16px;
+    }
+    .flipTimebox .flip-clock-divider.days .flip-clock-label{
+        right:-56px;
+    }
+    .flipTimebox .flip-clock-divider.hours .flip-clock-label{
+        right:-40px;
+    }
+    .flipTimebox .flip-clock-divider.minutes .flip-clock-label{
+        right:-48px;
+    }
+    .flipTimebox .flip-clock-divider.seconds .flip-clock-label{
+        right:-55px;
+    }
+    .flipTimebox .flip-clock-wrapper ul li a div div.inn{
+        font-size:28px;
+    }
+    .flipTimebox .flip-clock-meridium{
+        font-size:14px !important;
+    }
+    .flipTimebox .flip-clock-wrapper ul.flip{
+        width:27px;
+        background-color:transparent;
+        box-shadow:none;
+        margin-left:-10px;
+    }
+    .flipTimebox .flip-clock-wrapper ul li{
+        width:27px;
+    }
+    .flipTimebox .flip-clock-dot{
+        margin-left:-12px;
+    }
+}
+@media screen and (max-width:360px){
+    .flipTimebox .flip-clock-divider .flip-clock-label{
+        font-size:14px;
+    }
+    .flipTimebox .flip-clock-divider.days .flip-clock-label{
+        right:-40px;
+    }
+    .flipTimebox .flip-clock-divider.hours .flip-clock-label{
+        right:-35px;
+    }
+    .flipTimebox .flip-clock-divider.minutes .flip-clock-label{
+        right:-40px;
+    }
+    .flipTimebox .flip-clock-divider.seconds .flip-clock-label{
+        right:-45px;
+    }
+    .flipTimebox .flip-clock-wrapper ul.flip{
+        width:25px;
+        margin-left:-14px;
+    }
+    .flipTimebox .flip-clock-wrapper{
+        padding-left:5px;
+    }
+    .flipTimebox .flip-clock-wrapper ul li{
+        width:25px;
+    }
+    .flipTimebox .flip-clock-dot{
+        margin-left:-16px;
+    }
+}
+@media screen and (max-width:320px){
+    .flipTimebox .flip-clock-wrapper{
+        padding-left:5px;
+    }
+    .flipTimebox .flip-clock-wrapper ul.flip{
+        width:22px;
+        margin-left:-16px;
+    }
+    .flipTimebox .flip-clock-wrapper ul li{
+        width:22px;
+    }
+    .flipTimebox .flip-clock-dot{
+        margin-left:-18px;
+    }
+}
