@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use Yajra\DataTables\DataTables;
 
 
 class AdminmenuController extends Controller
@@ -17,11 +17,21 @@ class AdminmenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            $adminmenu = Adminmenu::with('parent')->get();
+            return DataTables::of($adminmenu)
+                ->addColumn('action', function ($adminmenu) {
+                    return '<a href="menu/'.$adminmenu->id.'/edit" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="menu/deactivate/'.$adminmenu->id.'" class="btn btn-warning" title="Deactivate"><i class="fa fa-times"></i></a>
+                    <a href="" class="btn btn-danger" title="delete"><i class="fa fa-trash"></i></a>';
+                })
+                ->rawColumns(['delete' => 'delete','action' => 'action'])
+                ->make(true);
+        }
 
-        $adminmenus=\App\Adminmenu::with('parent')->get();
-        return view('adminmenus.adminmenus',compact('adminmenus'));
+        return view('adminmenus.adminmenus');
 
     }
 

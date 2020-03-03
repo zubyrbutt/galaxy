@@ -34,6 +34,72 @@
   <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 
   <script>
+      $(document).ready( function () {
+          $('#expotable').DataTable({
+              processing: true,
+              serverSide: true,
+
+              ajax: "{{ url('/expo/show') }}",
+              columns: [
+                  { data: 'id', name: 'id' },
+                  { data: 'name', name: 'name' },
+                  { data: 'email', name: 'email' },
+                  { data: 'phone', name: 'phone' },
+                  { data: 'whatsapp', name: 'whatsapp' },
+                  { data: 'projects', name: 'projects' },
+                  { data: 'interested', name: 'interested' },
+                  { data: 'symbol', name: 'symbol' },
+                  { data: 'amount', name: 'amount' },
+                  { data: 'comment', name: 'comment' },
+                  { data: 'rating', name: 'rating' },
+                  { data: 'created_at', name: 'created_at' }
+              ]
+          });
+      });
+  </script>
+
+  <script>
+      $(document).ready( function () {
+          $('#adminmenu').DataTable({
+              processing: true,
+              serverSide: true,
+
+              ajax: "{{ url('/menu') }}",
+              columns: [
+                  { data: 'menutitle', name: 'menutitle' },
+                  { data: 'slug', name: 'slug' },
+                  { data: 'parentid', name: 'parentid' },
+                  { data: 'showinnav', name: 'Show in Nav' },
+                  { data: 'setasdefault', name: 'Default' },
+                  { data: 'urllink', name: 'URL/Route' },
+                  { data: 'status', name: 'Status' },
+                  { data: 'action', name: 'action', },
+
+              ]
+          });
+      });
+  </script>
+
+
+  <script>
+      $(document).ready( function () {
+          $('#leadTable').DataTable({
+              processing: true,
+              serverSide: true,
+
+              ajax: "{{ url('/leads') }}",
+              columns: [
+                  { data: 'id', name: 'id' },
+                  { data: 'user_id', name: 'user_id' },
+
+                  { data: 'action', name: 'action', },
+
+              ]
+          });
+      });
+  </script>
+
+  <script>
     $(function () {
       $('#example1').DataTable( {
         "order": [[ 0, "desc" ]]

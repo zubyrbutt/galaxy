@@ -20,6 +20,7 @@ Route::get('/thank_you', 'ExpoController@thank_you');
 
 Route::get('/expo/show', 'ExpoController@show')->middleware('can:expo-show')->name('expo.show');
 Route::post('/search/feedback', 'ExpoController@searchFeedback')->middleware('can:search-feedback')->name('search.feedback');
+
 //
 ////counter
 Route::get('/expo/counter1', 'ExpoController@counter1');

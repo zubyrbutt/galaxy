@@ -50,6 +50,7 @@ class LeadController extends Controller
     public function index(Request $request)
     {
 
+
         //return Datatables::of(User::all())->make(true);
        //$agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
 

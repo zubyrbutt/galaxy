@@ -116,8 +116,8 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    @if(count($expos))
-                        <table id="example1" class="display responsive nowrap" style="width:100%">
+
+                        <table id="expotable" class="display responsive nowrap" style="width:100%">
                             <thead>
                             <tr>
                                 <th>No.</th>
@@ -135,49 +135,9 @@
 
                             </tr>
                             </thead>
-                            <tbody>
 
-                            @foreach($expos as $expo)
-                                <tr>
-                                    <td>{{$expo->id}}</td>
-
-{{--                                    <td>{{$callback->appointtime->format('d-M-Y h:i:s')}}</td>--}}
-                                    <td>{{ $expo->name}}</td>
-                                    <td>{{ $expo->email }}</td>
-                                    <td>{{$expo->phone}}</td>
-                                    <td>{{$expo->whatsapp}}</td>
-                                    <td>{{$expo->projects}}</td>
-                                    <td>{{$expo->interested}}</td>
-                                    <td>{{$expo->symbol}}</td>
-                                    <td>{{$expo->amount}}</td>
-                                    <td>{{$expo->comment}}</td>
-                                    <td>{{$expo->rating}}</td>
-                                    <td>{{$expo->created_at->diffForHumans()}}</td>
-                                </tr>
-
-                            @endforeach
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Whatsapp</th>
-                                <th>Projects</th>
-                                <th>Interested</th>
-                                <th>Currency</th>
-                                <th>Amount</th>
-                                <th>Comment</th>
-                                <th>Rating</th>
-                                <th>Created At</th>
-
-                            </tr>
-                            </tfoot>
                         </table>
-                    @else
-                        <div>No Record found...</div>
-                    @endif
+
                 </div>
                 <!-- /.box-body -->
             </div>

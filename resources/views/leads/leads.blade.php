@@ -256,10 +256,10 @@
                     @endcan
                     <td>
                       @can('show-lead')
-                        <a href="{!! url('/leads/'.$lead['id'] ); !!}" class="btn btn-primary" title="View Detail"><i class="fa fa-eye"></i> </a>    
+                        <a href="{!! url('/leads/'.$lead['id'] ); !!}" class="btn btn-primary" title="View Detail"><i class="fa fa-eye"></i> </a>
                       @endcan
                       @can('edit-lead')
-                        <a href="{!! url('/leads/'.$lead['id'].'/edit'); !!}"  class="btn btn-success" title="Edit"><i class="fa fa-edit"></i> </a>                     
+                        <a href="{!! url('/leads/'.$lead['id'].'/edit'); !!}"  class="btn btn-success" title="Edit"><i class="fa fa-edit"></i> </a>
                       @endcan
                       @can('status-lead')
                         @if ($lead['status'] === 1)
@@ -273,7 +273,7 @@
                       @endcan
                     </td>
                   </tr>
-                  @endforeach			  
+                  @endforeach
                 </tbody>
                 <tfoot>
                 <tr>
