@@ -245,6 +245,18 @@
                                     @case(15)
                                     <span class="text-green"><b>Follow Up</b></span>
                                     @break
+                                    @case(16)
+                                    <span class="text-green"><b>Attendees</b></span>
+                                    @break
+                                    @case(17)
+                                    <span class="text-info"><b>Non-Attendees</b></span>
+                                    @break
+                                    @case(18)
+                                    <span class="text-warning"><b>Towards Closing</b></span>
+                                    @break
+                                    @case(19)
+                                    <span class="text-red"><b>Closed</b></span>
+                                    @break
                                     @default
                                     <span class="text-green"><b>New</b></span>
                                 @endswitch
@@ -368,6 +380,19 @@
                                     @case(15)
                                     <span class="text-green"><b>Follow Up</b></span>
                                     @break
+                                  @case(16)
+                                    <span class="text-green"><b>Attendees</b></span>
+                                    @break
+                                  @case(17)
+                                    <span class="text-info"><b>Non-Attendees</b></span>
+                                    @break
+                                  @case(18)
+                                    <span class="text-warning"><b>Towards Closing</b></span>
+                                    @break
+                                    @case(19)
+                                    <span class="text-red"><b>Closed</b></span>
+                                    @break
+
                                     @default
                                     <span class="text-green"><b>New</b></span>
                                 @endswitch
@@ -424,6 +449,10 @@
                             <option value="13">Details Send on Email</option>
                             <option value="14">Interested in Property</option>
                             <option value="15">Follow Up</option>
+                            <option value="16">Attendees</option>
+                            <option value="17">Non-Attendees</option>
+                            <option value="18">Towards Closing</option>
+                            <option value="19">Closed</option>
                         </select>
                     </div>
                     <div class="form-group">
