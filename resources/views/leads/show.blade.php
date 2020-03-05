@@ -435,7 +435,7 @@
                         <label>Status</label>
                         <select class="form-control" name="status" id="status" required="required">
                             <option value="1" selected>Inprocess</option>
-
+                            <option value="2">Closed</option>
                             <option value="3">Rejected</option>
                             <option value="4">Not Interested</option>
 {{--                            <option value="5">Call Back</option>--}}
@@ -452,7 +452,7 @@
                             <option value="16">Attendees</option>
                             <option value="17">Non-Attendees</option>
                             <option value="18">Towards Closing</option>
-                            <option value="19">Closed</option>
+
                         </select>
                     </div>
                     <div class="form-group">

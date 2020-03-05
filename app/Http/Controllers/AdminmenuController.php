@@ -8,6 +8,7 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\DataTables;
+use function foo\func;
 
 
 class AdminmenuController extends Controller
@@ -19,9 +20,28 @@ class AdminmenuController extends Controller
      */
     public function index(Request $request)
     {
+
+//        $adminmenus=\App\Adminmenu::with('parent')->get();
+//        return view('adminmenus.adminmenus',compact('adminmenus'));
+//
+
+
         if($request->ajax()){
             $adminmenu = Adminmenu::with('parent')->get();
+
             return DataTables::of($adminmenu)
+                ->addColumn('parentid', function($adminmenu){
+                    return $adminmenu->parentid == null ? "-" : $adminmenu->parent->menutitle;
+                })
+                ->addColumn('showinnav', function($adminmenu){
+                    return $adminmenu->showinnav == "1" ? "Yes" : "No";
+                })
+                ->addColumn('setasdefault', function ($adminmenu){
+                    return $adminmenu->setasdefault == "1" ? "Yes" : "No";
+                })
+                ->addColumn('status', function($adminmenu){
+                    return $adminmenu->status == "1" ? "Activate" : "Deactivate";
+                })
                 ->addColumn('action', function ($adminmenu) {
                     return '<a href="menu/'.$adminmenu->id.'/edit" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
                     <a href="menu/deactivate/'.$adminmenu->id.'" class="btn btn-warning" title="Deactivate"><i class="fa fa-times"></i></a>

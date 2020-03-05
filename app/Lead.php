@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model
 {
-
+    protected $except = [];
     protected $fillable = [
         'ccountry','profession', 'leaddate','cityinterest' ,'residential','commercial','cash', 'user_id','cityinterest'
     ];

@@ -33,6 +33,8 @@
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 
+
+{{--Expo Table setup server side--}}
   <script>
       $(document).ready( function () {
           $('#expotable').DataTable({
@@ -58,6 +60,8 @@
       });
   </script>
 
+
+{{--  Admin Menu setup Server side--}}
   <script>
       $(document).ready( function () {
           $('#adminmenu').DataTable({
@@ -80,24 +84,46 @@
       });
   </script>
 
+{{--Leads table setup side--}}
 
-  <script>
-      $(document).ready( function () {
-          $('#leadTable').DataTable({
+  <Script>
+      $(document).ready(function (){
+          $('#leadsTable').DataTable({
               processing: true,
               serverSide: true,
-
-              ajax: "{{ url('/leads') }}",
+              ajax: "{{url('/leads')}}",
               columns: [
-                  { data: 'id', name: 'id' },
-                  { data: 'user_id', name: 'user_id' },
-
-                  { data: 'action', name: 'action', },
-
+                  { data: 'id', name: 'id'},
+                  { data: 'created_by', name: 'Created By'},
+                  { data: 'assignedto', name: 'Assigned To'},
+                  { data: 'created_at', name: 'Created At'},
+                  { data: 'updated_at', name: 'Updated At'},
+                  { data: 'user_id', name: 'Customer Name'},
+                  { data: 'status', name: 'Status'},
+                  { data: 'ccountry', name: 'Country'},
+                  { data: 'action', name: 'Action'},
+                  // { data: '', name: ''},
               ]
-          });
-      });
-  </script>
+          })
+      })
+  </Script>
+
+{{--  <script>--}}
+{{--      $(document).ready( function () {--}}
+{{--          $('#leadTable').DataTable({--}}
+{{--              processing: true,--}}
+{{--              serverSide: true,--}}
+
+{{--              ajax: "{{ url('/leads') }}",--}}
+{{--              columns: [--}}
+{{--                  { data: 'id', name: 'id' },--}}
+{{--                  { data: 'user_id', name: 'user_id' },--}}
+{{--                  { data: 'action', name: 'action', },--}}
+
+{{--              ]--}}
+{{--          });--}}
+{{--      });--}}
+{{--  </script>--}}
 
   <script>
     $(function () {
@@ -196,12 +222,13 @@
 
 @if(\Request::is('admins')  or \Request::is('categories') or \Request::is('projects') or \Request::is('menu') or \Request::is('roles') or \Request::is('customers') or \Request::is('leads') or Route::currentRouteName()=='leads.search' or \Request::is('topics')  or \Request::is('teacher_course'))
 <script>
+
   function archiveFunction(formid) {
     event.preventDefault(); // prevent form submit
-      
+
     swal({
             title: "Delete",
-            text: "Are you sure want to delete?", 
+            text: "Are you sure want to delete?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -211,9 +238,9 @@
             $('#'+formid).submit();
           } 
         });
-      
 
     }
+
 </script>  
 @endif
 
