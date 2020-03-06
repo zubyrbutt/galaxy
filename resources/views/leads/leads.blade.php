@@ -79,6 +79,9 @@
                                 <option value="13">Details Send on Email</option>
                                 <option value="14">Interested in Property</option>
                                 <option value="15">Follow Up</option>
+                                <option value="16">Attendees</option>
+                                <option value="17">Non-Attendees</option>
+                                <option value="18">Towards Closing</option>
                             </select>
                         </div>
                         <div class="form-group col-md-12">
