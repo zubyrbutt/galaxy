@@ -13,6 +13,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+
+Route::get('/leaves_qa', 'LeaveQaController@index')->middleware('can:leaves_qa')->name('leaves_qa.index');
+Route::post('leaves_qa/fetch', 'LeaveQaController@fetch')->middleware('can:leaves_qa')->name('leaves_qa.fetch');
+
 Route::get('/expo2020', 'ExpoController@index')->name('expo.index');
 Route::post('/expo_store', 'ExpoController@store');
 Route::get('/thank_you', 'ExpoController@thank_you');
@@ -254,12 +258,16 @@ Route::post('store_callback', 'CallBackController@store_callback')->middleware('
 Route::group(['prefix'=> 'leads'],function(){
     Route::get('create', 'LeadController@create')->middleware('can:create-lead','ipcheck')->name('leads.create');
     Route::post('', 'LeadController@store')->middleware('can:create-lead','ipcheck')->name('leads.store');
+
+
     Route::post('search', 'LeadController@search')->middleware('can:search-leads','ipcheck')->name('leads.search');
     Route::get('', 'LeadController@index')->middleware('can:leads-index','ipcheck')->name('leads.index');
+    Route::get('delete/{id}', 'LeadController@destroy')->middleware('can:delete-lead','ipcheck')->name('leads.delete');
+
     Route::get('/{id}', 'LeadController@show')->middleware('can:show-lead','ipcheck')->name('leads.show');
     Route::get('deactivate/{id}', 'LeadController@deactivate')->middleware('can:status-lead','ipcheck');
     Route::get('active/{id}', 'LeadController@active')->middleware('can:status-lead','ipcheck');
-    Route::delete('delete/{id}', 'LeadController@destroy')->middleware('can:delete-lead','ipcheck');
+    Route::delete('delete/{id}', 'LeadController@destroy')->middleware('can:delete-lead','ipcheck')->name('leads.delete');
     Route::get('/{id}/edit', 'LeadController@edit')->middleware('can:edit-lead')->name('leads.edit','ipcheck');
     Route::patch('/{id}/edit', 'LeadController@update')->middleware('auth')->name('leads.update','ipcheck');
     Route::get('approve/{id}', 'LeadController@approve')->middleware('can:approve-reject-lead','ipcheck');
