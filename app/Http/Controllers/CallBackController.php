@@ -76,6 +76,8 @@ class CallBackController extends Controller
             'agentids' => 'required',
             'appointdate' => 'required',
         ]);
+
+
         //Recording Uploading
         $appdate=date_create($request->get('appointdate')." ".$request->get('appointtime'));
         $appformat = date_format($appdate,"Y-m-d H:i:s");

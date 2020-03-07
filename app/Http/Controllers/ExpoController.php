@@ -6,6 +6,7 @@ use App\Expo;
 use Illuminate\Http\Request;
 
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
 use function MongoDB\BSON\toJSON;
 
 class ExpoController extends Controller
@@ -88,14 +89,18 @@ class ExpoController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Expo  $expo
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Expo $expo)
+    public function show(Request $request)
     {
-        //dd($expo->toArray());
-        $expos = Expo::all();
+        if($request->ajax()){
+            $expos = Expo::latest()->get();
+            return DataTables::of($expos)->make(true);
+        }
+        //$expos = Expo::latest()->get();
+        return view('Expo.show');
 
-        return view('Expo.show', compact('expos'));
+
     }
 
     /**

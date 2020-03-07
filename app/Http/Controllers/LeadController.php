@@ -47,40 +47,37 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index()
     {
-
         //return Datatables::of(User::all())->make(true);
-       //$agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
-
-       $countries = \App\Lead::distinct()->get(['ccountry']);
+        //$agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
+        $countries = \App\Lead::distinct()->get(['ccountry']);
         $query = \App\Lead::with('user')->with('createdby')->with('assignedTo')->distinct('ccountry');
-      $permissions_arr=json_decode(auth()->user()->role->permissions,true);
+        $permissions_arr=json_decode(auth()->user()->role->permissions,true);
 
         if(isset($permissions_arr['show-all-leads'])==true){
-         $leads = $query->get();
-         $agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
-      }else {
+            $leads = $query->get();
+            $agents=\App\User::where('iscustomer',0)->where('status',1)->whereIn('role_id', [1, 2, 3 , 4, 5])->get();
+        }else {
             $query = $query->where('created_by', auth()->user()->id)->orwhere('assignedto', auth()->user()->id);
             $leads = $query->get();
             $agents = \App\User::where('iscustomer', 0)->where('status', 1)->where('id', auth()->user()->id)->get();
         }
+        return view('leads.leads', compact('leads','agents', 'countries'));
+        //yajra starting here
 
 
-       return view('leads.leads', compact('leads','agents', 'countries'));
     }
-
-
 
     public function search(Request $request)
     {
-           //dd($request->toArray());
+        //dd($request->toArray());
         $query = \App\Lead::with('user')->with('createdby')->with('assignedTo');
         $countries = \App\Lead::distinct()->get(['ccountry']);
 
         if($request->get('recent')== 'recentLead')
         {
-        if($this->authorize('search-leads')){
+            if($this->authorize('search-leads')){
                 if($request->get('agentid')){
                     if($request->get('agentid')=='all'){
                         $query = $query->whereBetween('created_at', [date($request->get('dateFrom')), date($request->get('dateTo'))]);
@@ -102,7 +99,7 @@ class LeadController extends Controller
                     }
                 }
             }
-            }else {
+        }else {
 
             if ($this->authorize('search-leads')) {
                 if ($request->get('agentid')) {
@@ -111,7 +108,7 @@ class LeadController extends Controller
                     } else {
                         $query = $query->where('created_by', $request->get('agentid'))->whereBetween('created_at', [date($request->get('dateFrom')), date($request->get('dateTo'))]);
 
-                    //dd($query->toArray());
+                        //dd($query->toArray());
                     }
                 }
 
@@ -139,7 +136,133 @@ class LeadController extends Controller
             $leads = $query->get();
             $agents=\App\User::where('iscustomer',0)->where('status',1)->where('id', auth()->user()->id)->get();
         }
-        return view('leads.leads', compact('leads','agents','countries'));
+
+        //return view('leads.leads', compact('leads','agents','countries'));
+        //yajra starting here
+
+            return DataTables::of($leads)
+                ->addColumn('id', function ($leads) {
+                    return '<a href="/leads/' . $leads->id . '">' . $leads->id . '</a>';
+                })
+                ->addColumn('created_by', function ($leads) {
+                    return $leads->createdby->fname . ' ' . $leads->createdby->lname;
+                })
+                ->editColumn('assignedto', function ($leads) {
+                    return $leads->assignedTo ? $leads->assignedTo->fname . ' ' . $leads->assignedTo->lname : "NA";
+                })
+                ->addColumn('created_at', function ($leads) {
+                    return $leads->created_at->format('d-m-Y');
+                })
+                ->addColumn('updated_at', function ($leads) {
+                    return $leads->updated_at->diffForhumans();
+                })
+                ->editColumn('user_id', function ($leads) {
+                    return $leads->user->fname . ' ' . $leads->user->lname;
+                })
+                ->editColumn('status', function ($leads) {
+
+                    switch ($leads->status) {
+                        case 0:
+                            return '<span class="text-green"><b>New</b></span>';
+                            break;
+                        case 1:
+                            return '<span class="text-orange"><b>Inprocess</b></span>';
+                            break;
+                        case 2:
+                            return '<span class="text-green"><b>Closed</b></span>';
+                            break;
+                        case 3:
+                            return '<span class="text-red"><b>Rejected</b></span>';
+                            break;
+                        case 4:
+                            return '<span class="text-red"><b>Not Interested</b></span>';
+                            break;
+                        case 5:
+                            return '<span class="text-green"><b>Call Back</b></span>';
+                            break;
+                        case 6:
+                            return '<span class="text-green"><b>Interested in Webinar</b></span>';
+                            break;
+                        case 7:
+                            return '<span class="text-green"><b>Meeting Done</b></span>';
+                            break;
+                        case 8:
+                            return ' <span class="text-green"><b>Invoice Sent</b></span>';
+                            break;
+                        case 9:
+                            return '<span class="text-red"><b>Spam</b></span>';
+                            break;
+                        case 10:
+                            return '<span class="text-green"><b>NSNC</b></span>';
+                            break;
+                        case 11:
+                            return '<span class="text-info"><b>Duplicate</b></span>';
+                            break;
+                        case 12:
+                            return '<span class="text-info"><b>Details Sent on WhatsApp</b></span>';
+                            break;
+                        case 13:
+                            return '<span class="text-info"><b>Details Send on Email</b></span>';
+                            break;
+                        case 14:
+                            return '<span class="text-green"><b>Interested in Property</b></span>';
+                            break;
+                        case 15:
+                            return ' <span class="text-green"><b>Follow Up</b></span>';
+                            break;
+                        case 16:
+                            return '<span class="text-green"><b>Attendees</b></span>';
+                            break;
+                        case 17:
+                            return '<span class="text-info"><b>Non-Attendees</b></span>';
+                            break;
+                        case 18:
+                            return '<span class="text-warning"><b>Towards Closing</b></span>';
+                            break;
+                        default:
+                            return '<span class="text-green"><b>Not Set</b></span>';
+                            break;
+                    }
+
+                })
+                ->editColumn('ccountry', function ($leads) {
+                    return $leads->ccountry;
+                })
+                ->addColumn('action',
+                    function ($leads) {
+                        $action = '<span class="action_btn">';
+
+                        //Show Lead
+                        if (Auth::user()->can('show-lead')) {
+                            $action .= '<a href="leads/' . $leads->id . '" class="btn btn-primary"><i class="fa fa-eye"></i></a>';
+                            $action .= '&nbsp;';
+                        }
+                        //edit Lead
+                        if (Auth::user()->can('edit-lead')) {
+                            $action .= ' <a href="leads/' . $leads->id . '/edit" class="btn btn-success"><i class="fa fa-edit"></i></a>';
+                            $action .= '&nbsp;';
+                        }
+//                    //show leads
+                        if (Auth::user()->can('status-lead')) {
+                            if ($leads->status === 1) {
+                                $action .= '<a href="/leads/deactivate/' . $leads->id . '"  class="btn btn-warning" title="Deactivate"><i class="fa fa-times"></i></a>';
+                                $action .= '&nbsp;';
+                            } else {
+                                $action .= ' <a href="/leads/active/' . $leads->id . '"  class="btn btn-info" title="Active"><i class="fa fa-check"></i></a>';
+                                $action .= '&nbsp;';
+                            }
+                            if (Auth::user()->can('delete-lead')) {
+                                $action .= '<button type="button" name="Delete" id="'.$leads->id.'" 
+												class="delete btn btn-danger" title="Delete"><i class="fa fa-trash"></i></button>';
+                                $action .= '&nbsp;&nbsp;';
+                                $action .= '&nbsp;&nbsp;';
+                            }
+                        }
+                        $action .= '</span>';
+                        return $action;
+                    })
+                ->rawColumns(['id', 'status', 'action'])
+                ->make(true);
 
     }
 
@@ -162,7 +285,7 @@ class LeadController extends Controller
         }
 
         $course_list = \App\Courses::all();
-        //$plan array from constants.php        
+        //$plan array from constants.php
         $plan = config('constants.plan');
         $students_list = \App\User::where('iscustomer',3)->get();
         $agents_list = \App\User::where('role_id',31)->get();
@@ -185,10 +308,10 @@ class LeadController extends Controller
     public function store(Request $request)
     {
         // return $request->all()
-       if($request->customer_id){
-             $customer_id = $request->customer_id;
-             $studentID = $request->customer_id;
-         }else{
+        if($request->customer_id){
+            $customer_id = $request->customer_id;
+            $studentID = $request->customer_id;
+        }else{
             $this->validate(request(), [
                 'fname' => 'required',
                 'lname' => 'required',
@@ -197,9 +320,9 @@ class LeadController extends Controller
                 // 'businessName' => 'required',
                 // 'businessAddress' => 'required',
                 // 'businessNature' => 'required',
-                // 'description' => 'required' 
+                // 'description' => 'required'
             ]);
-            //Customer Creation 
+            //Customer Creation
             $user= new \App\User;
             $user->fname=$request->get('fname');
             $user->lname=$request->get('lname');
@@ -219,19 +342,19 @@ class LeadController extends Controller
 
             //Getting last inserted user id to be used in LEADS
             $customer_id = $user->id;
-         }
+        }
 
         $attributes = array();
 
         foreach ($request->get('attributes') as $index => $attribute) {
-           $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
+            $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
         }
 
 
         //Lead Insertion
         $date=date_create($request->get('leaddate'));
         $leaddate = date_format($date,"Y-m-d");
-		$lead= new \App\Lead;
+        $lead= new \App\Lead;
         $lead->ccountry=$request->get('ccountry');
         $lead->profession=$request->get('profession');
         $lead->leaddate=$leaddate;
@@ -247,7 +370,7 @@ class LeadController extends Controller
         $lead->user_id=$customer_id;
         $lead->assignedto=$request->agentid;
         $lead->created_by=auth()->user()->id;
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
@@ -284,7 +407,7 @@ class LeadController extends Controller
         $callbacks = \App\CallBack::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         //$conversations = \App\Conversation::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         $docs = \App\LeadAsset::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
-		//Proposal
+        //Proposal
         $proposals = \App\Proposal::where('lead_id',$id)->orderBy('id', 'DESC')->limit(5)->get();
         //Conversation
         $conversations = \App\Conversation::where('lead_id',$id)->orderBy('id', 'DESC')->get();
@@ -316,7 +439,7 @@ class LeadController extends Controller
         }
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$id)->first();
 
-		return view('leads.edit', compact('lead','agents'));
+        return view('leads.edit', compact('lead','agents'));
     }
 
     /**
@@ -334,7 +457,7 @@ class LeadController extends Controller
 
         $attributes = array();
         foreach ($request->get('attributes') as $index => $attribute) {
-           $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
+            $attributes[] = ['name' => $attribute, 'value' => $request->get('attribute_value')[$index]];
         }
 
         //Lead Update
@@ -352,12 +475,12 @@ class LeadController extends Controller
         $lead->investmentpurpose=$request->get('investmentpurpose');
         $lead->comments=$request->get('comments');
         $lead->source=$request->get('source');
-       // $lead->user_id=$customer_id;
+        // $lead->user_id=$customer_id;
         //$lead->assignedto=$request->agentid;
         //$lead->created_by=auth()->user()->id;
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
-       // $lead->created_at = strtotime($format);
+        // $lead->created_at = strtotime($format);
         $lead->updated_at = strtotime($format);
         $lead->attributes = serialize($attributes);
         $lead->save();
@@ -393,15 +516,15 @@ class LeadController extends Controller
         return redirect('leads/'.$id)->with('success', 'Lead has been approved successfully.');
     }
 
-     //Reject Lead
-     public function reject($id)
-     {
-         $lead= \App\Lead::find($id);
-         $lead->approvestatus=2;
-         $lead->approvedby=auth()->user()->id;
-         $lead->save();
-         return redirect('leads/'.$id)->with('success', 'Lead has been rejected successfully.');
-     }
+    //Reject Lead
+    public function reject($id)
+    {
+        $lead= \App\Lead::find($id);
+        $lead->approvestatus=2;
+        $lead->approvedby=auth()->user()->id;
+        $lead->save();
+        return redirect('leads/'.$id)->with('success', 'Lead has been rejected successfully.');
+    }
 
     //For Deactivate
     public function deactivate($id)
@@ -435,17 +558,20 @@ class LeadController extends Controller
      */
     public function destroy($id)
     {
-        try{
-            $lead = \App\Lead::find($id);
-            $lead->delete();
-            return redirect()->action(
-                'LeadController@index'
-            )->with('success', 'Lead has been deleted.');
-        } catch(\Illuminate\Database\QueryException $ex){
-            return redirect()->action(
-                'LeadController@index'
-            )->with('failed', 'Unable to delete, this LEAD has linked record(s) in system.');
-        }
+        $data = Lead::findOrFail($id);
+        $data->delete();
+
+//        try{
+//            $lead = \App\Lead::find($id);
+//            $lead->delete();
+//            return redirect()->action(
+//                'LeadController@index'
+//            )->with('success', 'Lead has been deleted.');
+//        } catch(\Illuminate\Database\QueryException $ex){
+//            return redirect()->action(
+//                'LeadController@index'
+//            )->with('failed', 'Unable to delete, this LEAD has linked record(s) in system.');
+//        }
 
     }
 
@@ -462,23 +588,23 @@ class LeadController extends Controller
             //'recording_file' => ['mimes:mpga,wav']
         ]);
         if($request->hasfile('recording_file'))
-         {
+        {
             $file = $request->file('recording_file');
             $recordingfile=time().$file->getClientOriginalName();
             //$file->move(public_path().'/leads_assets/recordings/', $recordingfile);
             Storage::disk('local')->put('/public/leads_assets/recordings/'.$recordingfile, File::get($file));
-         }else{
+        }else{
             $recordingfile="";
-         }
-		//Recording Uploading
-		$recording= new \App\Recording;
+        }
+        //Recording Uploading
+        $recording= new \App\Recording;
         $recording->title=$request->get('title');
         $recording->link=$request->get('link');
         $recording->note=$request->get('note');
         $recording->recording_file=$recordingfile;
         $recording->lead_id=$request->get('lead_id');
         $recording->created_by=auth()->user()->id;
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $recording->created_at = strtotime($format);
         $recording->updated_at = strtotime($format);
@@ -508,22 +634,22 @@ class LeadController extends Controller
             'docfile' => ['mimes:jpeg,png,pdf']
         ]);
         if($request->hasfile('docfile'))
-         {
+        {
             $file = $request->file('docfile');
             $docfile=time().$file->getClientOriginalName();
             Storage::disk('local')->put('/public/leads_assets/docfiles/'.$docfile, File::get($file));
             //$file->move(public_path().'/leads_assets/docfiles/', $docfile);
-         }else{
+        }else{
             $docfile="";
-         }
-		//Recording Uploading
-		$leadasset= new \App\LeadAsset;
+        }
+        //Recording Uploading
+        $leadasset= new \App\LeadAsset;
         $leadasset->title=$request->get('title');
         $leadasset->note=$request->get('note');
         $leadasset->docfile=$docfile;
         $leadasset->lead_id=$request->get('lead_id');
         $leadasset->created_by=auth()->user()->id;
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $leadasset->created_at = strtotime($format);
         $leadasset->updated_at = strtotime($format);
@@ -554,7 +680,7 @@ class LeadController extends Controller
         $appdate=date_create($request->get('appointdate')." ".$request->get('appointtime'));
         $appformat = date_format($appdate,"Y-m-d H:i:s");
 
-		$appointment=  new \App\Appointment;
+        $appointment=  new \App\Appointment;
         $appointment->appointtime=$appformat;
 
         $appointment->note=$request->get('note');
@@ -562,7 +688,7 @@ class LeadController extends Controller
 
         $appointment->created_by=auth()->user()->id;
 
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
 
         $appointment->created_at = strtotime($format);
@@ -605,13 +731,13 @@ class LeadController extends Controller
         return redirect('leads/'.$id)->with('success', 'Appointment has been schedule successfully.');
     }
 
-	//Proposal
+    //Proposal
     public function createproposal($lead_id){
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
         return view('proposal.create',compact('lead','lead_id'));
     }
 
-	//For Proposal file upload
+    //For Proposal file upload
     public function uploadproposal($lead_id,$pro_id){
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
         return view('proposal.upload',compact('lead','lead_id','pro_id'));
@@ -622,25 +748,25 @@ class LeadController extends Controller
         $this->authorize('upload-proposal');
 
         $this->validate(request(), [
-			'docfile' => ['mimes:jpeg,png,pdf']
+            'docfile' => ['mimes:jpeg,png,pdf']
         ]);
-		if($request->hasfile('docfile'))
-         {
+        if($request->hasfile('docfile'))
+        {
             $file = $request->file('docfile');
             $docfile=time().$file->getClientOriginalName();
             //$file->move(public_path().'/leads_assets/proposal/', $docfile);
             Storage::disk('local')->put('/public/leads_assets/proposal/'.$docfile, File::get($file));
-         }else{
+        }else{
             $docfile="";
-         }
+        }
 
 
-		$proposal= \App\Proposal::find($pro_id);
-		$proposal->docfile=$docfile;
-		$date=date_create($request->get('date'));
+        $proposal= \App\Proposal::find($pro_id);
+        $proposal->docfile=$docfile;
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d H:i:s");
         $proposal->uploaded_at = $format;
-		$proposal->save();
+        $proposal->save();
         $id = $request->get('lead_id');
         $url=url('/leads/'.$id);
         $creator=auth()->user()->fname.' '.auth()->user()->lname;
@@ -659,13 +785,13 @@ class LeadController extends Controller
             'lead_id' => 'required'
             //'docfile' => ['mimes:jpeg,png,pdf']
         ]);
-		$proposal= new \App\Proposal;
+        $proposal= new \App\Proposal;
         $proposal->title=$request->get('title');
         $proposal->note=$request->get('note');
         //$proposal->docfile=$docfile;
         $proposal->lead_id=$request->get('lead_id');
         $proposal->created_by=auth()->user()->id;
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $proposal->created_at = strtotime($format);
         $proposal->updated_at = strtotime($format);
@@ -682,13 +808,13 @@ class LeadController extends Controller
         //Notification::send($users, new ProposalLeadNotification($message));
         return redirect('leads/'.$id)->with('success', 'Proposal has been Added Successfully.');
     }
-	//For EDIT and UPDATE proposal fields excluding image
-	public function edit_proposal($id,$lead_id)
+    //For EDIT and UPDATE proposal fields excluding image
+    public function edit_proposal($id,$lead_id)
     {
         //
-		$edit_proposal = \App\Proposal::find($id);
-		return view('proposal.edit',compact('edit_proposal','lead_id'));
-	}
+        $edit_proposal = \App\Proposal::find($id);
+        return view('proposal.edit',compact('edit_proposal','lead_id'));
+    }
 
     public function upproposal(Request $request, $id)
     {
@@ -696,40 +822,40 @@ class LeadController extends Controller
         $this->validate(request(), [
             'title' => 'required'
         ]);
-		$proposal= \App\Proposal::find($id);
+        $proposal= \App\Proposal::find($id);
         $proposal->title=$request->get('title');
         $proposal->note=$request->get('note');
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d");
         $proposal->updated_at = strtotime($format);
-		$proposal->save();
-		$id = $request->get('lead_id');
+        $proposal->save();
+        $id = $request->get('lead_id');
         return redirect('leads/'.$id)->with('success', 'Proposal has been Updated Successfully.');
 
     }
     /************************** CONVERSATION 	-	START************************/
-	//Conversation - Separate widget
+    //Conversation - Separate widget
     public function store_conversation(Request $request)
     {
-		$this->validate(request(), [
+        $this->validate(request(), [
             'message' => 'required'
         ]);
 
-		$conversation= new \App\Conversation;
+        $conversation= new \App\Conversation;
         $conversation->message=$request->get('message');
         $conversation->lead_id=$request->get('lead_id');
         $conversation->created_by=auth()->user()->id;
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d H:i:s");
         $conversation->created_at = strtotime($format);
         $conversation->updated_at = strtotime($format);
-		$conversation->save();
-		$id = $request->get('lead_id');
+        $conversation->save();
+        $id = $request->get('lead_id');
         return redirect('leads/'.$id)->with('success', 'Conversation Added Successfully.');
 
     }
 
-	//Appointment Note to show under Conversation
+    //Appointment Note to show under Conversation
     public function create_appnote($lead_id,$app_id){
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
         return view('appointments.note',compact('lead','lead_id','app_id'));
@@ -748,14 +874,14 @@ class LeadController extends Controller
 
         $appdate=date_create($request->get('appointdate')." ".$request->get('appointtime'));
 
-		$conversation= new \App\Conversation;
+        $conversation= new \App\Conversation;
 
         $conversation->message=$request->get('note');
         //$proposal->docfile=$docfile;
         $conversation->lead_id=$request->get('lead_id');
-		$conversation->appointment_id=$request->get('app_id');
+        $conversation->appointment_id=$request->get('app_id');
         $conversation->created_by=auth()->user()->id;
-		$date=date_create($request->get('date'));
+        $date=date_create($request->get('date'));
         $format = date_format($date,"Y-m-d H:i:s");
         $conversation->created_at = strtotime($format);
         $conversation->updated_at = strtotime($format);
@@ -784,11 +910,11 @@ class LeadController extends Controller
         return redirect('leads/'.$id)->with('success', 'Appointment Note for Conversation Added Successfully.');
 
     }
-	/************************** CONVERSATION 	-	END************************/
+    /************************** CONVERSATION 	-	END************************/
 
 
 
-   public function close_lead($customerid,$lead_id){
+    public function close_lead($customerid,$lead_id){
 
         if($customerid){
             $customers=\App\User::where('iscustomer',1)->where('id',$customerid)->get();
@@ -801,7 +927,7 @@ class LeadController extends Controller
         }
 
         $course_list = \App\Courses::all();
-        //$plan array from constants.php        
+        //$plan array from constants.php
         $plan = config('constants.plan');
         $students_list = \App\User::where('iscustomer',3)->get();
         $agents_list = \App\User::where('role_id',31)->get();
@@ -811,10 +937,10 @@ class LeadController extends Controller
         $lead = \App\Lead::with('user')->with('createdby')->where('id',$lead_id)->first();
         return view('leads.lead-close',compact('lead','lead_id','customers','leads','customerid','data','course_list','plan','students_list','agents_list'));
 
-   }
+    }
 
 
-   public function close_by_class(Request $request){
+    public function close_by_class(Request $request){
 
         $systemdate = systemDate();
         //Calling constant arrays from constants.php
@@ -874,11 +1000,11 @@ class LeadController extends Controller
         //Following is to check that same student, same time and same class type MUST NOT be rescheduled
         //with same OR diff teacher
         $check_student = \App\Schedule::where("studentID",$studentID)
-        ->where("startTime",'<=',$paktime)
-        ->where("endTime",'>',$paktime)
-        ->whereRaw("std_status!=3 and std_status!=4")
-        ->whereRaw(getClassTypeSchedule($classType))
-        ->count()
+            ->where("startTime",'<=',$paktime)
+            ->where("endTime",'>',$paktime)
+            ->whereRaw("std_status!=3 and std_status!=4")
+            ->whereRaw(getClassTypeSchedule($classType))
+            ->count()
         ;
         //and status_dead!=1
         // if($check_student>0){
@@ -913,12 +1039,12 @@ class LeadController extends Controller
 
         return redirect('leads/'.$request->lead_id)->with('success', 'Lead has been closed Successfully.');
 
-   }
+    }
 
 
-   // Nisar Work =================================
-   // Lead Status
-   public function postleadstatus(Request $request){
+    // Nisar Work =================================
+    // Lead Status
+    public function postleadstatus(Request $request){
 
         //dd($request->all());
         $validator = Validator::make($request->all(), [
@@ -951,32 +1077,32 @@ class LeadController extends Controller
         $lead->status=$request->get('status');
         $lead->save();
         if (isset($request->show_page) && $request->show_page !='') {
-        return redirect()->back()->with('success', 'Lead has been updated successfully.');
+            return redirect()->back()->with('success', 'Lead has been updated successfully.');
         }
         else
         {
-        return ['success'=>'Status updated.'];
-         }
+            return ['success'=>'Status updated.'];
+        }
     }
     // Lead Status
 
     public function time_zones(Request $request)
     {
 
-            // US And Canada Time ZONE
-                $_LIST['zone1'] = array('Select Time ','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30');
-                $_LIST['zone2']=array('Select Time ','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30');
-                $_LIST['zone3']=array('Select Time ','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30');
-                $_LIST['zone4']=array('Select Time ','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30');
+        // US And Canada Time ZONE
+        $_LIST['zone1'] = array('Select Time ','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30');
+        $_LIST['zone2']=array('Select Time ','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30');
+        $_LIST['zone3']=array('Select Time ','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30');
+        $_LIST['zone4']=array('Select Time ','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30');
 
-                // UK Zone
-                $_LIST['zone5']=array('Select Time ','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30');
+        // UK Zone
+        $_LIST['zone5']=array('Select Time ','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30');
 
-                // Australia Zone
-                $_LIST['zone6']=array('Select Time ','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30');
-                $_LIST['zone7']=array('Select Time ','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30');
+        // Australia Zone
+        $_LIST['zone6']=array('Select Time ','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30');
+        $_LIST['zone7']=array('Select Time ','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30','02:00','02:30','03:00','03:30','04:00','04:30');
 
-               return $_LIST['zone'.$request->zone];
+        return $_LIST['zone'.$request->zone];
 
     }
 
@@ -1021,5 +1147,5 @@ class LeadController extends Controller
     {
 
     }
-   // Nisar Work =================================
+    // Nisar Work =================================
 }
